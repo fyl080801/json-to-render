@@ -4,7 +4,7 @@ import {
   ProxyHandler,
   ProxyTarget,
   ProxyFlags
-} from '@/types'
+} from '../../../types'
 import on from './on'
 import bind from './bind'
 import update from './update'

@@ -1,5 +1,5 @@
 import { get } from 'lodash-es'
-import { BindTransform, ProxyHandlerFactory } from '@/types'
+import { BindTransform, ProxyHandlerFactory } from '../../../types'
 
 const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
   return typeof value === 'object' &&

@@ -1,10 +1,15 @@
-import { FunctionHook } from '@json-to-render/types'
+import { FunctionHook } from '@/types'
 
 const handleObject = (field: any) => {
   field.component = 'el-form'
   field.props = { labelWidth: '120px' }
   field.children = Object.keys(field.properties || {}).map(key => {
-    return { ...field.properties[key], name: key }
+    const name = field.parent ? `${field.parent}.${key}` : key
+    return {
+      ...field.properties[key],
+      name,
+      parent: name
+    }
   })
 }
 

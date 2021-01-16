@@ -1,5 +1,5 @@
 import { isArray, isObject } from 'lodash-es'
-import { ProxyFlags, ProxyTarget } from '@/types'
+import { ProxyFlags, ProxyTarget } from '../../../types'
 
 export const isProxy = (target: unknown) => {
   const proxy = target as ProxyTarget

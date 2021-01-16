@@ -1,4 +1,4 @@
-import { ProxyFlags, ProxyHandlerFactory, RawTransform } from '@/types'
+import { ProxyFlags, ProxyHandlerFactory, RawTransform } from '../../../types'
 import { canProxy } from '../utils/proxy'
 
 const raw: ProxyHandlerFactory<RawTransform> = value => {
