@@ -1,4 +1,4 @@
-import { FunctionHook } from '@jrender/types'
+import { FunctionHook } from '@json-to-render/types'
 
 const hook: FunctionHook = (field, next) => {
   const children = field.children?.filter((child: any) => child) ?? []

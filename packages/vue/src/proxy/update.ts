@@ -1,5 +1,5 @@
 import { set } from 'lodash-es'
-import { ProxyHandlerFactory, UpdateTransform } from '@jrender/types'
+import { ProxyHandlerFactory, UpdateTransform } from '@/types'
 
 const update: ProxyHandlerFactory<UpdateTransform> = (value, context) => {
   return context &&

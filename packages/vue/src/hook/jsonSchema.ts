@@ -1,4 +1,4 @@
-import { FunctionHook } from '@jrender/types'
+import { FunctionHook } from '@json-to-render/types'
 
 const handleObject = (field: any) => {
   field.component = 'el-form'

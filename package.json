@@ -1,7 +1,7 @@
 {
   "name": "json-to-render",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -10,9 +10,6 @@
   "files": [
     "lib",
     "packages"
-  ],
-  "workspaces": [
-    "packages/*"
   ],
   "dependencies": {
     "core-js": "^3.6.5",
@@ -23,7 +20,6 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@jrender/types": "0.0.0",
     "@types/lodash-es": "^4.17.4",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

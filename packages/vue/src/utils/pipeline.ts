@@ -1,4 +1,4 @@
-import { FunctionHook, FunctionNext, FunctionPipeLine } from 'packages/types'
+import { FunctionHook, FunctionNext, FunctionPipeLine } from '@/types'
 
 const pipeline: FunctionPipeLine = funcs => {
   return (scope: any) => {

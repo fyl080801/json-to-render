@@ -1,4 +1,4 @@
-import { FunctionTransform, ProxyHandlerFactory } from '@jrender/types'
+import { FunctionTransform, ProxyHandlerFactory } from '@/types'
 
 const on: ProxyHandlerFactory<FunctionTransform> = value => {
   return typeof value === 'object' && value && value.$type === 'on'
