@@ -1,4 +1,4 @@
-import { FunctionHook } from '@/types'
+import { FunctionHook } from '../../../types'
 
 const hook: FunctionHook = (field, next) => {
   const children = field.children?.filter((child: any) => child) ?? []

@@ -13,3 +13,11 @@ export const canProxy = (target: unknown) => {
     target !== undefined
   )
 }
+
+export const getProperty = (target: any, prop: any) => {
+  return Reflect.getOwnPropertyDescriptor(target, prop)
+}
+
+export const getPropertyValue = (target: any, prop: any) => {
+  getProperty(target, prop)?.value
+}

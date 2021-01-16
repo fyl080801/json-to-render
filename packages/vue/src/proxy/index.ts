@@ -9,9 +9,10 @@ import on from './on'
 import bind from './bind'
 import update from './update'
 import raw from './raw'
+import condition from './condition'
 import { canProxy, isProxy } from '../utils/proxy'
 
-const proxys: ProxyHandlerFactory[] = [bind, update, on, raw]
+const proxys: ProxyHandlerFactory[] = [bind, update, on, raw, condition]
 
 class ProxyHandlerMap {
   private map: Map<string, ProxyHandler>
@@ -56,8 +57,6 @@ const createProxy = (origin: any, context: any) => {
   const handlers = createProxyMap(origin, context)
 
   const getter = (target: any, p: any, receiver: any): ProxyTarget => {
-    // const handler = handlers.get(p)
-    // return handler ? handler() : Reflect.get(target, p, receiver)
     return (handlers.get(p) || Reflect.get)(target, p, receiver)
   }
 

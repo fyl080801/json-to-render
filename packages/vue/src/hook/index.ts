@@ -2,6 +2,7 @@ import pipeline from '../utils/pipeline'
 import slotHook from './slot'
 import text from './text'
 import jsonSchema from './jsonSchema'
+import condition from './condition'
 
 const hooks = [jsonSchema, text, slotHook]
 

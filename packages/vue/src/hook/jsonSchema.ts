@@ -1,4 +1,4 @@
-import { FunctionHook } from '@/types'
+import { FunctionHook } from '../../../types'
 
 const handleObject = (field: any) => {
   field.component = 'el-form'

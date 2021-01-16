@@ -40,6 +40,10 @@ export interface ClassicTransform {
 export interface RawTransform extends ClassicTransform {
   $value: unknown
 }
+export interface ConditionTransform extends ClassicTransform {
+  $condition: unknown
+  $value: unknown
+}
 export interface BindTransform extends ClassicTransform {
   $source: string
 }
