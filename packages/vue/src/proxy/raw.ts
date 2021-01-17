@@ -10,6 +10,9 @@ const raw: ProxyHandlerFactory<RawTransform> = value => {
               if (p === ProxyFlags.IS_PROXY) {
                 return true
               }
+              if (p === ProxyFlags.NOT_PROXY) {
+                return true
+              }
               return Reflect.get(target, p, receiver)
             }
           })

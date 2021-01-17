@@ -21,12 +21,14 @@ import HelloWorld from '../components/HelloWorld.vue'
 export default defineComponent({
   name: 'Home',
   setup: () => {
-    const rmodel: any = { obj: { selected: 0 } }
+    const rmodel: any = { text1: 'xxx', obj: { selected: 0 } }
     const fields = [
       {
-        component: { $type: 'bind', $source: 'obj.selected ? "p" : null' },
-        text: 'xxxx'
+        component: 'p',
+        condition: { $type: 'bind', $source: 'obj.selected' },
+        text: { $type: 'bind', $source: 'text1' }
       },
+
       {
         component: 'div',
         children: [

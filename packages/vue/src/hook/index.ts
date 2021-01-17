@@ -4,8 +4,6 @@ import jsonSchema from './jsonSchema'
 import condition from './condition'
 import { FunctionHook } from '@/types'
 
-const hooks = [condition, jsonSchema, text]
-
 // const createServiceCollection = (): any => {
 //   const map = new Map()
 
@@ -67,6 +65,10 @@ const hooks = [condition, jsonSchema, text]
 
 // .service.add('fieldProxy', {})
 
-export const createHook = (funcs: Array<FunctionHook>) => {
-  return pipeline([...hooks, ...funcs])
+export const createSetupHooks = (funcs: Array<FunctionHook>) => {
+  return pipeline([jsonSchema, text, ...funcs])
+}
+
+export const createRenderHooks = (funcs: Array<FunctionHook>) => {
+  return pipeline([condition, ...funcs])
 }

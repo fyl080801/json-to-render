@@ -1,7 +1,8 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
-import { createHook } from '../hook'
+import { createSetupHooks, createRenderHooks } from '../hook'
 import slotHook from '../hook/slot'
+import { isArray, isObject } from 'lodash-es'
 
 export default defineComponent({
   name: 'vJnode',
@@ -9,15 +10,25 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    createHook([slotHook])(props.field)
+    createSetupHooks([slotHook])(props.field)
 
     return () => {
-      // 考虑在渲染时候再加一组 hook
-      return props.field.component
+      const renderField: any = {
+        ...props.field,
+        children: isArray(props.field.children)
+          ? [...props.field.children]
+          : isObject(props.field.children)
+          ? { ...props.field.children }
+          : null
+      }
+
+      createRenderHooks([])(renderField)
+
+      return renderField.component
         ? h(
-            resolveComponent(props.field.component),
-            props.field.props,
-            render(props.field.children)
+            resolveComponent(renderField.component),
+            renderField.props,
+            render(renderField.children)
           )
         : null
     }

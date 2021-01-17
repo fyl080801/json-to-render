@@ -8,10 +8,9 @@ import {
 import on from './on'
 import bind from './bind'
 import raw from './raw'
-import condition from './condition'
-import { isAllowedProxy, isProxy } from '../utils/proxy'
+import { isAllowedProxy, isProxy, isRejectProxy } from '../utils/proxy'
 
-const proxys: ProxyHandlerFactory[] = [bind, on, raw, condition]
+const proxys: ProxyHandlerFactory[] = [bind, on, raw]
 
 class ProxyHandlerMap {
   private map: Map<string, ProxyHandler>
@@ -79,13 +78,18 @@ const createProxy = (origin: any, context: any) => {
 
 const process = (context: any) => {
   return (value: any, index: any, collection: any) => {
-    if (isProxy(value) || !isAllowedProxy(value)) {
+    // if (isProxy(value) || !isAllowedProxy(value)) {
+    //   return
+    // }
+    if (!isAllowedProxy(value)) {
       return
     }
 
-    collection[index] = createProxy(value, context)
+    collection[index] = createProxy(collection[index], context)
 
-    forEachTarget(collection[index], process(context))
+    if (!isRejectProxy(collection[index])) {
+      forEachTarget(collection[index], process(context))
+    }
   }
 }
 
@@ -94,7 +98,7 @@ const processProxy = (target: any, context: any) => {
 }
 
 export const injectProxy = (target: any, context: any) => {
-  const proxy = { value: createProxy(target, context) }
-  processProxy(proxy.value, context)
+  const proxy = { value: target }
+  processProxy(proxy, context)
   return proxy.value
 }

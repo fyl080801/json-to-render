@@ -26,7 +26,7 @@ const handleString = (field: any) => {
       props: {
         modelValue: { $type: 'bind', $source: nameProp?.value },
         'onUpdate:modelValue': {
-          $type: 'update',
+          $type: 'on',
           $model: nameProp?.value,
           $result: 'arguments[0]'
         }
@@ -48,7 +48,7 @@ const handleNumber = (field: any) => {
       props: {
         modelValue: { $type: 'bind', $source: nameProp?.value },
         'onUpdate:modelValue': {
-          $type: 'update',
+          $type: 'on',
           $model: nameProp?.value,
           $result: 'arguments[0]'
         }
