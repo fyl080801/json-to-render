@@ -3,7 +3,6 @@ import render from '../utils/render'
 import { createSetupHooks, createRenderHooks } from '../hook'
 import slot from '@jrender/hook-base/setup/slot'
 import {
-  cloneDeep,
   isObject,
   isArray,
   assignObject,

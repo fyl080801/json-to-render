@@ -141,7 +141,7 @@ export default defineComponent({
     ]
 
     return {
-      model: reactive({ text1: 'xxx', obj: { selected: 0 } }),
+      model: reactive({ text1: 'xxx', obj: { selected: 0, value: 'text1' } }),
       fields
     }
   },

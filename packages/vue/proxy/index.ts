@@ -1,13 +1,15 @@
 import { forEachTarget } from '@jrender/core/utils/helpers'
-import on from './on'
-import bind from './bind'
-import raw from './raw'
+
 import {
   isAllowedProxy,
   isProxy,
   isRejectProxy,
   ProxyFlags
 } from '@jrender/core/utils/proxy'
+
+import on from './on'
+import bind from './bind'
+import raw from './raw'
 
 const proxys: ProxyHandlerFactory[] = [bind, on, raw]
 
