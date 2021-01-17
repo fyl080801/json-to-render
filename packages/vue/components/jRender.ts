@@ -48,6 +48,8 @@ export default defineComponent({
 
     console.log(field)
 
-    return () => h(resolveComponent(JNode.name), { field })
+    return () => {
+      return h(resolveComponent(JNode.name), { field })
+    }
   }
 })

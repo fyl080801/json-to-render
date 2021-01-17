@@ -22,7 +22,7 @@ export default defineComponent({
     return () => {
       // 暂时规划每次渲染都用非代理对象
       const renderField = assignObject(
-        cloneDeep(assignObject(props.field, { children: null })),
+        assignObject(props.field, { children: null }),
         {
           children: isArray(props.field.children)
             ? assignArray(props.field.children)
