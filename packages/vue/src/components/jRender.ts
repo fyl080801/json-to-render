@@ -1,7 +1,7 @@
 import { defineComponent, h, isReactive, reactive, resolveComponent } from 'vue'
 import { injectProxy } from '../proxy'
+import { cloneDeep } from '../utils/helpers'
 import JNode from './jNode'
-import { cloneDeep } from 'lodash-es'
 
 export default defineComponent({
   name: 'vJrender',

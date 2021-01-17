@@ -1,5 +1,5 @@
 import { FunctionTransform, ProxyHandlerFactory } from '../../../types'
-import { set } from 'lodash-es'
+import { deepSet } from '../utils/helpers'
 
 const on: ProxyHandlerFactory<FunctionTransform> = (value, context) => {
   return typeof value === 'object' && value && value.$type === 'on'
@@ -18,7 +18,7 @@ const on: ProxyHandlerFactory<FunctionTransform> = (value, context) => {
             const result = new Function(...params)(...inputs)
 
             if (value.$model) {
-              set(context, value.$model, result)
+              deepSet(context, value.$model, result)
             }
           } catch {
             //

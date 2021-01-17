@@ -2,7 +2,13 @@ import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
 import { createSetupHooks, createRenderHooks } from '../hook'
 import slotHook from '../hook/slot'
-import { isArray, isObject } from 'lodash-es'
+import {
+  cloneDeep,
+  isObject,
+  isArray,
+  assignObject,
+  assignArray
+} from '../utils/helpers'
 
 export default defineComponent({
   name: 'vJnode',
@@ -13,14 +19,17 @@ export default defineComponent({
     createSetupHooks([slotHook])(props.field)
 
     return () => {
-      const renderField: any = {
-        ...props.field,
-        children: isArray(props.field.children)
-          ? [...props.field.children]
-          : isObject(props.field.children)
-          ? { ...props.field.children }
-          : null
-      }
+      // 暂时规划每次渲染都用非代理对象
+      const renderField = assignObject(
+        cloneDeep(assignObject(props.field, { children: null })),
+        {
+          children: isArray(props.field.children)
+            ? assignArray(props.field.children)
+            : isObject(props.field.children)
+            ? assignObject(props.field.children)
+            : null
+        }
+      )
 
       createRenderHooks([])(renderField)
 

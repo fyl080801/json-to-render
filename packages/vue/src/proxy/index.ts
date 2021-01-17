@@ -27,6 +27,10 @@ class ProxyHandlerMap {
   get(key: string) {
     return this.map.get(key)
   }
+
+  remove(key: string) {
+    this.map.delete(key)
+  }
 }
 
 const getProxyHandler = (value: any, context: any) => {
@@ -58,8 +62,6 @@ const createProxy = (origin: any, context: any) => {
     return (handlers.get(p) || Reflect.get)(target, p, receiver)
   }
 
-  // setter 不仅仅是负责设置属性，还要在设置属性的时候判断属性是否也是需要代理的
-  // 如果属性值是可以代理的对象，则直接包装成代理
   const setter = (target: any, p: any, value: any, receiver: any): boolean => {
     if (!isAllowedProxy(value)) {
       return Reflect.set(target, p, value, receiver)
@@ -73,7 +75,16 @@ const createProxy = (origin: any, context: any) => {
     }
   }
 
-  return new Proxy(origin, { get: getter, set: setter })
+  const deleter = (target: any, p: any) => {
+    handlers.remove(p)
+    return Reflect.deleteProperty(target, p)
+  }
+
+  return new Proxy(origin, {
+    get: getter,
+    set: setter,
+    deleteProperty: deleter
+  })
 }
 
 const process = (context: any) => {

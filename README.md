@@ -1,31 +1,10 @@
-# JRender
+# Json to Render
 
-这只是一个用于实验性开发的项目
+将 json 数据渲染成界面的 vue 组件库，是根据 [vjform 动态表单](https://github.com/fyl080801/vjform)、[jformer 动态表单](https://github.com/fyl080801/jformer) 以及[vjdesign 设计器](https://github.com/fyl080801/vjdesign) 相关项目开发的 vue3 版本
 
-## Project setup
+## 特性
 
-```bash
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```bash
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```bash
-yarn build
-```
-
-### Lints and fixes files
-
-```bash
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- 将 json 数据渲染成界面
+- 基于 vue3 开发
+- 支持任何 html 组件和 vue 项目中引用的组件进行渲染，支持组件任何属性
+- 支持将 json 数据特殊对象转换成数据关联关系实现联动

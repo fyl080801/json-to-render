@@ -1,4 +1,4 @@
-import { isArray } from 'lodash-es'
+import { isArray } from '../utils/helpers'
 import { FunctionHook } from '../../../types'
 
 const hook: FunctionHook = (field, next) => {
