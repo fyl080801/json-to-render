@@ -5,21 +5,19 @@ const hook: FunctionHook = (field, next) => {
     next(field)
     return
   }
-  debugger
-  const childrenProp = Reflect.getOwnPropertyDescriptor(field, 'children')
 
-  childrenProp?.value.forEach((child: any, index: number) => {
+  field.children.forEach((child: any, index: number) => {
     if (!child) {
       return
     }
     const conditionProp = Reflect.getOwnPropertyDescriptor(child, 'condition')
     if (conditionProp && conditionProp.value !== undefined) {
-      debugger
-      field.children[index] = {
-        $type: 'condition',
-        $condition: conditionProp.value,
-        $value: child
-      }
+      // console.log(index, conditionProp)
+      // field.children[index] = {
+      //   $type: 'condition',
+      //   $condition: conditionProp.value,
+      //   $value: child
+      // }
     }
   })
 

@@ -1,10 +1,28 @@
 import { FunctionTransform, ProxyHandlerFactory } from '../../../types'
+import { set } from 'lodash-es'
 
-const on: ProxyHandlerFactory<FunctionTransform> = value => {
+const on: ProxyHandlerFactory<FunctionTransform> = (value, context) => {
   return typeof value === 'object' && value && value.$type === 'on'
     ? () => {
-        return () => {
-          new Function(`${value.$result}`)()
+        return (...args: any) => {
+          try {
+            const params = [
+              ...Object.keys(context),
+              'arguments',
+              `return ${value.$result}`
+            ]
+            const inputs = [
+              ...Object.keys(context).map(key => context[key]),
+              args
+            ]
+            const result = new Function(...params)(...inputs)
+
+            if (value.$model) {
+              set(context, value.$model, result)
+            }
+          } catch {
+            //
+          }
         }
       }
     : null

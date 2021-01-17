@@ -7,12 +7,11 @@ import {
 } from '../../../types'
 import on from './on'
 import bind from './bind'
-import update from './update'
 import raw from './raw'
 import condition from './condition'
 import { isAllowedProxy, isProxy } from '../utils/proxy'
 
-const proxys: ProxyHandlerFactory[] = [bind, update, on, raw, condition]
+const proxys: ProxyHandlerFactory[] = [bind, on, raw, condition]
 
 class ProxyHandlerMap {
   private map: Map<string, ProxyHandler>

@@ -1,4 +1,3 @@
-import { get } from 'lodash-es'
 import { BindTransform, ProxyHandlerFactory } from '../../../types'
 
 const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
@@ -7,7 +6,13 @@ const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
     value.$type === 'bind' &&
     value.$source
     ? () => {
-        return get(context, value.$source)
+        try {
+          return new Function(
+            ...[...Object.keys(context), `return ${value.$source}`]
+          )(...Object.keys(context).map(key => context[key]))
+        } catch {
+          //
+        }
       }
     : null
 }

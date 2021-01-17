@@ -4,7 +4,7 @@ import jsonSchema from './jsonSchema'
 import condition from './condition'
 import { FunctionHook } from '@/types'
 
-const hooks = [jsonSchema, text]
+const hooks = [condition, jsonSchema, text]
 
 // const createServiceCollection = (): any => {
 //   const map = new Map()

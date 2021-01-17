@@ -12,10 +12,12 @@ export default defineComponent({
     createHook([slotHook])(props.field)
 
     return () =>
-      h(
-        resolveComponent(props.field.component),
-        props.field.props,
-        render(props.field.children)
-      )
+      props.field.component
+        ? h(
+            resolveComponent(props.field.component),
+            props.field.props,
+            render(props.field.children)
+          )
+        : null
   }
 })

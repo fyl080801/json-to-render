@@ -24,6 +24,10 @@ export default defineComponent({
     const rmodel: any = { obj: { selected: 0 } }
     const fields = [
       {
+        component: { $type: 'bind', $source: 'obj.selected ? "p" : null' },
+        text: 'xxxx'
+      },
+      {
         component: 'div',
         children: [
           {
@@ -41,7 +45,7 @@ export default defineComponent({
                     props: {
                       modelValue: { $type: 'bind', $source: 'text1' },
                       'onUpdate:modelValue': {
-                        $type: 'update',
+                        $type: 'on',
                         $model: 'text1',
                         $result: 'arguments[0]'
                       }
@@ -63,7 +67,7 @@ export default defineComponent({
                     props: {
                       modelValue: { $type: 'bind', $source: 'obj.selected' },
                       'onUpdate:modelValue': {
-                        $type: 'update',
+                        $type: 'on',
                         $model: 'obj.selected',
                         $result: 'arguments[0]'
                       }

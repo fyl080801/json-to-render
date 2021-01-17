@@ -47,10 +47,7 @@ export interface ConditionTransform extends ClassicTransform {
 export interface BindTransform extends ClassicTransform {
   $source: string
 }
-export interface UpdateTransform extends ClassicTransform {
-  $model: string
-  $result: string
-}
 export interface FunctionTransform extends ClassicTransform {
+  $model: string
   $result: string
 }
