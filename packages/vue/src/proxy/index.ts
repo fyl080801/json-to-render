@@ -1,4 +1,4 @@
-import { forEach } from 'lodash-es'
+import { forEachTarget } from '../utils/helpers'
 import {
   ProxyHandlerFactory,
   ProxyHandler,
@@ -43,7 +43,7 @@ const getProxyHandler = (value: any, context: any) => {
 const createProxyMap = (origin: any, context: any) => {
   const handlers = new ProxyHandlerMap()
 
-  forEach(origin, (value, prop) => {
+  forEachTarget(origin, (value: any, prop: any) => {
     handlers.set(prop, getProxyHandler(value, context))
   })
 
@@ -66,8 +66,10 @@ const createProxy = (origin: any, context: any) => {
     if (!isAllowedProxy(value)) {
       return Reflect.set(target, p, value, receiver)
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      const injected = isProxy(value) ? value : injectProxy(value, context)
+      const injected = isProxy(value)
+        ? value
+        : /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
+          injectProxy(value, context)
       handlers.set(p, getProxyHandler(injected, context))
       return Reflect.set(target, p, injected, receiver)
     }
@@ -84,12 +86,12 @@ const process = (context: any) => {
 
     collection[index] = createProxy(value, context)
 
-    forEach(collection[index], process(context))
+    forEachTarget(collection[index], process(context))
   }
 }
 
 const processProxy = (target: any, context: any) => {
-  forEach(target, process(context))
+  forEachTarget(target, process(context))
 }
 
 export const injectProxy = (target: any, context: any) => {

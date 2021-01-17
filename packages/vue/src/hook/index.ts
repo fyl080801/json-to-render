@@ -1,10 +1,10 @@
 import pipeline from '../utils/pipeline'
-import slotHook from './slot'
 import text from './text'
 import jsonSchema from './jsonSchema'
 import condition from './condition'
+import { FunctionHook } from '@/types'
 
-const hooks = [jsonSchema, text, slotHook]
+const hooks = [jsonSchema, text]
 
 // const createServiceCollection = (): any => {
 //   const map = new Map()
@@ -67,6 +67,6 @@ const hooks = [jsonSchema, text, slotHook]
 
 // .service.add('fieldProxy', {})
 
-export const createHook = () => {
-  return pipeline(hooks)
+export const createHook = (funcs: Array<FunctionHook>) => {
+  return pipeline([...hooks, ...funcs])
 }

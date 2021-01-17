@@ -1,6 +1,7 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
 import { createHook } from '../hook'
+import slotHook from '../hook/slot'
 
 export default defineComponent({
   name: 'vJnode',
@@ -8,7 +9,7 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    createHook()(props.field)
+    createHook([slotHook])(props.field)
 
     return () =>
       h(
