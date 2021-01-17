@@ -14,8 +14,8 @@ export type FunctionHook = (scope: any, next: FunctionNext) => void
 export type FunctionPipeLine = (funcs: FunctionHook[]) => FunctionNext
 
 export enum ProxyFlags {
-  IS_PROXY = '__jf_isProxy',
-  NOT_PROXY = '__jf_notProxy'
+  IS_PROXY = '__jr_isProxy',
+  NOT_PROXY = '__jr_notProxy'
 }
 
 export interface ProxyTarget {

@@ -6,11 +6,16 @@ export const isProxy = (target: unknown) => {
   return !!((isObject(proxy) || isArray(proxy)) && proxy[ProxyFlags.IS_PROXY])
 }
 
-export const canProxy = (target: unknown) => {
+export const isRejectProxy = (target: unknown) => {
+  const proxy = target as ProxyTarget
+  return !!((isObject(proxy) || isArray(proxy)) && proxy[ProxyFlags.NOT_PROXY])
+}
+
+export const isAllowedProxy = (target: unknown) => {
   return (
+    !isRejectProxy(target) &&
     (isObject(target) || isArray(target)) &&
-    target !== null &&
-    target !== undefined
+    target !== null
   )
 }
 

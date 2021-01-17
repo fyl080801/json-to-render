@@ -10,7 +10,7 @@ import bind from './bind'
 import update from './update'
 import raw from './raw'
 import condition from './condition'
-import { canProxy, isProxy } from '../utils/proxy'
+import { isAllowedProxy, isProxy } from '../utils/proxy'
 
 const proxys: ProxyHandlerFactory[] = [bind, update, on, raw, condition]
 
@@ -63,7 +63,7 @@ const createProxy = (origin: any, context: any) => {
   // setter 不仅仅是负责设置属性，还要在设置属性的时候判断属性是否也是需要代理的
   // 如果属性值是可以代理的对象，则直接包装成代理
   const setter = (target: any, p: any, value: any, receiver: any): boolean => {
-    if (!canProxy(value)) {
+    if (!isAllowedProxy(value)) {
       return Reflect.set(target, p, value, receiver)
     } else {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -78,7 +78,7 @@ const createProxy = (origin: any, context: any) => {
 
 const process = (context: any) => {
   return (value: any, index: any, collection: any) => {
-    if (isProxy(value) || !canProxy(value)) {
+    if (isProxy(value) || !isAllowedProxy(value)) {
       return
     }
 
