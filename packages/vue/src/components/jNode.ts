@@ -11,13 +11,15 @@ export default defineComponent({
   setup: props => {
     createHook([slotHook])(props.field)
 
-    return () =>
-      props.field.component
+    return () => {
+      // 考虑在渲染时候再加一组 hook
+      return props.field.component
         ? h(
             resolveComponent(props.field.component),
             props.field.props,
             render(props.field.children)
           )
         : null
+    }
   }
 })

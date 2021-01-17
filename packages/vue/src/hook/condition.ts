@@ -1,7 +1,8 @@
+import { isArray } from 'lodash-es'
 import { FunctionHook } from '../../../types'
 
 const hook: FunctionHook = (field, next) => {
-  if (!field.children) {
+  if (!field.children || !isArray(field.children)) {
     next(field)
     return
   }

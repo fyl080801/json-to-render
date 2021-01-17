@@ -11,6 +11,14 @@ const hook: FunctionHook = (field, next) => {
   field.props = field.props || {}
   field.props.innerText = textProp.value
 
+  // if (!field.text) {
+  //   next(field)
+  //   return
+  // }
+
+  // field.props = field.props || {}
+  // field.props.innerText = field.text
+
   next(field)
 }
 

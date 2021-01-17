@@ -1,6 +1,12 @@
+import { isArray } from 'lodash-es'
 import { FunctionHook } from '../../../types'
 
 const hook: FunctionHook = (field, next) => {
+  if (!isArray(field.children)) {
+    next(field)
+    return
+  }
+
   const children = field.children?.filter((child: any) => child) ?? []
 
   if (children.length <= 0) {
