@@ -1,6 +1,6 @@
 import pipeline from '@jrender/core/utils/pipeline'
 import { condition, jsonSchema, text } from '@jrender/hook-base/index'
-import { FunctionHook } from '@jrender/types/index'
+// import { FunctionHook } from '@jrender/types/index'
 
 // const createServiceCollection = (): any => {
 //   const map = new Map()

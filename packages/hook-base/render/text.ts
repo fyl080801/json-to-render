@@ -1,5 +1,3 @@
-import { FunctionHook } from '@jrender/types/index'
-
 const hook: FunctionHook = (field, next) => {
   const textProp = Reflect.getOwnPropertyDescriptor(field, 'text')
 

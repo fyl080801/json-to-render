@@ -1,17 +1,12 @@
 import { forEachTarget } from '@jrender/core/utils/helpers'
-import {
-  ProxyHandlerFactory,
-  ProxyHandler,
-  ProxyTarget,
-  ProxyFlags
-} from '@jrender/types/index'
 import on from './on'
 import bind from './bind'
 import raw from './raw'
 import {
   isAllowedProxy,
   isProxy,
-  isRejectProxy
+  isRejectProxy,
+  ProxyFlags
 } from '@jrender/core/utils/proxy'
 
 const proxys: ProxyHandlerFactory[] = [bind, on, raw]
@@ -26,10 +21,10 @@ const getProxyHandler = (value: any, context: any) => {
 }
 
 const createProxyHandlerMap = () => {
-  const map = new Map<string, ProxyHandler>()
+  const map = new Map<string, JProxyHandler>()
 
   return {
-    set: (key: string, handler?: ProxyHandler) => {
+    set: (key: string, handler?: JProxyHandler) => {
       if (handler) {
         map.set(key, handler)
       }

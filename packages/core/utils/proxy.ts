@@ -1,13 +1,17 @@
 import { isArray, isObject } from './helpers'
-import { ProxyFlags, ProxyTarget } from '@jrender/types/index'
+
+export enum ProxyFlags {
+  IS_PROXY = '__jr_isProxy',
+  NOT_PROXY = '__jr_notProxy'
+}
 
 export const isProxy = (target: unknown) => {
-  const proxy = target as ProxyTarget
+  const proxy: any = target
   return !!((isObject(proxy) || isArray(proxy)) && proxy[ProxyFlags.IS_PROXY])
 }
 
 export const isRejectProxy = (target: unknown) => {
-  const proxy = target as ProxyTarget
+  const proxy: any = target
   return !!((isObject(proxy) || isArray(proxy)) && proxy[ProxyFlags.NOT_PROXY])
 }
 

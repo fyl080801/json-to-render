@@ -9,7 +9,6 @@ module.exports = {
         alias: {
           '@jrender/core': './packages/core',
           '@jrender/hook-base': './packages/hook-base',
-          '@jrender/types': './packages/types',
           '@jrender/vue': './packages/vue'
         }
       }

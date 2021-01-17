@@ -1,4 +1,3 @@
-import { FunctionTransform, ProxyHandlerFactory } from '@jrender/types/index'
 import { deepSet } from '@jrender/core/utils/helpers'
 
 const on: ProxyHandlerFactory<FunctionTransform> = (value, context) => {

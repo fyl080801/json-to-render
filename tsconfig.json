@@ -15,10 +15,10 @@
     "paths": {
       "@jrender/core/*": ["packages/core/*"],
       "@jrender/hook-base/*": ["packages/hook-base/*"],
-      "@jrender/types/*": ["packages/types/*"],
       "@jrender/vue/*": ["packages/vue/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "typeRoots": ["typings"]
   },
   "include": [
     "src/**/*.ts",

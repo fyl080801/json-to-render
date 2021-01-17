@@ -1,9 +1,3 @@
-import {
-  FunctionHook,
-  FunctionNext,
-  FunctionPipeLine
-} from '@jrender/types/index'
-
 const pipeline: FunctionPipeLine = funcs => {
   return (scope: any) => {
     // 全局索引

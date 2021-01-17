@@ -1,5 +1,3 @@
-import { BindTransform, ProxyHandlerFactory } from '@jrender/types/index'
-
 const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
   return typeof value === 'object' &&
     value &&

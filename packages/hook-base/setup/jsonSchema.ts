@@ -1,5 +1,3 @@
-import { FunctionHook } from '@jrender/types/index'
-
 const handleObject = (field: any) => {
   field.component = 'el-form'
   field.props = { labelWidth: '120px' }
