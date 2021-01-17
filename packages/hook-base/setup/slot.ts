@@ -1,5 +1,5 @@
-import { isArray } from '../utils/helpers'
-import { FunctionHook } from '../../../types'
+import { isArray } from '@jrender/core/utils/helpers'
+import { FunctionHook } from '@jrender/types/index'
 
 const hook: FunctionHook = (field, next) => {
   if (!isArray(field.children)) {

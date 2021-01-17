@@ -1,14 +1,15 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
 import { createSetupHooks, createRenderHooks } from '../hook'
-import slotHook from '../hook/slot'
+import slot from '@jrender/hook-base/setup/slot'
 import {
   cloneDeep,
   isObject,
   isArray,
   assignObject,
   assignArray
-} from '../utils/helpers'
+} from '@jrender/core/utils/helpers'
+import { isOriginTag } from '@jrender/core/utils/domTags'
 
 export default defineComponent({
   name: 'vJnode',
@@ -16,7 +17,7 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    createSetupHooks([slotHook])(props.field)
+    createSetupHooks([slot])(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
@@ -35,7 +36,9 @@ export default defineComponent({
 
       return renderField.component
         ? h(
-            resolveComponent(renderField.component),
+            isOriginTag(renderField.component)
+              ? renderField.component
+              : resolveComponent(renderField.component),
             renderField.props,
             render(renderField.children)
           )

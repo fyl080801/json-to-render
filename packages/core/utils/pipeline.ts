@@ -1,4 +1,8 @@
-import { FunctionHook, FunctionNext, FunctionPipeLine } from '@/types'
+import {
+  FunctionHook,
+  FunctionNext,
+  FunctionPipeLine
+} from '@jrender/types/index'
 
 const pipeline: FunctionPipeLine = funcs => {
   return (scope: any) => {

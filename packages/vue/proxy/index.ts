@@ -1,37 +1,20 @@
-import { forEachTarget } from '../utils/helpers'
+import { forEachTarget } from '@jrender/core/utils/helpers'
 import {
   ProxyHandlerFactory,
   ProxyHandler,
   ProxyTarget,
   ProxyFlags
-} from '../../../types'
+} from '@jrender/types/index'
 import on from './on'
 import bind from './bind'
 import raw from './raw'
-import { isAllowedProxy, isProxy, isRejectProxy } from '../utils/proxy'
+import {
+  isAllowedProxy,
+  isProxy,
+  isRejectProxy
+} from '@jrender/core/utils/proxy'
 
 const proxys: ProxyHandlerFactory[] = [bind, on, raw]
-
-class ProxyHandlerMap {
-  private map: Map<string, ProxyHandler>
-
-  constructor() {
-    this.map = new Map<string, ProxyHandler>()
-  }
-
-  set(key: string, handler?: ProxyHandler) {
-    if (handler) {
-      this.map.set(key, handler)
-    }
-  }
-  get(key: string) {
-    return this.map.get(key)
-  }
-
-  remove(key: string) {
-    this.map.delete(key)
-  }
-}
 
 const getProxyHandler = (value: any, context: any) => {
   for (const index in proxys) {
@@ -42,10 +25,31 @@ const getProxyHandler = (value: any, context: any) => {
   }
 }
 
-const createProxyMap = (origin: any, context: any) => {
-  const handlers = new ProxyHandlerMap()
+const createProxyHandlerMap = () => {
+  const map = new Map<string, ProxyHandler>()
 
-  forEachTarget(origin, (value: any, prop: any) => {
+  return {
+    set: (key: string, handler?: ProxyHandler) => {
+      if (handler) {
+        map.set(key, handler)
+      }
+    },
+    get: (key: string) => {
+      return map.get(key)
+    },
+
+    remove: (key: string) => {
+      if (map.has(key)) {
+        map.delete(key)
+      }
+    }
+  }
+}
+
+const createProxyMap = (target: any, context: any) => {
+  const handlers = createProxyHandlerMap()
+
+  forEachTarget(target, (value: any, prop: any) => {
     handlers.set(prop, getProxyHandler(value, context))
   })
 
@@ -55,8 +59,8 @@ const createProxyMap = (origin: any, context: any) => {
   return handlers
 }
 
-const createProxy = (origin: any, context: any) => {
-  const handlers = createProxyMap(origin, context)
+const createProxy = (originTarget: any, context: any) => {
+  const handlers = createProxyMap(originTarget, context)
 
   const getter = (target: any, p: any, receiver: any): ProxyTarget => {
     return (handlers.get(p) || Reflect.get)(target, p, receiver)
@@ -80,7 +84,7 @@ const createProxy = (origin: any, context: any) => {
     return Reflect.deleteProperty(target, p)
   }
 
-  return new Proxy(origin, {
+  return new Proxy(originTarget, {
     get: getter,
     set: setter,
     deleteProperty: deleter
@@ -89,9 +93,6 @@ const createProxy = (origin: any, context: any) => {
 
 const process = (context: any) => {
   return (value: any, index: any, collection: any) => {
-    // if (isProxy(value) || !isAllowedProxy(value)) {
-    //   return
-    // }
     if (!isAllowedProxy(value)) {
       return
     }

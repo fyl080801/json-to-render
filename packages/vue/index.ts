@@ -1,7 +1,7 @@
 import { Plugin } from 'vue'
-import jRender from './src/components/jRender'
-export * from './src/components/jRender'
-export * from './src/components/jNode'
+import jRender from './components/jRender'
+export * from './components/jRender'
+export * from './components/jNode'
 
 const plugin: Plugin = {
   ...jRender,

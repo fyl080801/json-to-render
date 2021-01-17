@@ -1,5 +1,5 @@
 import { isArray, isObject } from './helpers'
-import { ProxyFlags, ProxyTarget } from '../../../types'
+import { ProxyFlags, ProxyTarget } from '@jrender/types/index'
 
 export const isProxy = (target: unknown) => {
   const proxy = target as ProxyTarget

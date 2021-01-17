@@ -1,4 +1,4 @@
-import { FunctionHook } from '../../../types'
+import { FunctionHook } from '@jrender/types/index'
 
 const handleObject = (field: any) => {
   field.component = 'el-form'
