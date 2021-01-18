@@ -1,0 +1,8 @@
+{
+  "name": "@json-to-render/vue",
+  "version": "0.1.0",
+  "dependencies": {
+    "@json-to-render/core": "^0.1.0",
+    "@json-to-render/hook-base": "^0.1.0"
+  }
+}

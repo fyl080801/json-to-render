@@ -1,7 +1,7 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
 import { createSetupHooks, createRenderHooks } from '../hook'
-import slot from '@jrender/hook-base/setup/slot'
+import slot from '@json-to-render/hook-base/setup/slot'
 import {
   isObject,
   isArray,
