@@ -12,8 +12,7 @@ export const isObject = (target: any) => {
 
 export const assignArray = (...targets: Array<Array<any>>) => {
   return targets.reduce((pre: Array<any>, cur: Array<any>) => {
-    pre.concat(cur)
-    return pre
+    return pre.concat(cur)
   }, [])
 }
 
