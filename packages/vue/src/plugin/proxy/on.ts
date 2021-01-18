@@ -1,4 +1,4 @@
-import { deepSet } from '@jrender/core/utils/helpers'
+import { deepSet } from '@json-to-render/utils'
 
 const on: ProxyHandlerFactory<FunctionTransform> = (value, context) => {
   return typeof value === 'object' && value && value.$type === 'on'

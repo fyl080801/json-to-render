@@ -12,11 +12,6 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": ["webpack-env"],
-    "paths": {
-      "@jrender/core/*": ["packages/core/*"],
-      "@jrender/hook-base/*": ["packages/hook-base/*"],
-      "@jrender/vue/*": ["packages/vue/*"]
-    },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "typeRoots": ["typings"]
   },

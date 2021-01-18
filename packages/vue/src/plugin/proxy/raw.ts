@@ -1,4 +1,4 @@
-import { isAllowedProxy, ProxyFlags } from '@jrender/core/utils/proxy'
+import { isAllowedProxy, ProxyFlags } from '@json-to-render/core'
 
 const raw: ProxyHandlerFactory<RawTransform> = value => {
   return typeof value === 'object' && value && value.$type === 'raw'

@@ -1,6 +1,6 @@
 import { defineComponent, h, isReactive, reactive, resolveComponent } from 'vue'
-import { injectProxy } from '../proxy'
-import { cloneDeep } from '@jrender/core/utils/helpers'
+import { injectProxy } from '@json-to-render/core'
+import { cloneDeep } from '@json-to-render/utils'
 import JNode from './jNode'
 
 export default defineComponent({

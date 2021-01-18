@@ -1,4 +1,4 @@
-import { isArray, isObject } from './helpers'
+import { isArray, isObject } from '@json-to-render/utils'
 
 export enum ProxyFlags {
   IS_PROXY = '__jr_isProxy',
