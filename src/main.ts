@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import Element from 'element-plus'
 
-import jRender from '@jrender/vue/index'
+import jRender from '@json-to-render/vue'
 
 import 'element-plus/lib/theme-chalk/index.css'
 

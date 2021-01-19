@@ -1,0 +1,8 @@
+{
+  "name": "@json-to-render/core",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "dependencies": {
+    "@json-to-render/utils": "^0.1.0"
+  }
+}

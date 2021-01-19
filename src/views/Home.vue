@@ -17,40 +17,16 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import HelloWorld from '../components/HelloWorld.vue'
 
 export default defineComponent({
   name: 'Home',
   setup: () => {
     const fields = [
-      // {
-      //   component: 'el-input',
-      //   props: {
-      //     modelValue: { $type: 'bind', $source: 'text1' },
-      //     'onUpdate:modelValue': {
-      //       $type: 'on',
-      //       $model: 'text1',
-      //       $result: 'arguments[0]'
-      //     }
-      //   }
-      // },
-      // {
-      //   component: 'el-input',
-      //   props: {
-      //     modelValue: { $type: 'bind', $source: 'text2' },
-      //     'onUpdate:modelValue': {
-      //       $type: 'on',
-      //       $model: 'text2',
-      //       $result: 'arguments[0]'
-      //     }
-      //   }
-      // }
       {
         component: 'p',
         condition: { $type: 'bind', $source: 'obj.selected' },
         text: { $type: 'bind', $source: 'text1' }
       },
-
       {
         component: 'div',
         children: [
@@ -118,24 +94,24 @@ export default defineComponent({
               type: 'primary',
               onClick: { $type: 'on', $result: 'alert("aaa")' }
             }
-          },
-          {
-            component: 'v-jrender',
-            props: {
-              class: 'j-form',
-              modelValue: { $type: 'bind', $source: 'obj' },
-              fields: {
-                $type: 'raw',
-                $value: [
-                  { component: 'p', text: '嵌套渲染' },
-                  {
-                    component: 'p',
-                    text: { $type: 'bind', $source: 'selected' }
-                  }
-                ]
-              }
-            }
           }
+          // {
+          //   component: 'v-jrender',
+          //   props: {
+          //     class: 'j-form',
+          //     modelValue: { $type: 'bind', $source: 'obj' },
+          //     fields: {
+          //       $type: 'raw',
+          //       $value: [
+          //         { component: 'p', text: '嵌套渲染' },
+          //         {
+          //           component: 'p',
+          //           text: { $type: 'bind', $source: 'selected' }
+          //         }
+          //       ]
+          //     }
+          //   }
+          // }
         ]
       }
     ]
@@ -147,9 +123,9 @@ export default defineComponent({
   },
   methods: {
     onSetup(instacne: any) {
-      instacne.use((builder: any) => {
-        builder.component(HelloWorld)
-      })
+      // instacne.use((builder: any) => {
+      //   builder.component(HelloWorld)
+      // })
     }
   }
 })
