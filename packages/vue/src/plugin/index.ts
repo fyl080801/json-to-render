@@ -6,11 +6,11 @@ import bind from './proxy/bind'
 import on from './proxy/on'
 import raw from './proxy/raw'
 
-export default ({ renderHook, setupHook, proxy }: any) => {
-  setupHook(slot)
+export default ({ render, setup, proxy }: any) => {
+  setup(slot)
 
-  renderHook(condition)
-  renderHook(text)
+  render(condition)
+  render(text)
 
   proxy(bind)
   proxy(on)

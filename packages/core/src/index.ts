@@ -7,4 +7,6 @@ export {
   isProxy
 } from './proxy/utils'
 
-export { injectProxy } from './proxy'
+export { createProxyInjector } from './proxy'
+
+export { createServiceCollection } from './service'

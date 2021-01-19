@@ -1,18 +1,15 @@
-import { JRenderPlugin } from '../typings'
 import jRender from './components/jRender'
-export * from './components/jRender'
-export * from './components/jNode'
+import { use } from './service'
+import plugins from './plugin'
 
-const use = (builder: any) => {
-  builder({})
-}
-
-const plugin: JRenderPlugin = {
+const plugin: any = {
   ...jRender,
-  install: app => {
+  install: (app: any) => {
     app.component(jRender.name, jRender)
   },
   use
 }
+
+plugin.use(plugins)
 
 export default plugin

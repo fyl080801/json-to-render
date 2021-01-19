@@ -1,4 +1,4 @@
-import { isArray } from 'packages/utils/src/helpers'
+import { isArray } from '@json-to-render/utils'
 
 const hook: FunctionHook = (field, next) => {
   if (!isArray(field.children)) {

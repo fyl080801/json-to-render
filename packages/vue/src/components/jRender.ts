@@ -1,7 +1,9 @@
 import { defineComponent, h, isReactive, reactive, resolveComponent } from 'vue'
-import { injectProxy } from '@json-to-render/core'
+import { createProxyInjector } from '@json-to-render/core'
+import { getProxyHandler } from '../service/proxy'
 import { cloneDeep } from '@json-to-render/utils'
 import JNode from './jNode'
+import { use } from '../service'
 
 export default defineComponent({
   name: 'vJrender',
@@ -13,29 +15,10 @@ export default defineComponent({
     listeners: { type: Array, default: () => [] }
   },
   emits: ['setup', 'update:modelValue'],
-  setup: props => {
-    // ctx.emit('setup', {
-    //   use: (fn: Function) => {
-    //     const builder = {
-    //       // 注册组件
-    //       component: (name: string, component: any) => {
-    //         // 要用一个统一的存储
-    //         console.log(name, component)
-    //       },
-    //       proxy: () => {
-    //         //
-    //       },
-    //       hook: () => {
-    //         //
-    //       },
-    //       functional: () => {
-    //         //
-    //       }
-    //     }
+  setup: (props, ctx) => {
+    ctx.emit('setup', { use })
 
-    //     fn(builder)
-    //   }
-    // })
+    const injectProxy = createProxyInjector(getProxyHandler)
 
     const field = reactive(
       injectProxy(
