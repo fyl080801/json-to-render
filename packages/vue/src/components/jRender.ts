@@ -1,5 +1,5 @@
 import { defineComponent, h, isReactive, reactive, resolveComponent } from 'vue'
-import { createProxyInjector, createServiceBuilder } from '@json-to-render/core'
+import { createProxyInjector } from '@json-to-render/core'
 import { getProxyService } from '../service/proxy'
 import { cloneDeep } from '@json-to-render/utils'
 import JNode from './jNode'
@@ -28,7 +28,7 @@ export default defineComponent({
     const setup = createHookService(service.setup)
     const render = createHookService(service.render)
 
-    ctx.emit('setup', { use: createServiceBuilder({ proxy, setup, render }) })
+    ctx.emit('setup', { proxy, setup, render })
 
     //
     const injectProxy = createProxyInjector(getProxyService(service.proxy))

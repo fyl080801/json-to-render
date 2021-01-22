@@ -54,7 +54,7 @@ export default defineComponent({
                   {
                     component: 'p',
                     props: { class: { $type: 'bind', $source: 'text1' } },
-                    text: { $type: 'bind', $source: 'text1' }
+                    text: '=:text1' // 自定义表达式
                   }
                 ]
               },
@@ -122,10 +122,22 @@ export default defineComponent({
     }
   },
   methods: {
-    onSetup(instacne: any) {
-      // instacne.use((builder: any) => {
-      //   builder.component(HelloWorld)
-      // })
+    onSetup({ proxy }: any) {
+      // 测试自定义 proxy
+      proxy((value: any, context: any) => {
+        if (typeof value === 'string' && value.indexOf('=:') === 0) {
+          return () => {
+            try {
+              const expr = value.replace('=:', '')
+              return new Function(
+                ...[...Object.keys(context), `return ${expr}`]
+              )(...Object.keys(context).map(key => context[key]))
+            } catch {
+              //
+            }
+          }
+        }
+      })
     }
   }
 })

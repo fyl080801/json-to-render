@@ -1,6 +1,6 @@
-import condition from './hooks/render/condition'
-import text from './hooks/render/text'
-import slot from './hooks/setup/slot'
+import condition from './render/condition'
+import text from './render/text'
+import slot from './setup/slot'
 
 import bind from './proxy/bind'
 import on from './proxy/on'

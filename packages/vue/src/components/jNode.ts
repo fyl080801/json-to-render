@@ -1,7 +1,7 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
 import { getSetupProcess, getRenderProcess } from '../service/hooks'
-import slot from '../plugin/hooks/setup/slot'
+import slot from '../plugin/setup/slot'
 import {
   isObject,
   isArray,
