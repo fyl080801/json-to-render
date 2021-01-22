@@ -1,14 +1,13 @@
 import { assignArray, pipeline } from '@json-to-render/utils'
 
 const setupMap: FunctionHook[] = []
+
 const renderMap: FunctionHook[] = []
 
-export const addSetup = (hook: FunctionHook) => {
-  setupMap.push(hook)
-}
-
-export const addRender = (hook: FunctionHook) => {
-  renderMap.push(hook)
+export const createHookService = (store: FunctionHook[]) => {
+  return (hook: FunctionHook) => {
+    store.push(hook)
+  }
 }
 
 export const getSetupProcess = (...inners: FunctionHook[]): FunctionNext => {
@@ -18,3 +17,7 @@ export const getSetupProcess = (...inners: FunctionHook[]): FunctionNext => {
 export const getRenderProcess = (): FunctionNext => {
   return pipeline(renderMap)
 }
+
+export const setup = createHookService(setupMap)
+
+export const render = createHookService(renderMap)

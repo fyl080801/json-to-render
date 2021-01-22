@@ -1,4 +1,4 @@
-const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
+const bind: ProxyHandlerResolver<BindTransform> = (value, context) => {
   return typeof value === 'object' &&
     value &&
     value.$type === 'bind' &&
@@ -12,7 +12,7 @@ const bind: ProxyHandlerFactory<BindTransform> = (value, context) => {
           //
         }
       }
-    : null
+    : undefined
 }
 
 export default bind

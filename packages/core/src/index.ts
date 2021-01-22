@@ -9,4 +9,6 @@ export {
 
 export { createProxyInjector } from './proxy'
 
-export { createServiceCollection } from './service'
+export { createServiceBuilder } from './service'
+
+export { createServiceCollection } from './service/sp'

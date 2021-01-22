@@ -1,11 +1,7 @@
 import { forEachTarget } from '@json-to-render/utils'
 import { isAllowedProxy, isProxy, isRejectProxy, ProxyFlags } from './utils'
 
-// const proxys: ProxyHandlerFactory[] = [] // [bind, on, raw]
-
-export const createProxyInjector = (
-  getProxyHandler: (value: any, context: any) => JProxyHandler | undefined
-) => {
+export const createProxyInjector = (getProxyHandler: ProxyHandlerResolver) => {
   const createProxyHandlerMap = () => {
     const map = new Map<string, JProxyHandler>()
 
@@ -15,6 +11,7 @@ export const createProxyInjector = (
           map.set(key, handler)
         }
       },
+
       get: (key: string) => {
         return map.get(key)
       },

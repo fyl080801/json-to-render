@@ -1,10 +1,9 @@
-import { addProxy } from './proxy'
-import { addSetup, addRender } from './hooks'
+import { proxy } from './proxy'
+import { setup, render } from './hooks'
+import { createServiceBuilder } from '@json-to-render/core'
 
-export const use = (builder: any) => {
-  builder({
-    proxy: addProxy,
-    setup: addSetup,
-    render: addRender
-  })
-}
+export const globalServiceBuilder = createServiceBuilder({
+  proxy,
+  setup,
+  render
+})

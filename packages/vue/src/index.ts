@@ -1,5 +1,5 @@
 import jRender from './components/jRender'
-import { use } from './service'
+import { globalServiceBuilder } from './service'
 import plugins from './plugin'
 
 const plugin: any = {
@@ -7,7 +7,7 @@ const plugin: any = {
   install: (app: any) => {
     app.component(jRender.name, jRender)
   },
-  use
+  use: globalServiceBuilder
 }
 
 plugin.use(plugins)

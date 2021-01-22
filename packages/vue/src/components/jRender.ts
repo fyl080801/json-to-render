@@ -1,9 +1,10 @@
 import { defineComponent, h, isReactive, reactive, resolveComponent } from 'vue'
-import { createProxyInjector } from '@json-to-render/core'
-import { getProxyHandler } from '../service/proxy'
+import { createProxyInjector, createServiceBuilder } from '@json-to-render/core'
+import { getProxyService } from '../service/proxy'
 import { cloneDeep } from '@json-to-render/utils'
 import JNode from './jNode'
-import { use } from '../service'
+import { createProxyService } from '../service/proxy'
+import { createHookService } from '../service/hooks'
 
 export default defineComponent({
   name: 'vJrender',
@@ -16,9 +17,20 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    ctx.emit('setup', { use })
+    const service = {
+      proxy: [],
+      setup: [],
+      render: []
+    }
 
-    const injectProxy = createProxyInjector(getProxyHandler)
+    const proxy = createProxyService(service.proxy)
+    const setup = createHookService(service.setup)
+    const render = createHookService(service.render)
+
+    ctx.emit('setup', { use: createServiceBuilder({ proxy, setup, render }) })
+
+    //
+    const injectProxy = createProxyInjector(getProxyService(service.proxy))
 
     const field = reactive(
       injectProxy(

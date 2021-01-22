@@ -15,7 +15,11 @@ declare type ProxyContext = { [key: string]: unknown }
 declare type JProxyHandler = () => unknown
 
 //
-declare type ProxyHandlerFactory<T = any> = (
-  target: T,
+declare type ProxyHandlerResolver<T = any> = (
+  target: any,
   context: ProxyContext
-) => JProxyHandler | false | null
+) => JProxyHandler | undefined
+
+// declare interface ProxyHandlerService<T = any> {
+//   (services): ProxyHandlerResolver<T>
+// }
