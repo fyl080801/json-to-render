@@ -17,6 +17,7 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
+    // 服务对象仓库
     const service = {
       proxy: [],
       setup: [],
