@@ -1,7 +1,7 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
-import { getSetupProcess, getRenderProcess } from '../service/hooks'
-import slot from '../plugin/setup/slot'
+import { getPrerenderProcess, getRenderProcess } from '../service/hooks'
+import slot from '../plugin/prerender/slot'
 import {
   isObject,
   isArray,
@@ -16,7 +16,7 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    getSetupProcess(slot)(props.field)
+    getPrerenderProcess(slot)(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象

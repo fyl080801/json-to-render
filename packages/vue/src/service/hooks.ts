@@ -1,6 +1,6 @@
 import { assignArray, pipeline } from '@json-to-render/utils'
 
-const setupMap: FunctionHook[] = []
+const prerenderMap: FunctionHook[] = []
 
 const renderMap: FunctionHook[] = []
 
@@ -10,14 +10,16 @@ export const createHookService = (store: FunctionHook[]) => {
   }
 }
 
-export const getSetupProcess = (...inners: FunctionHook[]): FunctionNext => {
-  return pipeline(assignArray([], setupMap, inners))
+export const getPrerenderProcess = (
+  ...inners: FunctionHook[]
+): FunctionNext => {
+  return pipeline(assignArray([], prerenderMap, inners))
 }
 
 export const getRenderProcess = (): FunctionNext => {
   return pipeline(renderMap)
 }
 
-export const setup = createHookService(setupMap)
+export const prerender = createHookService(prerenderMap)
 
 export const render = createHookService(renderMap)

@@ -13,35 +13,36 @@ export default defineComponent({
   setup() {
     return {
       model: reactive({}),
-      fields: [
-        {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            age: { type: 'number' },
-            ages: { type: 'number' },
-            age2: { type: 'number' },
-            subobject: {
-              type: 'object',
-              properties: {
-                sub1: { type: 'string' },
-                sub2: { type: 'string' },
-                sub3: { type: 'number' },
-                subsub: {
-                  type: 'object',
-                  properties: {
-                    ss1: { type: 'string' },
-                    ss2: { type: 'string' }
-                  }
-                }
-              }
-            },
-            agaae: { type: 'string' },
-            agasdse: { type: 'number' },
-            agasde: { type: 'number' }
-          }
-        }
-      ]
+      fields: []
+      // fields: [
+      //   {
+      //     type: 'object',
+      //     properties: {
+      //       name: { type: 'string' },
+      //       age: { type: 'number' },
+      //       ages: { type: 'number' },
+      //       age2: { type: 'number' },
+      //       subobject: {
+      //         type: 'object',
+      //         properties: {
+      //           sub1: { type: 'string' },
+      //           sub2: { type: 'string' },
+      //           sub3: { type: 'number' },
+      //           subsub: {
+      //             type: 'object',
+      //             properties: {
+      //               ss1: { type: 'string' },
+      //               ss2: { type: 'string' }
+      //             }
+      //           }
+      //         }
+      //       },
+      //       agaae: { type: 'string' },
+      //       agasdse: { type: 'number' },
+      //       agasde: { type: 'number' }
+      //     }
+      //   }
+      // ]
     }
   }
 })

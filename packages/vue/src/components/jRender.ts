@@ -20,15 +20,15 @@ export default defineComponent({
     // 服务对象仓库
     const service = {
       proxy: [],
-      setup: [],
+      prerender: [],
       render: []
     }
 
     const proxy = createProxyService(service.proxy)
-    const setup = createHookService(service.setup)
+    const prerender = createHookService(service.prerender)
     const render = createHookService(service.render)
 
-    ctx.emit('setup', { proxy, setup, render })
+    ctx.emit('setup', { proxy, prerender, render })
 
     //
     const injectProxy = createProxyInjector(getProxyService(service.proxy))
