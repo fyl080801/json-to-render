@@ -1,7 +1,10 @@
-import { forEachTarget } from '@json-to-render/utils'
+import { assignObject, forEachTarget } from '@json-to-render/utils'
 import { isAllowedProxy, isProxy, isRejectProxy, ProxyFlags } from './utils'
 
-export const createProxyInjector = (getProxyHandler: ProxyHandlerResolver) => {
+export const createProxyInjector = (
+  getProxyHandler: ProxyHandlerResolver,
+  services: { [key: string]: any }
+) => {
   const createProxyHandlerMap = () => {
     const map = new Map<string, JProxyHandler>()
 
@@ -24,11 +27,11 @@ export const createProxyInjector = (getProxyHandler: ProxyHandlerResolver) => {
     }
   }
 
-  const createProxyMap = (target: any, context: any) => {
+  const createProxyMap = (target: any) => {
     const handlers = createProxyHandlerMap()
 
     forEachTarget(target, (value: any, prop: any) => {
-      handlers.set(prop, getProxyHandler(value, context))
+      handlers.set(prop, getProxyHandler(value))
     })
 
     // proxy flags
@@ -38,10 +41,20 @@ export const createProxyInjector = (getProxyHandler: ProxyHandlerResolver) => {
   }
 
   const createProxy = (originTarget: any, context: any) => {
-    const handlers = createProxyMap(originTarget, context)
+    const handlers = createProxyMap(originTarget)
 
     const getter = (target: any, p: any, receiver: any): ProxyTarget => {
-      return (handlers.get(p) || Reflect.get)(target, p, receiver)
+      const handler = handlers.get(p)
+      // 获取属性时候，处理传入 context 和 services
+      return handler
+        ? handler(
+            context,
+            assignObject({}, services, {
+              // eslint-disable-next-line @typescript-eslint/no-use-before-define
+              injectProxy
+            })
+          )
+        : Reflect.get(target, p, receiver)
     }
 
     const setter = (
@@ -57,7 +70,7 @@ export const createProxyInjector = (getProxyHandler: ProxyHandlerResolver) => {
           ? value
           : /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
             injectProxy(value, context)
-        handlers.set(p, getProxyHandler(injected, context))
+        handlers.set(p, getProxyHandler(injected))
         return Reflect.set(target, p, injected, receiver)
       }
     }

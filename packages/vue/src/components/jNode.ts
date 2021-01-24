@@ -1,6 +1,5 @@
 import { resolveComponent, defineComponent, h } from 'vue'
 import render from '../utils/render'
-import { getPrerenderProcess, getRenderProcess } from '../service/hooks'
 import slot from '../plugin/prerender/slot'
 import {
   isObject,
@@ -9,6 +8,7 @@ import {
   assignArray,
   isOriginTag
 } from '@json-to-render/utils'
+import { getState } from '../store/service'
 
 export default defineComponent({
   name: 'vJnode',
@@ -16,7 +16,9 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    getPrerenderProcess(slot)(props.field)
+    const services: any = getState()
+
+    services.prerender(slot)(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
@@ -31,7 +33,7 @@ export default defineComponent({
         }
       )
 
-      getRenderProcess()(field)
+      services.render()(field)
 
       return field.component
         ? h(

@@ -12,12 +12,14 @@ declare interface ProxyTarget {
 declare type ProxyContext = { [key: string]: unknown }
 
 // 返回真实对象
-declare type JProxyHandler = () => unknown
+declare type JProxyHandler = (
+  context: any,
+  services: { [key: string]: any }
+) => unknown
 
 //
 declare type ProxyHandlerResolver<T = any> = (
-  target: any,
-  context: ProxyContext
+  target: any
 ) => JProxyHandler | undefined
 
 // declare interface ProxyHandlerService<T = any> {

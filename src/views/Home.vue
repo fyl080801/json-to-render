@@ -124,9 +124,9 @@ export default defineComponent({
   methods: {
     onSetup({ proxy }: any) {
       // 测试自定义 proxy
-      proxy((value: any, context: any) => {
+      proxy((value: any) => {
         if (typeof value === 'string' && value.indexOf('=:') === 0) {
-          return () => {
+          return (context: any) => {
             try {
               const expr = value.replace('=:', '')
               return new Function(

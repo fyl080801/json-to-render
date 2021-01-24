@@ -1,16 +1,3 @@
-import { provide, inject, reactive } from 'vue'
+// import { createServiceStore } from './service'
 
-const stateSymbol = Symbol('context')
-
-export const getState = () => inject(stateSymbol)
-
-export const createStore = (context: { [key: string]: any }) => {
-  const state = Object.keys(context).reduce((pre: any, cur) => {
-    pre[cur] = pre[cur] || reactive(context[cur])
-    return pre
-  }, {})
-
-  provide(stateSymbol, state)
-
-  return getState
-}
+// export default createServiceStore()

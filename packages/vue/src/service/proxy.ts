@@ -1,25 +1,29 @@
 import { assignArray } from '@json-to-render/utils'
 
-const proxyMap: ProxyHandlerResolver[] = []
-
-export const createProxyService = (store: ProxyHandlerResolver[]) => {
+export const createProxySetup = (store: ProxyHandlerResolver[]) => {
   return (proxy: ProxyHandlerResolver) => {
     store.push(proxy)
   }
 }
 
-export const getProxyService = (
-  store: ProxyHandlerResolver[]
-): ProxyHandlerResolver => {
-  return (value, context) => {
-    const assigned = assignArray([], proxyMap, store)
-    for (const index in assigned) {
-      const handler = assigned[index](value, context)
-      if (handler) {
-        return handler
+export const createProxyService = (inits?: ProxyHandlerResolver[]) => {
+  const store: ProxyHandlerResolver[] = assignArray([], inits || [])
+
+  const getProxyHandlerResolver = (): ProxyHandlerResolver => {
+    return value => {
+      const assigned = assignArray([], store)
+      for (const index in assigned) {
+        const handler = assigned[index](value)
+        if (handler) {
+          return handler
+        }
       }
     }
   }
-}
 
-export const proxy = createProxyService(proxyMap)
+  return {
+    store,
+    setup: createProxySetup(store),
+    getProxyHandlerResolver
+  }
+}

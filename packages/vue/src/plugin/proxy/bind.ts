@@ -1,9 +1,9 @@
-const bind: ProxyHandlerResolver<BindTransform> = (value, context) => {
+const bind: ProxyHandlerResolver<BindTransform> = value => {
   return typeof value === 'object' &&
     value &&
     value.$type === 'bind' &&
     value.$source
-    ? () => {
+    ? context => {
         try {
           return new Function(
             ...[...Object.keys(context), `return ${value.$source}`]
