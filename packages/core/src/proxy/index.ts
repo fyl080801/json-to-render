@@ -10,6 +10,10 @@ export const createProxyInjector = (
 
     return {
       set: (key: string, handler?: JProxyHandler) => {
+        if (map.has(key)) {
+          map.delete(key)
+        }
+
         if (handler) {
           map.set(key, handler)
         }
