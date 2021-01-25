@@ -1,4 +1,4 @@
-const pipeline: FunctionPipeLine = funcs => {
+const pipeline: FunctionPipeLine = (funcs, opts) => {
   return (scope: any) => {
     // 全局索引
     let index = -1
@@ -27,7 +27,7 @@ const pipeline: FunctionPipeLine = funcs => {
 
       // 返回一个 Promise 对象，任务是执行当前指针处的函数
       // 将上下文对象和返回下个方法的委托函数作为参数传递进去
-      return Promise.resolve(currentFn(scope, next))
+      return Promise.resolve(currentFn(opts)(scope, next))
     }
 
     // 传递索引 0 开始执行索引遍历递归委托

@@ -1,6 +1,6 @@
 import { isArray } from '@json-to-render/utils'
 
-const hook: FunctionHook = (field, next) => {
+const hook: FunctionHook = () => (field, next) => {
   if (!isArray(field.children)) {
     next(field)
     return

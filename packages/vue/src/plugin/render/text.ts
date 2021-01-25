@@ -1,4 +1,4 @@
-const hook: FunctionHook = (field, next) => {
+const hook: FunctionHook = () => (field, next) => {
   const textProp = Reflect.getOwnPropertyDescriptor(field, 'text')
 
   if (!textProp) {

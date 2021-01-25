@@ -1,10 +1,20 @@
-import { assignObject, forEachTarget } from '@json-to-render/utils'
+import { assignArray, forEachTarget } from '@json-to-render/utils'
 import { isAllowedProxy, isProxy, isRejectProxy, ProxyFlags } from './utils'
 
 export const createProxyInjector = (
-  getProxyHandler: ProxyHandlerResolver,
-  services: { [key: string]: any }
+  proxies: JProxyHandler[]
+  // services: { [key: string]: any }
 ) => {
+  const getProxyHandler: ProxyHandlerResolver = value => {
+    const assigned = assignArray([], proxies)
+    for (const index in assigned) {
+      const handler = assigned[index](value)
+      if (handler) {
+        return handler
+      }
+    }
+  }
+
   const createProxyHandlerMap = () => {
     const map = new Map<string, JProxyHandler>()
 
@@ -53,10 +63,18 @@ export const createProxyInjector = (
       return handler
         ? handler(
             context,
-            assignObject({}, services, {
+            {
               // eslint-disable-next-line @typescript-eslint/no-use-before-define
               injectProxy
-            })
+            }
+            // assignObject(
+            //   {},
+            //   // services,
+            //   {
+            //     // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            //     injectProxy
+            //   }
+            // )
           )
         : Reflect.get(target, p, receiver)
     }

@@ -31,10 +31,7 @@ export default defineComponent({
 
     // 最后一个参数加上，准备传递需要用到的服务，除了 injectProxy
     // injectProxy 自身内部引用
-    const injectProxy = createProxyInjector(
-      proxyService.getProxyHandlerResolver(),
-      services
-    )
+    const injectProxy = createProxyInjector(proxyService.store)
 
     createStore(assignObject(services, { injectProxy }))
     //#endregion

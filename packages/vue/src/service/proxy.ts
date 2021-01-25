@@ -9,21 +9,8 @@ export const createProxySetup = (store: ProxyHandlerResolver[]) => {
 export const createProxyService = (inits?: ProxyHandlerResolver[]) => {
   const store: ProxyHandlerResolver[] = assignArray([], inits || [])
 
-  const getProxyHandlerResolver = (): ProxyHandlerResolver => {
-    return value => {
-      const assigned = assignArray([], store)
-      for (const index in assigned) {
-        const handler = assigned[index](value)
-        if (handler) {
-          return handler
-        }
-      }
-    }
-  }
-
   return {
     store,
-    setup: createProxySetup(store),
-    getProxyHandlerResolver
+    setup: createProxySetup(store)
   }
 }

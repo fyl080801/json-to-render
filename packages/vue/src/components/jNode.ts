@@ -16,9 +16,13 @@ export default defineComponent({
     field: { type: Object, required: true }
   },
   setup: props => {
-    const services: any = getState()
+    const {
+      prerender: prerenderHook,
+      render: renderHook,
+      injectProxy
+    }: any = getState()
 
-    services.prerender(slot)(props.field)
+    prerenderHook([slot], { injectProxy })(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
@@ -33,7 +37,7 @@ export default defineComponent({
         }
       )
 
-      services.render()(field)
+      renderHook([], { injectProxy })(field)
 
       return field.component
         ? h(
