@@ -17,121 +17,152 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
 
 export default defineComponent({
   name: 'Home',
   setup: () => {
-    const fields = [
-      {
-        component: 'p',
-        condition: { $type: 'bind', $source: 'obj.selected' },
-        text: { $type: 'bind', $source: 'text1' }
-      },
-      {
-        component: 'div',
-        children: [
-          {
-            component: 'el-form',
-            props: {
-              labelWidth: '120px'
-            },
-            children: [
-              {
-                component: 'el-form-item',
-                props: { label: 'input1' },
-                children: [
-                  {
-                    component: 'el-input',
-                    props: {
-                      modelValue: { $type: 'bind', $source: 'text1' },
-                      'onUpdate:modelValue': {
-                        $type: 'on',
-                        $model: 'text1',
-                        $result: 'arguments[0]'
-                      }
-                    }
-                  },
-                  {
-                    component: 'p',
-                    props: { class: { $type: 'bind', $source: 'text1' } },
-                    text: '=:text1' // 自定义表达式
-                  }
-                ]
-              },
-              {
-                component: 'el-form-item',
-                props: { label: 'select1' },
-                children: [
-                  {
-                    component: 'el-select',
-                    props: {
-                      modelValue: { $type: 'bind', $source: 'obj.selected' },
-                      'onUpdate:modelValue': {
-                        $type: 'on',
-                        $model: 'obj.selected',
-                        $result: 'arguments[0]'
-                      }
-                    },
-                    children: [
-                      {
-                        component: 'el-option',
-                        props: { value: 0, label: '选项1' }
-                      },
-                      {
-                        component: 'el-option',
-                        props: { value: 1, label: '选项2' }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            component: 'el-button',
-            text: 'click1',
-            props: {
-              type: 'primary',
-              onClick: { $type: 'on', $result: 'alert("aaa")' }
-            }
-          }
-          // {
-          //   component: 'v-jrender',
-          //   props: {
-          //     class: 'j-form',
-          //     modelValue: { $type: 'bind', $source: 'obj' },
-          //     fields: {
-          //       $type: 'raw',
-          //       $value: [
-          //         { component: 'p', text: '嵌套渲染' },
-          //         {
-          //           component: 'p',
-          //           text: { $type: 'bind', $source: 'selected' }
-          //         }
-          //       ]
-          //     }
-          //   }
-          // }
-        ]
-      }
-    ]
-
     const datasource: any = {
       remotedata: {
         type: 'request',
         props: { url: '', method: 'GET', params: {} }
+      },
+      raws: {
+        type: 'rawdata',
+        props: {
+          xxx: '123',
+          yyy: { $type: 'bind', $source: 'text1' }
+        }
       }
     }
 
-    return {
+    const ret: any = reactive({
       model: reactive({ text1: 'xxx', obj: { selected: 0, value: 'text1' } }),
-      fields,
+      fields: [],
       datasource
-    }
+    })
+
+    onMounted(() => {
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve([
+            {
+              component: 'p',
+              condition: { $type: 'bind', $source: 'obj.selected' },
+              text: { $type: 'bind', $source: 'text1' }
+            },
+            {
+              component: 'div',
+              children: [
+                {
+                  component: 'el-form',
+                  props: {
+                    labelWidth: '120px'
+                  },
+                  children: [
+                    {
+                      component: 'el-form-item',
+                      props: { label: 'input1' },
+                      children: [
+                        {
+                          component: 'el-input',
+                          props: {
+                            modelValue: { $type: 'bind', $source: 'text1' },
+                            'onUpdate:modelValue': {
+                              $type: 'on',
+                              $model: 'text1',
+                              $result: 'arguments[0]'
+                            }
+                          }
+                        },
+                        {
+                          component: 'p',
+                          props: { class: { $type: 'bind', $source: 'text1' } },
+                          text: '=:text1' // 自定义表达式
+                        }
+                      ]
+                    },
+                    {
+                      component: 'el-form-item',
+                      props: { label: 'select1' },
+                      children: [
+                        {
+                          component: 'el-select',
+                          props: {
+                            modelValue: {
+                              $type: 'bind',
+                              $source: 'obj.selected'
+                            },
+                            'onUpdate:modelValue': {
+                              $type: 'on',
+                              $model: 'obj.selected',
+                              $result: 'arguments[0]'
+                            }
+                          },
+                          children: [
+                            {
+                              component: 'el-option',
+                              props: { value: 0, label: '选项1' }
+                            },
+                            {
+                              component: 'el-option',
+                              props: { value: 1, label: '选项2' }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  component: 'el-button',
+                  text: 'click1',
+                  props: {
+                    type: 'primary',
+                    onClick: { $type: 'on', $result: 'alert("aaa")' }
+                  }
+                },
+                {
+                  component: 'p',
+                  text: { $type: 'bind', $source: 'raws.xxx' }
+                },
+                {
+                  component: 'p',
+                  text: {
+                    $type: 'bind',
+                    $source: '`绑定得到的数据： ${raws.yyy}`'
+                  }
+                }
+                // {
+                //   component: 'v-jrender',
+                //   props: {
+                //     class: 'j-form',
+                //     modelValue: { $type: 'bind', $source: 'obj' },
+                //     fields: {
+                //       $type: 'raw',
+                //       $value: [
+                //         { component: 'p', text: '嵌套渲染' },
+                //         {
+                //           component: 'p',
+                //           text: { $type: 'bind', $source: 'selected' }
+                //         }
+                //       ]
+                //     }
+                //   }
+                // }
+              ]
+            }
+          ])
+        })
+      }).then(res => {
+        ret.fields = res
+      })
+    })
+
+    return ret
   },
   methods: {
-    onSetup({ proxy }: any) {
+    onSetup({ proxy, datasource }: any) {
       // 测试自定义 proxy
       proxy((value: any) => {
         if (typeof value === 'string' && value.indexOf('=:') === 0) {
@@ -146,6 +177,11 @@ export default defineComponent({
             }
           }
         }
+      })
+
+      datasource('rawdata', (getProps: Function) => {
+        const props = getProps()
+        return props
       })
     }
   }

@@ -19,7 +19,8 @@ export default defineComponent({
     const {
       prerender: prerenderHook,
       render: renderHook,
-      injectProxy
+      injectProxy,
+      components
     }: any = getState()
 
     prerenderHook([slot], { injectProxy })(props.field)
@@ -37,17 +38,30 @@ export default defineComponent({
         }
       )
 
-      renderHook([], { injectProxy })(field)
+      let result
 
-      return field.component
-        ? h(
-            isOriginTag(field.component)
-              ? field.component
-              : resolveComponent(field.component),
-            field.props,
-            render(field.children)
-          )
-        : null
+      renderHook(
+        [
+          () => (field: any, next: any) => {
+            const component =
+              field.component &&
+              (components[field.component] ||
+                (isOriginTag(field.component)
+                  ? field.component
+                  : resolveComponent(field.component)))
+
+            result =
+              component && h(component, field.props, render(field.children))
+
+            if (result) {
+              next(field)
+            }
+          }
+        ],
+        { injectProxy }
+      )(field)
+
+      return result
     }
   }
 })
