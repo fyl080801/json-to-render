@@ -3,6 +3,7 @@
     <v-jrender
       v-model="model"
       :fields="fields"
+      :datasource="datasource"
       class="j-form"
       @setup="onSetup"
     ></v-jrender>
@@ -116,9 +117,17 @@ export default defineComponent({
       }
     ]
 
+    const datasource: any = {
+      remotedata: {
+        type: 'request',
+        props: { url: '', method: 'GET', params: {} }
+      }
+    }
+
     return {
       model: reactive({ text1: 'xxx', obj: { selected: 0, value: 'text1' } }),
-      fields
+      fields,
+      datasource
     }
   },
   methods: {

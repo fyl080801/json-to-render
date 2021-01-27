@@ -7,7 +7,7 @@ export const createProxySetup = (store: ProxyHandlerResolver[]) => {
 }
 
 export const createProxyService = (inits?: ProxyHandlerResolver[]) => {
-  const store: ProxyHandlerResolver[] = assignArray([], inits || [])
+  const store: ProxyHandlerResolver[] = assignArray(inits || [])
 
   return {
     store,

@@ -14,6 +14,7 @@ export default defineComponent({
     modelValue: { type: Object, default: () => ({}) },
     component: { type: String, default: 'div' },
     fields: { type: Array, default: () => [] },
+    datasource: { type: Object, default: () => ({}) },
     listeners: { type: Array, default: () => [] }
   },
   emits: ['setup', 'update:modelValue'],

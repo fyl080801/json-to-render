@@ -7,13 +7,13 @@ export const createHookSetup = (store: FunctionHook[]) => {
 }
 
 export const createHookService = (inits?: any[]) => {
-  const store: any[] = assignArray([], inits || [])
+  const store = assignArray(inits || [])
 
   const processHook = (
     extras: FunctionHook[] = [],
     opts: any
   ): FunctionNext => {
-    return pipeline(assignArray([], store, extras), opts)
+    return pipeline(assignArray(store, extras), opts)
   }
 
   return {
