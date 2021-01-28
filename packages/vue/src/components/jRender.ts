@@ -15,7 +15,7 @@ import JNode from './jNode'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
 import { proxy, prerender, render, datasource } from '../service'
-import { createStore } from '../store/service'
+import { createStore } from '../store'
 
 export default defineComponent({
   name: 'vJrender',
@@ -29,6 +29,10 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
+    const context: { [key: string]: any } = ref({})
+
+    const field = ref([])
+
     //#region 初始化服务相关
     const proxyService = createProxyService(proxy.store)
     const prerenderService = createHookService(prerender.store)
@@ -44,7 +48,7 @@ export default defineComponent({
       components: componentService.store
     }
 
-    createStore(assignObject(services, { injectProxy }))
+    createStore(assignObject(services, { injectProxy, context }))
 
     ctx.emit('setup', {
       proxy: proxyService.setup,
@@ -55,11 +59,7 @@ export default defineComponent({
     })
     //#endregion
 
-    //#region 数据相关
-    const context: { [key: string]: any } = ref({})
-
-    const field = ref([])
-
+    //#region 相关监听
     watch(
       () => props.fields,
       value => {

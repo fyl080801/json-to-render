@@ -2,6 +2,7 @@ export {
   ProxyFlags,
   getProperty,
   getPropertyValue,
+  getProxyDefine,
   isAllowedProxy,
   isRejectProxy,
   isProxy

@@ -1,6 +1,6 @@
 import { provide, inject } from 'vue'
 
-const stateSymbol = Symbol('service')
+const stateSymbol = Symbol('store')
 
 export const getState = () => inject(stateSymbol)
 

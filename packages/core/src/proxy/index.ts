@@ -58,6 +58,9 @@ export const createProxyInjector = (
     const handlers = createProxyMap(originTarget)
 
     const getter = (target: any, p: any, receiver: any): ProxyTarget => {
+      if (p === ProxyFlags.PROXY_DEFINE) {
+        return target
+      }
       const handler = handlers.get(p)
       // 获取属性时候，处理传入 context 和 services
       return handler
@@ -103,7 +106,7 @@ export const createProxyInjector = (
 
   const process = (context: any) => {
     return (value: any, index: any, collection: any) => {
-      if (!isAllowedProxy(value)) {
+      if (isProxy(value) || !isAllowedProxy(value)) {
         return
       }
 

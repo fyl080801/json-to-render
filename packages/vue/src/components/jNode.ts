@@ -1,5 +1,5 @@
 import { resolveComponent, defineComponent, h } from 'vue'
-import render from '../utils/render'
+import getRender from '../utils/render'
 import slot from '../plugin/prerender/slot'
 import {
   isObject,
@@ -8,7 +8,7 @@ import {
   assignArray,
   isOriginTag
 } from '@json-to-render/utils'
-import { getState } from '../store/service'
+import { getState } from '../store'
 
 export default defineComponent({
   name: 'vJnode',
@@ -17,13 +17,14 @@ export default defineComponent({
   },
   setup: props => {
     const {
-      prerender: prerenderHook,
-      render: renderHook,
+      prerender,
+      render,
       injectProxy,
-      components
+      components,
+      context
     }: any = getState()
 
-    prerenderHook([slot], { injectProxy })(props.field)
+    prerender([slot], { injectProxy })(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
@@ -40,7 +41,7 @@ export default defineComponent({
 
       let result
 
-      renderHook(
+      render(
         [
           () => (field: any, next: any) => {
             const component =
@@ -51,7 +52,12 @@ export default defineComponent({
                   : resolveComponent(field.component)))
 
             result =
-              component && h(component, field.props, render(field.children))
+              component &&
+              h(
+                component,
+                field.props,
+                getRender({ injectProxy, context })(field.children)
+              )
 
             if (result) {
               next(field)
