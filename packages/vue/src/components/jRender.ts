@@ -95,7 +95,7 @@ export default defineComponent({
           )
         })
       },
-      { deep: true, immediate: true }
+      { deep: false, immediate: true }
     )
     //#endregion
 
