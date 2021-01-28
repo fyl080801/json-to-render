@@ -1,0 +1,10 @@
+{
+  "name": "@json-to-render/plugin-modern",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "files": [
+    "src",
+    "dist/*.js",
+    "typings/*.d.ts"
+  ]
+}
