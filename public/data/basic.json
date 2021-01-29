@@ -8,15 +8,15 @@
       "type": "rawdata",
       "props": {
         "xxx": "123",
-        "yyy": { "$type": "bind", "$source": "text1" }
+        "yyy": { "$type": "computed", "$result": "text1" }
       }
     }
   },
   "fields": [
     {
       "component": "p",
-      "condition": { "$type": "bind", "$source": "obj.selected" },
-      "text": { "$type": "bind", "$source": "text1" }
+      "condition": { "$type": "computed", "$result": "obj.selected" },
+      "text": { "$type": "computed", "$result": "text1" }
     },
     {
       "component": "div",
@@ -34,9 +34,9 @@
                 {
                   "component": "el-input",
                   "props": {
-                    "modelValue": { "$type": "bind", "$source": "text1" },
+                    "modelValue": { "$type": "computed", "$result": "text1" },
                     "onUpdate:modelValue": {
-                      "$type": "on",
+                      "$type": "method",
                       "$model": "text1",
                       "$result": "arguments[0]"
                     }
@@ -45,7 +45,7 @@
                 {
                   "component": "p",
                   "props": {
-                    "class": { "$type": "bind", "$source": "text1" }
+                    "class": { "$type": "computed", "$result": "text1" }
                   },
                   "text": "=:text1"
                 }
@@ -59,11 +59,11 @@
                   "component": "el-select",
                   "props": {
                     "modelValue": {
-                      "$type": "bind",
-                      "$source": "obj.selected"
+                      "$type": "computed",
+                      "$result": "obj.selected"
                     },
                     "onUpdate:modelValue": {
-                      "$type": "on",
+                      "$type": "method",
                       "$model": "obj.selected",
                       "$result": "arguments[0]"
                     }
@@ -88,18 +88,18 @@
           "text": "click1",
           "props": {
             "type": "primary",
-            "onClick": { "$type": "on", "$result": "alert(\"aaa\")" }
+            "onClick": { "$type": "method", "$result": "alert(\"aaa\")" }
           }
         },
         {
           "component": "p",
-          "text": { "$type": "bind", "$source": "raws.xxx" }
+          "text": { "$type": "computed", "$result": "raws.xxx" }
         },
         {
           "component": "p",
           "text": {
-            "$type": "bind",
-            "$source": "`绑定得到的数据： ${raws.yyy}`"
+            "$type": "computed",
+            "$result": "`绑定得到的数据： ${raws.yyy}`"
           }
         }
       ]
@@ -130,14 +130,14 @@
               "props": {
                 "type": "text",
                 "onClick": {
-                  "$type": "on",
+                  "$type": "method",
                   "$result": "alert(JSON.stringify(scope.row))"
                 }
               }
             },
             {
               "component": "el-button",
-              "text": { "$type": "bind", "$source": "scope.row.col1" },
+              "text": { "$type": "computed", "$result": "scope.row.col1" },
               "props": { "type": "text" }
             }
           ]

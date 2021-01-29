@@ -1,12 +1,9 @@
-import condition from './render/condition'
-import slot from './prerender/slot'
+// import condition from './render/condition'
 
 import raw from './proxy/raw'
 
-export default ({ render, prerender, proxy }: any) => {
-  prerender(slot)
-
-  render(condition)
+export default ({ proxy }: any) => {
+  // render(condition)
 
   proxy(raw)
 }

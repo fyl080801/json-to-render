@@ -1,6 +1,6 @@
 import { deepSet } from '@json-to-render/utils'
 
-const on: ProxyHandlerResolver<FunctionTransform> = value => {
+const method: ProxyHandlerResolver<FunctionTransform> = value => {
   const execute = (context: any) => {
     return (...args: any) => {
       try {
@@ -21,7 +21,9 @@ const on: ProxyHandlerResolver<FunctionTransform> = value => {
     }
   }
 
-  return typeof value === 'object' && value && value.$type === 'on' && execute
+  return (
+    typeof value === 'object' && value && value.$type === 'method' && execute
+  )
 }
 
-export default on
+export default method

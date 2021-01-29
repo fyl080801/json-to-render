@@ -1,4 +1,10 @@
-import { forEachTarget, isArray, isObject } from '@json-to-render/utils'
+import {
+  assignArray,
+  assignObject,
+  forEachTarget,
+  isArray,
+  isObject
+} from '@json-to-render/utils'
 
 export enum ProxyFlags {
   IS_PROXY = '__jr_isProxy',
@@ -33,9 +39,19 @@ export const getPropertyValue = (target: any, prop: any) => {
 }
 
 export const getProxyDefine = (target: any) => {
-  const result = isProxy(target) ? target[ProxyFlags.PROXY_DEFINE] : target
-  forEachTarget(result, (value: any, prop: any, collection: any) => {
-    collection[prop] = getProxyDefine(value)
+  if (!isArray(target) && !isObject(target)) {
+    return target
+  }
+
+  const assign = isArray(target) ? assignArray : assignObject
+
+  const result = assign(
+    isProxy(target) ? target[ProxyFlags.PROXY_DEFINE] : target
+  )
+
+  forEachTarget(result, (value: any, prop: any) => {
+    result[prop] = getProxyDefine(value)
   })
+
   return result
 }

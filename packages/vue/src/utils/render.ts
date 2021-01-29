@@ -1,16 +1,18 @@
-import { resolveComponent, h, toRaw } from 'vue'
+import { resolveComponent, h } from 'vue'
 import { getProxyDefine } from '@json-to-render/core'
+import { assignObject } from '@json-to-render/utils'
 
 const render = (children: any[], services: any, scope?: any) => {
   const { context, injectProxy } = services
 
   return children.map(child => {
     if (scope) {
-      const childDefine = getProxyDefine(toRaw(child))
+      const childDefine = getProxyDefine(child)
+
       if (childDefine) {
         const reProxyChild = injectProxy(
           childDefine,
-          Object.assign({}, context, { scope }) // 此处不要深度合并对象
+          assignObject(context, { scope })
         )
         return h(resolveComponent('vJnode'), { field: reProxyChild })
       }
