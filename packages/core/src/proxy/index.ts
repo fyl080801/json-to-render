@@ -1,4 +1,9 @@
-import { assignArray, assignObject, forEachTarget } from '@json-to-render/utils'
+import {
+  assignArray,
+  assignObject,
+  forEachTarget,
+  isArray
+} from '@json-to-render/utils'
 import { isAllowedProxy, isProxy, isRejectProxy, ProxyFlags } from './utils'
 
 export const createProxyInjector = (
@@ -104,28 +109,48 @@ export const createProxyInjector = (
     })
   }
 
-  const process = (context: any) => {
-    return (value: any, index: any, collection: any) => {
-      if (isProxy(value) || !isAllowedProxy(value)) {
-        return
-      }
+  // const process = (context: any) => {
+  //   return (value: any, index: any, collection: any) => {
+  //     if (isProxy(value) || !isAllowedProxy(value)) {
+  //       return
+  //     }
 
-      collection[index] = createProxy(collection[index], context)
+  //     collection[index] = createProxy(collection[index], context)
 
-      if (!isRejectProxy(collection[index])) {
-        forEachTarget(collection[index], process(context))
-      }
-    }
-  }
+  //     if (!isRejectProxy(collection[index])) {
+  //       forEachTarget(collection[index], process(context))
+  //     }
+  //   }
+  // }
 
-  const processProxy = (target: any, context: any) => {
-    forEachTarget(target, process(context))
-  }
+  // const processProxy = (target: any, context: any) => {
+  //   forEachTarget(target, process(context))
+  // }
+
+  // const injectProxy = (target: any, context: any) => {
+  //   const proxy = { value: target }
+  //   processProxy(proxy, context)
+  //   return proxy.value
+  // }
 
   const injectProxy = (target: any, context: any) => {
-    const proxy = { value: target }
-    processProxy(proxy, context)
-    return proxy.value
+    if (isProxy(target) || !isAllowedProxy(target)) {
+      return target
+    }
+
+    const cloned: any = isArray(target) ? [] : {}
+
+    forEachTarget(target, (value: any, prop: any) => {
+      cloned[prop] = value
+    })
+
+    const proxy: any = createProxy(target, context)
+
+    forEachTarget(cloned, (value: any, prop: any) => {
+      proxy[prop] = injectProxy(value, context)
+    })
+
+    return proxy
   }
 
   return injectProxy

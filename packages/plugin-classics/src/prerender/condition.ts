@@ -9,23 +9,23 @@ const hook: FunctionHook = ({ injectProxy }) => (field, next) => {
     return
   }
 
-  field.children = fieldDefine.children.map((child: any) => {
-    const childDefine = getProxyDefine(child)
+  // field.children = fieldDefine.children.map((child: any) => {
+  //   const childDefine = getProxyDefine(child)
 
-    if (childDefine.condition !== undefined) {
-      const assigned = assignObject(childDefine)
-      delete assigned.condition
+  //   if (childDefine.condition !== undefined) {
+  //     const assigned = assignObject(childDefine)
+  //     delete assigned.condition
 
-      const xxx = injectProxy({
-        $type: 'condition',
-        $condition: getProxyDefine(childDefine.condition),
-        $result: assigned
-      })
-      debugger
-      return xxx
-    }
-    return childDefine
-  })
+  //     const xxx = injectProxy({
+  //       $type: 'condition',
+  //       $condition: getProxyDefine(childDefine.condition),
+  //       $result: assigned
+  //     })
+  //     debugger
+  //     return xxx
+  //   }
+  //   return childDefine
+  // })
 
   next(field)
 }

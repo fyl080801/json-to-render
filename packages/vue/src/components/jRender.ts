@@ -5,7 +5,8 @@ import {
   reactive,
   ref,
   resolveComponent,
-  watch
+  watch,
+  toRaw
 } from 'vue'
 import { createProxyInjector } from '@json-to-render/core'
 import { createProxyService } from '../service/proxy'
@@ -63,11 +64,9 @@ export default defineComponent({
     watch(
       () => props.fields,
       value => {
-        field.value = reactive(
-          injectProxy(
-            cloneDeep({ component: props.component, children: value }),
-            context.value
-          )
+        field.value = injectProxy(
+          { component: props.component, children: cloneDeep(toRaw(value)) },
+          context.value
         )
       },
       { deep: false, immediate: true }

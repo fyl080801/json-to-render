@@ -1,4 +1,4 @@
-import { resolveComponent, h } from 'vue'
+import { resolveComponent, h, ref } from 'vue'
 import { getProxyDefine } from '@json-to-render/core'
 import { assignObject } from '@json-to-render/utils'
 
@@ -14,6 +14,7 @@ const render = (children: any[], services: any, scope?: any) => {
           childDefine,
           assignObject(context, { scope })
         )
+
         return h(resolveComponent('vJnode'), { field: reProxyChild })
       }
     }

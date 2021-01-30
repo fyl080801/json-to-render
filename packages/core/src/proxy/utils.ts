@@ -24,9 +24,7 @@ export const isRejectProxy = (target: unknown) => {
 
 export const isAllowedProxy = (target: unknown) => {
   return (
-    !isRejectProxy(target) &&
-    (isObject(target) || isArray(target)) &&
-    target !== null
+    !!target && !isRejectProxy(target) && (isObject(target) || isArray(target))
   )
 }
 
