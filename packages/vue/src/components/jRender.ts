@@ -21,7 +21,9 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    const context: { [key: string]: any } = ref(props.modelValue)
+    const context: { [key: string]: any } = ref({
+      model: toRaw(props.modelValue)
+    })
     const field = ref([])
 
     //#region 初始化服务相关
@@ -69,16 +71,20 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       value => {
-        context.value = value || {}
+        context.value.model = toRaw(value || {})
       },
       { deep: false, immediate: false }
     )
 
     watch(
       () => props.datasource,
-      value => {
+      (value, origin) => {
+        Object.keys(origin || {}).forEach(key => {
+          delete context.value[key]
+        })
+
         Object.keys(value || {}).forEach(key => {
-          context.value[key] = datasourceService.resolve(value[key], {
+          datasourceService.resolve(key, value[key], {
             injectProxy,
             context: context.value
           })

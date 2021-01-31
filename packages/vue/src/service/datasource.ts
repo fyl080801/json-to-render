@@ -11,7 +11,7 @@ export const createDatasourceSetup = (store: DatasourceProviders) => {
 export const createDatasourceService = (inits?: DatasourceProviders) => {
   const store = assignObject(inits)
 
-  const resolve = (datasource: any, services: any) => {
+  const resolve = (name: string, datasource: any, services: any) => {
     //
     const service = store[datasource.type]
 
@@ -21,9 +21,13 @@ export const createDatasourceService = (inits?: DatasourceProviders) => {
 
     const { injectProxy, context } = services
 
-    const getProps = () => injectProxy(cloneDeep(datasource.props), context)
+    const getProps = () => injectProxy(cloneDeep(datasource), context)
 
-    return service(getProps)
+    const update = (value: any) => {
+      context[name] = value
+    }
+
+    service(getProps, update)
   }
 
   return {

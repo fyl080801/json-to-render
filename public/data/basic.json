@@ -1,22 +1,24 @@
 {
   "datasource": {
     "remotedata": {
-      "type": "request",
-      "props": { "url": "", "method": "GET", "params": {} }
+      "type": "fetch",
+      "url": "/data/listdata.json",
+      "auto": true,
+      "props": { "method": "GET", "params": {} }
     },
     "raws": {
       "type": "rawdata",
       "props": {
         "xxx": "123",
-        "yyy": { "$type": "computed", "$result": "text1" }
+        "yyy": { "$type": "computed", "$result": "model.text1" }
       }
     }
   },
   "fields": [
     {
       "component": "p",
-      "condition": { "$type": "computed", "$result": "obj.selected" },
-      "text": { "$type": "computed", "$result": "text1" }
+      "condition": { "$type": "computed", "$result": "model.obj.selected" },
+      "text": { "$type": "computed", "$result": "model.text1" }
     },
     {
       "component": "div",
@@ -34,10 +36,13 @@
                 {
                   "component": "el-input",
                   "props": {
-                    "modelValue": { "$type": "computed", "$result": "text1" },
+                    "modelValue": {
+                      "$type": "computed",
+                      "$result": "model.text1"
+                    },
                     "onUpdate:modelValue": {
                       "$type": "method",
-                      "$model": "text1",
+                      "$model": "model.text1",
                       "$result": "arguments[0]"
                     }
                   }
@@ -45,9 +50,9 @@
                 {
                   "component": "p",
                   "props": {
-                    "class": { "$type": "computed", "$result": "text1" }
+                    "class": { "$type": "computed", "$result": "model.text1" }
                   },
-                  "text": "=:text1"
+                  "text": "=:model.text1"
                 }
               ]
             },
@@ -60,11 +65,11 @@
                   "props": {
                     "modelValue": {
                       "$type": "computed",
-                      "$result": "obj.value"
+                      "$result": "model.obj.value"
                     },
                     "onUpdate:modelValue": {
                       "$type": "method",
-                      "$model": "obj.value",
+                      "$model": "model.obj.value",
                       "$result": "arguments[0]"
                     }
                   }
@@ -80,11 +85,11 @@
                   "props": {
                     "modelValue": {
                       "$type": "computed",
-                      "$result": "obj.selected"
+                      "$result": "model.obj.selected"
                     },
                     "onUpdate:modelValue": {
                       "$type": "method",
-                      "$model": "obj.selected",
+                      "$model": "model.obj.selected",
                       "$result": "arguments[0]"
                     }
                   },
@@ -112,6 +117,17 @@
           }
         },
         {
+          "component": "el-button",
+          "text": "request",
+          "props": {
+            "type": "primary",
+            "onClick": {
+              "$type": "method",
+              "$result": "remotedata.request()"
+            }
+          }
+        },
+        {
           "component": "p",
           "text": { "$type": "computed", "$result": "raws.xxx" }
         },
@@ -127,19 +143,32 @@
     {
       "component": "el-table",
       "props": {
-        "data": [
-          { "col1": "aaa", "col2": "bbb" },
-          { "col1": "ccc", "col2": "ddd" }
-        ]
+        "data": { "$type": "computed", "$result": "remotedata.data" }
       },
       "children": [
         {
           "component": "el-table-column",
-          "props": { "label": "col1", "prop": "col1" }
+          "props": { "label": "col1", "prop": "name" }
         },
         {
           "component": "el-table-column",
-          "props": { "label": "col2", "prop": "col2" }
+          "props": { "label": "col2" },
+          "children": [
+            {
+              "component": "el-input",
+              "props": {
+                "modelValue": {
+                  "$type": "computed",
+                  "$result": "scope.row.name"
+                },
+                "onUpdate:modelValue": {
+                  "$type": "method",
+                  "$model": "scope.row.name",
+                  "$result": "arguments[0]"
+                }
+              }
+            }
+          ]
         },
         {
           "component": "el-table-column",
@@ -154,11 +183,6 @@
                   "$result": "alert(JSON.stringify(scope.row))"
                 }
               }
-            },
-            {
-              "component": "el-button",
-              "text": { "$type": "computed", "$result": "scope.row.col1" },
-              "props": { "type": "text" }
             }
           ]
         }

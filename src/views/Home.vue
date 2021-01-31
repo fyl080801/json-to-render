@@ -25,7 +25,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      fetch('/data/sub.json').then(response => {
+      fetch('/data/basic.json').then(response => {
         response.json().then(json => {
           ret.fields = json.fields
           ret.datasource = json.datasource
@@ -53,9 +53,9 @@ export default defineComponent({
         }
       })
 
-      datasource('rawdata', (getProps: Function) => {
-        const props = getProps()
-        return props
+      datasource('rawdata', (getOptions: Function, update: Function) => {
+        const { props } = getOptions()
+        update(props)
       })
     }
   }

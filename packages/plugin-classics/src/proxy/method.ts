@@ -1,7 +1,8 @@
 import { deepSet } from '@json-to-render/utils'
+import { getProxyDefine } from '@json-to-render/core'
 
 const method: ProxyHandlerResolver<FunctionTransform> = value => {
-  const execute = (context: any) => {
+  const execute = (context: any, { injectProxy }: any) => {
     return (...args: any) => {
       try {
         const params = [
@@ -12,8 +13,11 @@ const method: ProxyHandlerResolver<FunctionTransform> = value => {
         const inputs = [...Object.keys(context).map(key => context[key]), args]
         const result = new Function(...params)(...inputs)
 
-        if (value.$model) {
-          deepSet(context, value.$model, result)
+        const define = getProxyDefine(value)
+
+        if (define.$model !== undefined) {
+          const rejected = injectProxy({ $model: define.$model }, context)
+          deepSet(context, rejected.$model, result)
         }
       } catch {
         //

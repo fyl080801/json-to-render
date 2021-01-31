@@ -2,7 +2,6 @@ import { resolveComponent, defineComponent, h } from 'vue'
 import getRender from '../utils/render'
 import slot from '../plugin/prerender/slot'
 import {
-  isObject,
   isArray,
   assignObject,
   assignArray,
@@ -27,17 +26,14 @@ export default defineComponent({
     prerender([slot], { injectProxy, context })(props.field)
 
     return () => {
+      const childrenAssign = isArray(props.field.children)
+        ? assignArray
+        : assignObject
+
       // 暂时规划每次渲染都用非代理对象
-      const field = assignObject(
-        assignObject(props.field, { children: null }),
-        {
-          children: isArray(props.field.children)
-            ? assignArray(props.field.children)
-            : isObject(props.field.children)
-            ? assignObject(props.field.children)
-            : null
-        }
-      )
+      const field = assignObject(props.field, {
+        children: childrenAssign(props.field.children)
+      })
 
       let result
 
@@ -55,7 +51,7 @@ export default defineComponent({
               component &&
               h(
                 component,
-                field.props,
+                field.props, // 必须在这里将实际值还原出来
                 getRender({ injectProxy, context })(field.children)
               )
 
