@@ -10,15 +10,15 @@
       "type": "rawdata",
       "props": {
         "xxx": "123",
-        "yyy": { "$type": "computed", "$result": "model.text1" }
+        "yyy": "$:model.text1"
       }
     }
   },
   "fields": [
     {
       "component": "p",
-      "condition": { "$type": "computed", "$result": "model.obj.selected" },
-      "text": { "$type": "computed", "$result": "model.text1" }
+      "condition": "$:model.obj.selected",
+      "text": "$:model.text1"
     },
     {
       "component": "div",
@@ -36,23 +36,13 @@
                 {
                   "component": "el-input",
                   "props": {
-                    "modelValue": {
-                      "$type": "computed",
-                      "$result": "model.text1"
-                    },
-                    "onUpdate:modelValue": {
-                      "$type": "method",
-                      "$model": "model.text1",
-                      "$result": "arguments[0]"
-                    }
+                    "modelValue": "$:model.text1",
+                    "onUpdate:modelValue": "@model.text1:arguments[0]"
                   }
                 },
                 {
                   "component": "p",
-                  "props": {
-                    "class": { "$type": "computed", "$result": "model.text1" }
-                  },
-                  "text": "=:model.text1"
+                  "text": "$:model.text1"
                 }
               ]
             },
@@ -63,15 +53,8 @@
                 {
                   "component": "el-input",
                   "props": {
-                    "modelValue": {
-                      "$type": "computed",
-                      "$result": "model.obj.value"
-                    },
-                    "onUpdate:modelValue": {
-                      "$type": "method",
-                      "$model": "model.obj.value",
-                      "$result": "arguments[0]"
-                    }
+                    "modelValue": "$:model.obj.value",
+                    "onUpdate:modelValue": "@model.obj.value:arguments[0]"
                   }
                 }
               ]
@@ -83,15 +66,8 @@
                 {
                   "component": "el-select",
                   "props": {
-                    "modelValue": {
-                      "$type": "computed",
-                      "$result": "model.obj.selected"
-                    },
-                    "onUpdate:modelValue": {
-                      "$type": "method",
-                      "$model": "model.obj.selected",
-                      "$result": "arguments[0]"
-                    }
+                    "modelValue": "$:model.obj.selected",
+                    "onUpdate:modelValue": "@model.obj.selected:arguments[0]"
                   },
                   "children": [
                     {
@@ -113,7 +89,7 @@
           "text": "click1",
           "props": {
             "type": "primary",
-            "onClick": { "$type": "method", "$result": "alert(\"aaa\")" }
+            "onClick": "@:alert('aaa')"
           }
         },
         {
@@ -121,15 +97,12 @@
           "text": "request",
           "props": {
             "type": "primary",
-            "onClick": {
-              "$type": "method",
-              "$result": "remotedata.request()"
-            }
+            "onClick": "@:remotedata.request()"
           }
         },
         {
           "component": "p",
-          "text": { "$type": "computed", "$result": "raws.xxx" }
+          "text": "$:raws.xxx"
         },
         {
           "component": "p",
@@ -143,7 +116,7 @@
     {
       "component": "el-table",
       "props": {
-        "data": { "$type": "computed", "$result": "remotedata.data" }
+        "data": "$:remotedata.data"
       },
       "children": [
         {
@@ -157,15 +130,8 @@
             {
               "component": "el-input",
               "props": {
-                "modelValue": {
-                  "$type": "computed",
-                  "$result": "scope.row.name"
-                },
-                "onUpdate:modelValue": {
-                  "$type": "method",
-                  "$model": "scope.row.name",
-                  "$result": "arguments[0]"
-                }
+                "modelValue": "$:scope.row.name",
+                "onUpdate:modelValue": "@scope.row.name:arguments[0]"
               }
             }
           ]
@@ -178,10 +144,7 @@
               "text": "明细",
               "props": {
                 "type": "text",
-                "onClick": {
-                  "$type": "method",
-                  "$result": "alert(JSON.stringify(scope.row))"
-                }
+                "onClick": "@:alert(JSON.stringify(scope.row))"
               }
             }
           ]

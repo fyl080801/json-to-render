@@ -6,8 +6,10 @@ import Element from 'element-plus'
 
 import jRender from '@json-to-render/vue'
 import classics from '@json-to-render/plugin-classics'
+import modern from '@json-to-render/plugin-modern'
 
 jRender.use(classics)
+jRender.use(modern)
 
 import 'element-plus/lib/theme-chalk/index.css'
 
