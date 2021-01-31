@@ -2,19 +2,19 @@
   "fields": [
     {
       "component": "p",
-      "condition": { "$type": "computed", "$result": "obj.selected" },
-      "text": { "$type": "computed", "$result": "text1" }
+      "condition": { "$type": "computed", "$result": "model.obj.selected" },
+      "text": { "$type": "computed", "$result": "model.text1" }
     },
     {
       "component": "el-select",
       "props": {
         "modelValue": {
           "$type": "computed",
-          "$result": "obj.selected"
+          "$result": "model.obj.selected"
         },
         "onUpdate:modelValue": {
           "$type": "method",
-          "$model": "obj.selected",
+          "$model": "model.obj.selected",
           "$result": "arguments[0]"
         }
       },

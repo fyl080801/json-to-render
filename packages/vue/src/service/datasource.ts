@@ -24,7 +24,13 @@ export const createDatasourceService = (inits?: DatasourceProviders) => {
     const getProps = () => injectProxy(cloneDeep(datasource), context)
 
     const update = (value: any) => {
-      context[name] = value
+      if (context[name] === undefined) {
+        context[name] = assignObject(value)
+      } else {
+        Object.keys(value).forEach(key => {
+          context[name][key] = value[key]
+        })
+      }
     }
 
     service(getProps, update)

@@ -3,7 +3,7 @@
     "remotedata": {
       "type": "fetch",
       "url": "/data/listdata.json",
-      "auto": true,
+      "auto": false,
       "props": { "method": "GET", "params": {} }
     },
     "raws": {

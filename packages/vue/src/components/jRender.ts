@@ -1,4 +1,12 @@
-import { defineComponent, h, ref, resolveComponent, watch, toRaw } from 'vue'
+import {
+  defineComponent,
+  h,
+  ref,
+  resolveComponent,
+  watch,
+  toRaw,
+  nextTick
+} from 'vue'
 import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
@@ -8,6 +16,7 @@ import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
 import { proxy, prerender, render, datasource } from '../service'
 import { createStore } from '../store'
+import { innerDataNames } from '../utils/enums'
 
 export default defineComponent({
   name: 'vJrender',
@@ -25,6 +34,7 @@ export default defineComponent({
       model: toRaw(props.modelValue)
     })
     const field = ref([])
+    const updating = ref(false) // 为了更新 fields 时从根节点刷新
 
     //#region 初始化服务相关
     const proxyService = createProxyService(proxy.store)
@@ -57,6 +67,8 @@ export default defineComponent({
     watch(
       () => props.fields,
       value => {
+        updating.value = true
+
         field.value = injectProxy(
           {
             component: props.component,
@@ -64,6 +76,10 @@ export default defineComponent({
           },
           context.value
         )
+
+        nextTick(() => {
+          updating.value = false
+        })
       },
       { deep: false, immediate: true }
     )
@@ -79,21 +95,28 @@ export default defineComponent({
     watch(
       () => props.datasource,
       (value, origin) => {
-        Object.keys(origin || {}).forEach(key => {
-          delete context.value[key]
-        })
-
-        Object.keys(value || {}).forEach(key => {
-          datasourceService.resolve(key, value[key], {
-            injectProxy,
-            context: context.value
+        Object.keys(origin || {})
+          .filter(item => !innerDataNames.includes(item))
+          .forEach(key => {
+            delete context.value[key]
           })
-        })
+
+        Object.keys(value || {})
+          .filter(item => !innerDataNames.includes(item))
+          .forEach(key => {
+            datasourceService.resolve(key, value[key], {
+              injectProxy,
+              context: context.value
+            })
+          })
       },
       { deep: false, immediate: true }
     )
     //#endregion
 
-    return () => h(resolveComponent(JNode.name), { field: field.value })
+    return () =>
+      !updating.value
+        ? h(resolveComponent(JNode.name), { field: field.value })
+        : null
   }
 })

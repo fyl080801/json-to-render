@@ -1,4 +1,4 @@
-import { assignObject, cloneDeep } from '@json-to-render/utils'
+import { cloneDeep } from '@json-to-render/utils'
 
 export default (getOptions: Function, update: Function) => {
   const { auto = false, defaultData = [] } = getOptions()
@@ -23,5 +23,5 @@ export default (getOptions: Function, update: Function) => {
     instance.request()
   }
 
-  update(assignObject(instance))
+  update(instance)
 }
