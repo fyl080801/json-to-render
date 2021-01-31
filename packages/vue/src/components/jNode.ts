@@ -24,7 +24,7 @@ export default defineComponent({
       context
     }: any = getState()
 
-    prerender([slot], { injectProxy })(props.field)
+    prerender([slot], { injectProxy, context })(props.field)
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
@@ -64,7 +64,7 @@ export default defineComponent({
             }
           }
         ],
-        { injectProxy }
+        { injectProxy, context }
       )(field)
 
       return result

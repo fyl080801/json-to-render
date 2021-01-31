@@ -9,10 +9,6 @@
     ></v-jrender>
     <hr />
     <p>{{ JSON.stringify(model) }}</p>
-    <!-- 
-    <span v-bind:class="model.text1"></span>
-    <input v-model="model.text1" />
-    <el-input v-model="model.text1"></el-input> -->
   </div>
 </template>
 
@@ -23,13 +19,13 @@ export default defineComponent({
   name: 'Home',
   setup: () => {
     const ret: any = reactive({
-      model: reactive({ text1: 'xxx', obj: { selected: 0, value: 'text1' } }),
+      model: { text1: 'xxx', obj: { selected: 0, value: 'text1' } },
       fields: [],
       datasource: {}
     })
 
     onMounted(() => {
-      fetch('/data/basic.json').then(response => {
+      fetch('/data/sub.json').then(response => {
         response.json().then(json => {
           ret.fields = json.fields
           ret.datasource = json.datasource

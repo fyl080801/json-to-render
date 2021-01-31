@@ -1,17 +1,8 @@
-import {
-  defineComponent,
-  h,
-  isReactive,
-  reactive,
-  ref,
-  resolveComponent,
-  watch,
-  toRaw
-} from 'vue'
-import { createProxyInjector } from '@json-to-render/core'
+import { defineComponent, h, ref, resolveComponent, watch, toRaw } from 'vue'
+import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
-import { assignObject, cloneDeep } from '@json-to-render/utils'
+import { assignObject } from '@json-to-render/utils'
 import JNode from './jNode'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
@@ -30,8 +21,7 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    const context: { [key: string]: any } = ref({})
-
+    const context: { [key: string]: any } = ref(props.modelValue)
     const field = ref([])
 
     //#region 初始化服务相关
@@ -46,10 +36,11 @@ export default defineComponent({
     const services = {
       prerender: prerenderService.processHook,
       render: renderService.processHook,
-      components: componentService.store
+      components: componentService.store,
+      context: context.value
     }
 
-    createStore(assignObject(services, { injectProxy, context }))
+    createStore(assignObject(services, { injectProxy }))
 
     ctx.emit('setup', {
       proxy: proxyService.setup,
@@ -65,7 +56,10 @@ export default defineComponent({
       () => props.fields,
       value => {
         field.value = injectProxy(
-          { component: props.component, children: cloneDeep(toRaw(value)) },
+          {
+            component: props.component,
+            children: toRaw(getProxyDefine(value || []))
+          },
           context.value
         )
       },
@@ -75,31 +69,25 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       value => {
-        Object.assign(
-          context.value,
-          isReactive(value) ? value : reactive(value)
-        )
+        context.value = value || {}
       },
-      { deep: false, immediate: true }
+      { deep: false, immediate: false }
     )
 
     watch(
       () => props.datasource,
       value => {
-        Object.keys(value).forEach(key => {
-          context.value[key] = datasourceService.resolve(
-            value[key],
-            context.value,
-            { injectProxy }
-          )
+        Object.keys(value || {}).forEach(key => {
+          context.value[key] = datasourceService.resolve(value[key], {
+            injectProxy,
+            context: context.value
+          })
         })
       },
       { deep: false, immediate: true }
     )
     //#endregion
 
-    return () => {
-      return h(resolveComponent(JNode.name), { field: field.value })
-    }
+    return () => h(resolveComponent(JNode.name), { field: field.value })
   }
 })

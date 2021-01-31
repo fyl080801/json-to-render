@@ -4,7 +4,7 @@ import {
   forEachTarget,
   isArray
 } from '@json-to-render/utils'
-import { isAllowedProxy, isProxy, isRejectProxy, ProxyFlags } from './utils'
+import { isAllowedProxy, isProxy, ProxyFlags } from './utils'
 
 export const createProxyInjector = (
   proxies: JProxyHandler[],
@@ -53,7 +53,6 @@ export const createProxyInjector = (
       handlers.set(prop, getProxyHandler(value))
     })
 
-    // proxy flags
     handlers.set(ProxyFlags.IS_PROXY, () => true)
 
     return handlers
@@ -85,16 +84,13 @@ export const createProxyInjector = (
       value: any,
       receiver: any
     ): boolean => {
-      if (!isAllowedProxy(value)) {
-        return Reflect.set(target, p, value, receiver)
-      } else {
-        const injected = isProxy(value)
+      const input =
+        isProxy(value) || !isAllowedProxy(value)
           ? value
           : /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
             injectProxy(value, context)
-        handlers.set(p, getProxyHandler(injected))
-        return Reflect.set(target, p, injected, receiver)
-      }
+      handlers.set(p, getProxyHandler(input))
+      return Reflect.set(target, p, input, receiver)
     }
 
     const deleter = (target: any, p: any) => {

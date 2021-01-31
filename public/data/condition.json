@@ -1,0 +1,33 @@
+{
+  "fields": [
+    {
+      "component": "p",
+      "condition": { "$type": "computed", "$result": "obj.selected" },
+      "text": { "$type": "computed", "$result": "text1" }
+    },
+    {
+      "component": "el-select",
+      "props": {
+        "modelValue": {
+          "$type": "computed",
+          "$result": "obj.selected"
+        },
+        "onUpdate:modelValue": {
+          "$type": "method",
+          "$model": "obj.selected",
+          "$result": "arguments[0]"
+        }
+      },
+      "children": [
+        {
+          "component": "el-option",
+          "props": { "value": 0, "label": "选项1" }
+        },
+        {
+          "component": "el-option",
+          "props": { "value": 1, "label": "选项2" }
+        }
+      ]
+    }
+  ]
+}

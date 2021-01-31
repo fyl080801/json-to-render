@@ -1,22 +1,22 @@
 {
-  "datasource": {
-    "remotedata": {
-      "type": "request",
-      "props": { "url": "", "method": "GET", "params": {} }
-    },
-    "raws": {
-      "type": "rawdata",
-      "props": {
-        "xxx": "123",
-        "yyy": { "$type": "computed", "$result": "text1" }
-      }
-    }
-  },
   "fields": [
     {
-      "component": "p",
-      "condition": { "$type": "computed", "$result": "obj.selected" },
-      "text": { "$type": "computed", "$result": "text1" }
+      "component": "v-jrender",
+      "props": {
+        "class": "j-form",
+        "modelValue": { "$type": "computed", "$result": "obj" },
+        "fields": [
+          { "component": "p", "text": "嵌套渲染" },
+          {
+            "component": "p",
+            "text": { "$type": "computed", "$result": "value" }
+          },
+          {
+            "component": "p",
+            "text": { "$type": "computed", "$result": "selected" }
+          }
+        ]
+      }
     },
     {
       "component": "div",
@@ -41,13 +41,6 @@
                       "$result": "arguments[0]"
                     }
                   }
-                },
-                {
-                  "component": "p",
-                  "props": {
-                    "class": { "$type": "computed", "$result": "text1" }
-                  },
-                  "text": "=:text1"
                 }
               ]
             },
@@ -100,65 +93,6 @@
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "component": "el-button",
-          "text": "click1",
-          "props": {
-            "type": "primary",
-            "onClick": { "$type": "method", "$result": "alert(\"aaa\")" }
-          }
-        },
-        {
-          "component": "p",
-          "text": { "$type": "computed", "$result": "raws.xxx" }
-        },
-        {
-          "component": "p",
-          "text": {
-            "$type": "computed",
-            "$result": "`绑定得到的数据： ${raws.yyy}`"
-          }
-        }
-      ]
-    },
-    {
-      "component": "el-table",
-      "props": {
-        "data": [
-          { "col1": "aaa", "col2": "bbb" },
-          { "col1": "ccc", "col2": "ddd" }
-        ]
-      },
-      "children": [
-        {
-          "component": "el-table-column",
-          "props": { "label": "col1", "prop": "col1" }
-        },
-        {
-          "component": "el-table-column",
-          "props": { "label": "col2", "prop": "col2" }
-        },
-        {
-          "component": "el-table-column",
-          "children": [
-            {
-              "component": "el-button",
-              "text": "明细",
-              "props": {
-                "type": "text",
-                "onClick": {
-                  "$type": "method",
-                  "$result": "alert(JSON.stringify(scope.row))"
-                }
-              }
-            },
-            {
-              "component": "el-button",
-              "text": { "$type": "computed", "$result": "scope.row.col1" },
-              "props": { "type": "text" }
             }
           ]
         }

@@ -1,4 +1,4 @@
-import { resolveComponent, h, ref } from 'vue'
+import { resolveComponent, h } from 'vue'
 import { getProxyDefine } from '@json-to-render/core'
 import { assignObject } from '@json-to-render/utils'
 
