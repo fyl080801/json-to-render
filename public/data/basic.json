@@ -28,11 +28,6 @@
   ],
   "fields": [
     {
-      "component": "p",
-      "condition": "$:model.obj.selected",
-      "text": "$:model.text1"
-    },
-    {
       "component": "div",
       "children": [
         {
@@ -82,6 +77,11 @@
                       "props": { "value": 1, "label": "选项2" }
                     }
                   ]
+                },
+                {
+                  "component": "span",
+                  "condition": "$:model.obj.selected",
+                  "text": "$:model.text1"
                 }
               ]
             }

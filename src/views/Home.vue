@@ -40,10 +40,12 @@ export default defineComponent({
   },
   methods: {
     onSetup({ datasource }: any) {
-      datasource('rawdata', ({ define, set }: any) => {
+      datasource('rawdata', ({ define }: any) => {
         const { props } = define()
 
-        set(props)
+        // set(props)
+
+        return props
       })
     }
   }

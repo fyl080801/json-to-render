@@ -1,27 +1,32 @@
-import { assignObject, cloneDeep } from '@json-to-render/utils'
+import { cloneDeep } from '@json-to-render/utils'
+import { reactive } from 'vue'
 
-export default ({ define, set }: any) => {
+export default ({ define }: any) => {
   const { auto = false, defaultData = [] } = define()
 
-  const instance = {
+  const instance = reactive({
     data: cloneDeep(defaultData),
+    loading: false,
     request: async () => {
       const { url, dataType = 'json', props } = define()
 
-      const response: any = await fetch(url, props)
+      instance.loading = true
+      try {
+        const response: any = await fetch(url, props)
 
-      const result =
-        dataType === 'json' ? await response.json() : await response.text()
+        const result =
+          dataType === 'json' ? await response.json() : await response.text()
 
-      instance.data = result
-
-      set(assignObject(instance))
+        instance.data = result
+      } finally {
+        instance.loading = false
+      }
     }
-  }
+  })
 
   if (auto) {
     instance.request()
   }
 
-  set(instance)
+  return instance
 }

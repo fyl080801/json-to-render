@@ -33,6 +33,8 @@ const hook: FunctionHook = () => {
       'onUpdate:modelValue': updateDefine
     })
 
+    // delete field.model
+
     next(field)
   }
 }

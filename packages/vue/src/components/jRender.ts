@@ -6,12 +6,18 @@ import {
   watch,
   toRaw,
   nextTick,
-  onBeforeUnmount
+  onBeforeUnmount,
+  reactive
 } from 'vue'
 import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
-import { assignObject, isObject, isFunction } from '@json-to-render/utils'
+import {
+  assignObject,
+  isObject,
+  isFunction,
+  isArray
+} from '@json-to-render/utils'
 import JNode from './jNode'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
@@ -31,7 +37,7 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    const context: { [key: string]: any } = ref({
+    const context: { [key: string]: any } = reactive({
       model: toRaw(props.modelValue)
     })
     const field = ref([])
@@ -50,7 +56,7 @@ export default defineComponent({
       prerender: prerenderService.processHook,
       render: renderService.processHook,
       components: componentService.store,
-      context: context.value
+      context
     }
 
     createStore(assignObject(services, { injectProxy }))
@@ -75,7 +81,7 @@ export default defineComponent({
             component: props.component,
             children: toRaw(getProxyDefine(value || []))
           },
-          context.value
+          context
         )
 
         nextTick(() => {
@@ -88,7 +94,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       value => {
-        context.value.model = toRaw(value || {})
+        context.model = toRaw(value || {})
       },
       { deep: false, immediate: false }
     )
@@ -99,15 +105,15 @@ export default defineComponent({
         Object.keys(origin || {})
           .filter(item => !innerDataNames.includes(item))
           .forEach(key => {
-            delete context.value[key]
+            delete context[key]
           })
 
         Object.keys(value || {})
           .filter(item => !innerDataNames.includes(item))
           .forEach(key => {
-            datasourceService.resolve(key, value[key], {
+            context[key] = datasourceService.resolve(value[key], {
               injectProxy,
-              context: context.value
+              context
             })
           })
       },
@@ -116,39 +122,41 @@ export default defineComponent({
     //#endregion
 
     //#region listeners 监听
-    const watchs: any[] = []
+    const watchs = ref([] as any[])
 
     watch(
       () => props.listeners,
       value => {
-        ;(value || []).forEach(item => {
-          const injected = injectProxy(item, context.value)
+        if (!value || !isArray(value)) {
+          return
+        }
+
+        watchs.value = value.map(item => {
+          const injected = injectProxy(item, context)
 
           const watcher =
             isObject(injected.watch) || isFunction(injected.watch)
               ? injected.watch
               : () => injected.watch
 
-          watchs.push(
-            watch(watcher, () => {
-              injected.actions.forEach((act: any) => {
-                if (act.condition === undefined || !!act.condition) {
-                  if (act.timeout) {
-                    setTimeout(() => act.handler(), act.timeout)
-                  } else {
-                    act.handler()
-                  }
+          return watch(watcher, () => {
+            injected.actions.forEach((act: any) => {
+              if (act.condition === undefined || !!act.condition) {
+                if (act.timeout) {
+                  setTimeout(() => act.handler(), act.timeout)
+                } else {
+                  act.handler()
                 }
-              })
+              }
             })
-          )
+          })
         })
       },
       { deep: false, immediate: true }
     )
 
     onBeforeUnmount(() => {
-      watchs.forEach(w => w())
+      watchs.value.forEach(w => w())
     })
     //#endregion
 

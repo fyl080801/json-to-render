@@ -23,58 +23,33 @@ export default defineComponent({
       context
     }: any = getState()
 
-    let renderField: any
-
-    prerender(
-      [
-        slot,
-        () => (field: any, next: Function) => {
-          renderField = field
-          next(renderField)
-        }
-      ],
-      { injectProxy, context }
-    )(props.field)
+    prerender([slot], { injectProxy, context })(props.field)
 
     return () => {
-      const childrenAssign = isArray(renderField.children)
-        ? assignArray
-        : assignObject
+      const assign = isArray(props.field.children) ? assignArray : assignObject
 
       // 暂时规划每次渲染都用非代理对象
-      const field = assignObject(renderField, {
-        children: childrenAssign(renderField.children)
+      const field = assignObject(props.field, {
+        children: assign(props.field.children)
       })
 
-      let result
+      render([], { injectProxy, context })(field)
 
-      render(
-        [
-          () => (field: any, next: any) => {
-            const component =
-              field.component &&
-              (components[field.component] ||
-                (isOriginTag(field.component)
-                  ? field.component
-                  : resolveComponent(field.component)))
+      const component =
+        field.component &&
+        (components[field.component] ||
+          (isOriginTag(field.component)
+            ? field.component
+            : resolveComponent(field.component)))
 
-            result =
-              component &&
-              h(
-                component,
-                field.props, // 必须在这里将实际值还原出来
-                getRender({ injectProxy, context })(field.children)
-              )
-
-            if (result) {
-              next(field)
-            }
-          }
-        ],
-        { injectProxy, context }
-      )(field)
-
-      return result
+      return (
+        component &&
+        h(
+          component,
+          field.props,
+          getRender({ injectProxy, context })(field.children)
+        )
+      )
     }
   }
 })
