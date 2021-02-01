@@ -1,21 +1,21 @@
-import { cloneDeep } from '@json-to-render/utils'
+import { assignObject, cloneDeep } from '@json-to-render/utils'
 
-export default (getOptions: Function, update: Function) => {
-  const { auto = false, defaultData = [] } = getOptions()
+export default ({ define, set }: any) => {
+  const { auto = false, defaultData = [] } = define()
 
   const instance = {
     data: cloneDeep(defaultData),
     request: async () => {
-      const { url, datatype = 'json', props } = getOptions()
+      const { url, dataType = 'json', props } = define()
 
       const response: any = await fetch(url, props)
 
       const result =
-        datatype === 'json' ? await response.json() : await response.text()
+        dataType === 'json' ? await response.json() : await response.text()
 
       instance.data = result
 
-      update(instance)
+      set(assignObject(instance))
     }
   }
 
@@ -23,5 +23,5 @@ export default (getOptions: Function, update: Function) => {
     instance.request()
   }
 
-  update(instance)
+  set(instance)
 }

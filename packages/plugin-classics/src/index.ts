@@ -1,3 +1,4 @@
+import model from './prerender/model'
 import text from './render/text'
 
 import computed from './proxy/computed'
@@ -6,7 +7,9 @@ import condition from './render/condition'
 
 import fetchDatasource from './datasource/fetch'
 
-export default ({ render, proxy, datasource }: any) => {
+export default ({ prerender, render, proxy, datasource }: any) => {
+  prerender(model)
+
   render(text)
   render(condition)
 

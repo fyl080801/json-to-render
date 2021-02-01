@@ -15,9 +15,9 @@ const method: ProxyHandlerResolver<FunctionTransform> = value => {
 
         const define = getProxyDefine(value)
 
-        if (define.$model !== undefined) {
-          const rejected = injectProxy({ $model: define.$model }, context)
-          deepSet(context, rejected.$model, result)
+        if (define.$context !== undefined) {
+          const rejected = injectProxy({ $context: define.$context }, context)
+          deepSet(context, rejected.$context, result)
         }
       } catch {
         //

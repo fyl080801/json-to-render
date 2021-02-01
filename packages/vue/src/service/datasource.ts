@@ -12,7 +12,6 @@ export const createDatasourceService = (inits?: DatasourceProviders) => {
   const store = assignObject(inits)
 
   const resolve = (name: string, datasource: any, services: any) => {
-    //
     const service = store[datasource.type]
 
     if (!service) {
@@ -21,19 +20,13 @@ export const createDatasourceService = (inits?: DatasourceProviders) => {
 
     const { injectProxy, context } = services
 
-    const getProps = () => injectProxy(cloneDeep(datasource), context)
+    const define = () => injectProxy(cloneDeep(datasource), context)
 
-    const update = (value: any) => {
-      if (context[name] === undefined) {
-        context[name] = assignObject(value)
-      } else {
-        Object.keys(value).forEach(key => {
-          context[name][key] = value[key]
-        })
-      }
+    const set = (value: any) => {
+      context[name] = value
     }
 
-    service(getProps, update)
+    service(assignObject({ define, set }, services))
   }
 
   return {

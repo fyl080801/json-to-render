@@ -23,16 +23,27 @@ export default defineComponent({
       context
     }: any = getState()
 
-    prerender([slot], { injectProxy, context })(props.field)
+    let renderField: any
+
+    prerender(
+      [
+        slot,
+        () => (field: any, next: Function) => {
+          renderField = field
+          next(renderField)
+        }
+      ],
+      { injectProxy, context }
+    )(props.field)
 
     return () => {
-      const childrenAssign = isArray(props.field.children)
+      const childrenAssign = isArray(renderField.children)
         ? assignArray
         : assignObject
 
       // 暂时规划每次渲染都用非代理对象
-      const field = assignObject(props.field, {
-        children: childrenAssign(props.field.children)
+      const field = assignObject(renderField, {
+        children: childrenAssign(renderField.children)
       })
 
       let result

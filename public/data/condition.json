@@ -14,7 +14,7 @@
         },
         "onUpdate:modelValue": {
           "$type": "method",
-          "$model": "model.obj.selected",
+          "$context": "model.obj.selected",
           "$result": "arguments[0]"
         }
       },

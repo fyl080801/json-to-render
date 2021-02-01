@@ -37,25 +37,10 @@ export default defineComponent({
   },
   methods: {
     onSetup({ datasource }: any) {
-      // // 测试自定义 proxy
-      // proxy((value: any) => {
-      //   if (typeof value === 'string' && value.indexOf('=:') === 0) {
-      //     return (context: any) => {
-      //       try {
-      //         const expr = value.replace('=:', '')
-      //         return new Function(
-      //           ...[...Object.keys(context), `return ${expr}`]
-      //         )(...Object.keys(context).map(key => context[key]))
-      //       } catch {
-      //         //
-      //       }
-      //     }
-      //   }
-      // })
+      datasource('rawdata', ({ define, set }: any) => {
+        const { props } = define()
 
-      datasource('rawdata', (getOptions: Function, update: Function) => {
-        const { props } = getOptions()
-        update(props)
+        set(props)
       })
     }
   }

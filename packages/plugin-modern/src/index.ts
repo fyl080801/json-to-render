@@ -1,7 +1,9 @@
 import expression from './proxy/expression'
-import functionProxy from './proxy/function'
+import method from './proxy/method'
+import template from './proxy/template'
 
 export default ({ proxy }: any) => {
   proxy(expression)
-  proxy(functionProxy)
+  proxy(method)
+  proxy(template)
 }

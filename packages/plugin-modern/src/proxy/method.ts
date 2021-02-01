@@ -1,20 +1,26 @@
 import { assignArray, deepSet } from '@json-to-render/utils'
 
-const func: ProxyHandlerResolver<FunctionTransform> = value => {
+const method: ProxyHandlerResolver<FunctionTransform> = value => {
   const execute = (context: any) => {
     return (...args: any) => {
       try {
         const expr = value.slice(value.indexOf(':') + 1, value.length)
-        const expKey = value.slice(1, value.indexOf(':'))
+        const expProp = value.slice(1, value.indexOf(':'))
         const contextkeys = Object.keys(context)
-        const params = assignArray(contextkeys, ['arguments', `return ${expr}`])
         const inputs = assignArray(
           contextkeys.map(key => context[key]),
           [args]
         )
-        const result = new Function(...params)(...inputs)
 
-        if (expKey !== undefined && expKey.length > 0) {
+        const result = new Function(
+          ...assignArray(contextkeys, ['arguments', `return ${expr}`])
+        )(...inputs)
+
+        if (expProp && expProp.length > 0) {
+          const keyExpr = '`' + expProp + '`'
+          const expKey = new Function(
+            ...assignArray(contextkeys, ['arguments', `return ${keyExpr}`])
+          )(...inputs)
           deepSet(context, expKey, result)
         }
       } catch {
@@ -28,4 +34,4 @@ const func: ProxyHandlerResolver<FunctionTransform> = value => {
     : undefined
 }
 
-export default func
+export default method

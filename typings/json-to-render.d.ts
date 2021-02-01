@@ -23,6 +23,6 @@ declare interface BindTransform extends ClassicTransform {
   $source: string
 }
 declare interface FunctionTransform extends ClassicTransform {
-  $model: string
+  $context: string
   $result: string
 }

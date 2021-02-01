@@ -35,10 +35,7 @@
               "children": [
                 {
                   "component": "el-input",
-                  "props": {
-                    "modelValue": "$:model.text1",
-                    "onUpdate:modelValue": "@model.text1:arguments[0]"
-                  }
+                  "model": "model.text1"
                 },
                 {
                   "component": "p",
@@ -52,10 +49,7 @@
               "children": [
                 {
                   "component": "el-input",
-                  "props": {
-                    "modelValue": "$:model.obj.value",
-                    "onUpdate:modelValue": "@model.obj.value:arguments[0]"
-                  }
+                  "model": "model.obj.value"
                 }
               ]
             },
@@ -65,10 +59,7 @@
               "children": [
                 {
                   "component": "el-select",
-                  "props": {
-                    "modelValue": "$:model.obj.selected",
-                    "onUpdate:modelValue": "@model.obj.selected:arguments[0]"
-                  },
+                  "model": "model.obj.selected",
                   "children": [
                     {
                       "component": "el-option",
@@ -106,10 +97,7 @@
         },
         {
           "component": "p",
-          "text": {
-            "$type": "computed",
-            "$result": "`绑定得到的数据： ${raws.yyy}`"
-          }
+          "text": "#:绑定得到的数据： ${raws.yyy}"
         }
       ]
     },
@@ -129,10 +117,7 @@
           "children": [
             {
               "component": "el-input",
-              "props": {
-                "modelValue": "$:scope.row.name",
-                "onUpdate:modelValue": "@scope.row.name:arguments[0]"
-              }
+              "model": "scope.row.name"
             }
           ]
         },
