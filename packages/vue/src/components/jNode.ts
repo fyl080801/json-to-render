@@ -1,13 +1,30 @@
-import { resolveComponent, defineComponent, h } from 'vue'
+import { resolveComponent, defineComponent, h, onBeforeMount } from 'vue'
 import getRender from '../utils/render'
-import slot from '../plugin/prerender/slot'
-import {
-  isArray,
-  assignObject,
-  assignArray,
-  isOriginTag
-} from '@json-to-render/utils'
+import { isArray, assignObject, isOriginTag } from '@json-to-render/utils'
 import { getState } from '../store'
+
+const slot = () => (field: any, next: Function) => {
+  if (!isArray(field.children)) {
+    next(field)
+    return
+  }
+
+  const children = field.children?.filter((child: any) => child) ?? []
+
+  if (children.length <= 0) {
+    next(field)
+    return
+  }
+
+  field.children = children.reduce((pre: any, cur: any) => {
+    const currentSlot = cur.slot || 'default'
+    pre[currentSlot] = pre[currentSlot] || []
+    pre[currentSlot].push(cur)
+    return pre
+  }, {})
+
+  next(field)
+}
 
 export default defineComponent({
   name: 'vJnode',
@@ -26,28 +43,26 @@ export default defineComponent({
     prerender([slot], { injectProxy, context })(props.field)
 
     return () => {
-      const assign = isArray(props.field.children) ? assignArray : assignObject
-
       // 暂时规划每次渲染都用非代理对象
-      const field = assignObject(props.field, {
-        children: assign(props.field.children)
+      const renderField = assignObject(props.field, {
+        children: props.field.children && assignObject(props.field.children)
       })
 
-      render([], { injectProxy, context })(field)
+      render([], { injectProxy, context })(renderField)
 
       const component =
-        field.component &&
-        (components[field.component] ||
-          (isOriginTag(field.component)
-            ? field.component
-            : resolveComponent(field.component)))
+        renderField.component &&
+        (components[renderField.component] ||
+          (isOriginTag(renderField.component)
+            ? renderField.component
+            : resolveComponent(renderField.component)))
 
       return (
         component &&
         h(
           component,
-          field.props,
-          getRender({ injectProxy, context })(field.children)
+          renderField.props,
+          getRender({ prerender, injectProxy, context })(renderField.children)
         )
       )
     }

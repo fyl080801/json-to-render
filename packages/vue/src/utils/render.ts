@@ -3,22 +3,23 @@ import { getProxyDefine } from '@json-to-render/core'
 import { assignObject } from '@json-to-render/utils'
 
 const render = (children: any[], services: any, scope?: any) => {
-  const { context, injectProxy } = services
+  const { prerender, context, injectProxy } = services
 
   return children.map(child => {
-    if (scope) {
-      const childDefine = getProxyDefine(child)
-
-      if (childDefine) {
-        const reProxyChild = injectProxy(
-          childDefine,
-          assignObject(context, { scope })
-        )
-
-        return h(resolveComponent('vJnode'), { field: reProxyChild })
-      }
+    if (!scope) {
+      return h(resolveComponent('vJnode'), { field: child })
     }
-    return h(resolveComponent('vJnode'), { field: child })
+
+    const childDefine = getProxyDefine(child)
+
+    const scopedChild = injectProxy(
+      childDefine,
+      assignObject(context, { scope })
+    )
+
+    prerender([], { injectProxy, context })(scopedChild)
+
+    return h(resolveComponent('vJnode'), { field: scopedChild })
   })
 }
 
@@ -29,12 +30,12 @@ export default (services: any) => (children: any) => {
 
   return Array.isArray(children)
     ? render(children, services)
-    : Object.keys(children).reduce((pre: any, cur: any) => {
-        pre[cur] = (scope: any) => {
+    : Object.keys(children).reduce((pre: any, key: string) => {
+        pre[key] = (scope: any) => {
           return render(
-            children[cur],
+            children[key],
             services,
-            scope && Object.keys(scope).length && scope
+            Object.keys(scope || {}).length && scope
           )
         }
         return pre

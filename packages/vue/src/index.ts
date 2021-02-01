@@ -1,6 +1,5 @@
 import jRender from './components/jRender'
 import { globalServiceBuilder } from './service'
-import plugins from './plugin'
 
 const plugin: any = {
   ...jRender,
@@ -9,7 +8,5 @@ const plugin: any = {
   },
   use: globalServiceBuilder
 }
-
-plugin.use(plugins)
 
 export default plugin

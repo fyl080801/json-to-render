@@ -40,7 +40,7 @@ export default defineComponent({
     const context: { [key: string]: any } = reactive({
       model: toRaw(props.modelValue)
     })
-    const field = ref([])
+    const root = reactive({ field: {} })
     const updating = ref(false) // 为了更新 fields 时从根节点刷新
 
     //#region 初始化服务相关
@@ -76,7 +76,7 @@ export default defineComponent({
       value => {
         updating.value = true
 
-        field.value = injectProxy(
+        root.field = injectProxy(
           {
             component: props.component,
             children: toRaw(getProxyDefine(value || []))
@@ -161,8 +161,6 @@ export default defineComponent({
     //#endregion
 
     return () =>
-      !updating.value
-        ? h(resolveComponent(JNode.name), { field: field.value })
-        : null
+      !updating.value ? h(resolveComponent(JNode.name), root) : null
   }
 })
