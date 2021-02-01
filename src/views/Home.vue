@@ -4,6 +4,7 @@
       v-model="model"
       :fields="fields"
       :datasource="datasource"
+      :listeners="listeners"
       class="j-form"
       @setup="onSetup"
     ></v-jrender>
@@ -21,7 +22,8 @@ export default defineComponent({
     const ret: any = reactive({
       model: { text1: 'xxx', obj: { selected: 0, value: 'text1' } },
       fields: [],
-      datasource: {}
+      datasource: {},
+      listeners: []
     })
 
     onMounted(() => {
@@ -29,6 +31,7 @@ export default defineComponent({
         response.json().then(json => {
           ret.fields = json.fields
           ret.datasource = json.datasource
+          ret.listeners = json.listeners
         })
       })
     })

@@ -22,6 +22,8 @@ const method: ProxyHandlerResolver<FunctionTransform> = value => {
             ...assignArray(contextkeys, ['arguments', `return ${keyExpr}`])
           )(...inputs)
           deepSet(context, expKey, result)
+        } else {
+          return result
         }
       } catch {
         //

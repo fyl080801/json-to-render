@@ -6,7 +6,8 @@ export {
   deepSet,
   forEachTarget,
   isArray,
-  isObject
+  isObject,
+  isFunction
 } from './helpers'
 
 import pipeline from './pipeline'

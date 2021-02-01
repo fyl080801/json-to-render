@@ -5,12 +5,13 @@ import {
   resolveComponent,
   watch,
   toRaw,
-  nextTick
+  nextTick,
+  onBeforeUnmount
 } from 'vue'
 import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
-import { assignObject } from '@json-to-render/utils'
+import { assignObject, isObject, isFunction } from '@json-to-render/utils'
 import JNode from './jNode'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
@@ -112,6 +113,43 @@ export default defineComponent({
       },
       { deep: false, immediate: true }
     )
+    //#endregion
+
+    //#region listeners 监听
+    const watchs: any[] = []
+
+    watch(
+      () => props.listeners,
+      value => {
+        ;(value || []).forEach(item => {
+          const injected = injectProxy(item, context.value)
+
+          const watcher =
+            isObject(injected.watch) || isFunction(injected.watch)
+              ? injected.watch
+              : () => injected.watch
+
+          watchs.push(
+            watch(watcher, () => {
+              injected.actions.forEach((act: any) => {
+                if (act.condition === undefined || !!act.condition) {
+                  if (act.timeout) {
+                    setTimeout(() => act.handler(), act.timeout)
+                  } else {
+                    act.handler()
+                  }
+                }
+              })
+            })
+          )
+        })
+      },
+      { deep: false, immediate: true }
+    )
+
+    onBeforeUnmount(() => {
+      watchs.forEach(w => w())
+    })
     //#endregion
 
     return () =>

@@ -10,6 +10,10 @@ export const isObject = (target: any) => {
   return target !== undefined && typeof target === 'object' && target !== null
 }
 
+export const isFunction = (target: any) => {
+  return typeof target === 'function'
+}
+
 export const assignArray = (...targets: Array<Array<any>>) => {
   return targets.reduce((pre: Array<any>, cur: Array<any>) => {
     return pre.concat(cur)
