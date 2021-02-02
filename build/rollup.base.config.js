@@ -13,7 +13,8 @@ const {
   strip,
   terser,
   vue,
-  vuetify,
+  typescript,
+  // vuetify,
   postcss,
   postcssPresetEnv,
   simpleVars,
@@ -44,14 +45,14 @@ const { helperGlobal } = require('./runtime.helper')
  */
 
 const commonGlobal = {
-  'vuetify/lib': 'Vuetify',
+  // 'vuetify/lib': 'Vuetify',
   '@mdi/js': 'mdi-js'
 }
 
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
 
 const defaultExternal = [
-  'vuetify/lib',
+  // 'vuetify/lib',
   '@mdi/js',
   /core-js/,
   /@babel\/runtime/,
@@ -62,7 +63,7 @@ const defaultExternal = [
 
 const defaultPlugins = [
   alias({
-    resolve: ['.vue', '.js'],
+    resolve: ['.vue', '.js', '.ts'],
     entries: [{ find: '@', replacement: path.resolve('./', 'src') }]
   }),
   postcss({
@@ -83,11 +84,16 @@ const defaultPlugins = [
   vue({
     css: false
   }),
-  vuetify(),
+  typescript({
+    tsconfig: path.resolve('../../', 'tsconfig.json'),
+    experimentalDecorators: true
+  }),
+  // vuetify(),
   babel({
+    extensions: ['.ts'],
     exclude: ['node_modules/**'],
     babelHelpers: 'runtime',
-    configFile: path.resolve('../../../', 'babel.config.js')
+    configFile: path.resolve('../../', 'babel.config.js')
   }),
   nodeResolve({
     moduleDirectories: ['node_modules']
@@ -164,7 +170,7 @@ const createOutput = (name, path, configs) => {
 const createEntry = (name, path, configs) => {
   return {
     input: path,
-    output: createOutput(name, path, configs),
+    output: createOutput(name, path.replace('.ts', '.js'), configs),
     plugins: configs.plugins ? configs.plugins : defaultPlugins,
     external: assignArray(configs.external, defaultExternal)
   }

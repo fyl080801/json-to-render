@@ -18,7 +18,9 @@ const strip = require('@rollup/plugin-strip')
 const terser = require('rollup-plugin-terser').terser
 const url = require('@rollup/plugin-url')
 const vue = require('rollup-plugin-vue')
-const vuetify = require('rollup-plugin-vuetify')
+const typescript = require('@rollup/plugin-typescript')
+
+// const vuetify = require('rollup-plugin-vuetify')
 
 // PostCSS plugins
 const postcss = require('rollup-plugin-postcss')
@@ -46,7 +48,8 @@ module.exports = {
   terser,
   url,
   vue,
-  vuetify,
+  typescript,
+  // vuetify,
   postcss,
   postcssPresetEnv,
   simpleVars,

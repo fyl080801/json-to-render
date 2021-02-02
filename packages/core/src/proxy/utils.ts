@@ -32,10 +32,6 @@ export const getProperty = (target: any, prop: any) => {
   return Reflect.getOwnPropertyDescriptor(target, prop)
 }
 
-export const getPropertyValue = (target: any, prop: any) => {
-  getProperty(target, prop)?.value
-}
-
 export const getProxyDefine = (target: any) => {
   if (!isArray(target) && !isObject(target)) {
     return target

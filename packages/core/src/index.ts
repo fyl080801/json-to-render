@@ -1,7 +1,6 @@
 export {
   ProxyFlags,
   getProperty,
-  getPropertyValue,
   getProxyDefine,
   isAllowedProxy,
   isRejectProxy,
@@ -12,4 +11,4 @@ export { createProxyInjector } from './proxy'
 
 export { createServiceBuilder } from './service'
 
-export { createServiceCollection } from './service/sp'
+// export { createServiceCollection } from './service/sp'

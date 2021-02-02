@@ -2,9 +2,15 @@
   "name": "@json-to-render/plugin-classics",
   "version": "0.2.0",
   "main": "./src/index.ts",
+  "scripts": {
+    "build": "yarn build",
+    "clean": "rimraf dist",
+    "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
+  },
   "files": [
     "src",
     "dist/*.js",
     "typings/*.d.ts"
-  ]
+  ],
+  "gitHead": "ede0b8b5d1d9371df86787edc864289b5a0d5870"
 }
