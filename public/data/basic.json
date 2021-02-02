@@ -24,9 +24,14 @@
           "handler": "@:remotedata.request()"
         }
       ]
+    },
+    {
+      "watch": "$:remotedata.data",
+      "actions": [{ "handler": "@:console.log(remotedata.data)" }]
     }
   ],
   "fields": [
+    { "component": "p", "text": "$:model.list" },
     {
       "component": "div",
       "children": [
@@ -135,6 +140,7 @@
         },
         {
           "component": "el-table-column",
+          "props": { "label": "操作" },
           "children": [
             {
               "component": "el-button",

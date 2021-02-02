@@ -10,20 +10,15 @@ import {
   reactive
 } from 'vue'
 import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
+import { assignObject, isFunction, isArray } from '@json-to-render/utils'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
-import {
-  assignObject,
-  isObject,
-  isFunction,
-  isArray
-} from '@json-to-render/utils'
-import JNode from './jNode'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
 import { proxy, prerender, render, datasource } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
+import JNode from './jNode'
 
 export default defineComponent({
   name: 'vJrender',
@@ -134,22 +129,28 @@ export default defineComponent({
         watchs.value = value.map(item => {
           const injected = injectProxy(item, context)
 
-          const watcher =
-            isObject(injected.watch) || isFunction(injected.watch)
-              ? injected.watch
-              : () => injected.watch
+          const watcher = isFunction(injected.watch)
+            ? injected.watch
+            : () => injected.watch
 
-          return watch(watcher, () => {
-            injected.actions.forEach((act: any) => {
-              if (act.condition === undefined || !!act.condition) {
-                if (act.timeout) {
-                  setTimeout(() => act.handler(), act.timeout)
-                } else {
-                  act.handler()
+          return watch(
+            watcher,
+            () => {
+              injected.actions.forEach((act: any) => {
+                if (act.condition === undefined || !!act.condition) {
+                  if (act.timeout) {
+                    setTimeout(() => act.handler(), act.timeout)
+                  } else {
+                    act.handler()
+                  }
                 }
-              }
-            })
-          })
+              })
+            },
+            {
+              deep: injected.deep,
+              immediate: injected.immediate
+            }
+          )
         })
       },
       { deep: false, immediate: true }

@@ -3,7 +3,7 @@ import { getProxyDefine } from '@json-to-render/core'
 import { assignObject } from '@json-to-render/utils'
 
 const render = (children: any[], services: any, scope?: any) => {
-  const { prerender, context, injectProxy } = services
+  const { context, injectProxy } = services
 
   return children.map(child => {
     if (!scope) {
@@ -16,8 +16,6 @@ const render = (children: any[], services: any, scope?: any) => {
       childDefine,
       assignObject(context, { scope })
     )
-
-    prerender([], { injectProxy, context })(scopedChild)
 
     return h(resolveComponent('vJnode'), { field: scopedChild })
   })

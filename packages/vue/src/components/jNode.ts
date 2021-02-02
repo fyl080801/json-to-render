@@ -1,4 +1,4 @@
-import { resolveComponent, defineComponent, h, onBeforeMount } from 'vue'
+import { resolveComponent, defineComponent, h, onBeforeUpdate } from 'vue'
 import getRender from '../utils/render'
 import { isArray, assignObject, isOriginTag } from '@json-to-render/utils'
 import { getState } from '../store'
@@ -42,6 +42,10 @@ export default defineComponent({
 
     prerender([slot], { injectProxy, context })(props.field)
 
+    onBeforeUpdate(() => {
+      prerender([slot], { injectProxy, context })(props.field)
+    })
+
     return () => {
       // 暂时规划每次渲染都用非代理对象
       const renderField = assignObject(props.field, {
@@ -62,7 +66,7 @@ export default defineComponent({
         h(
           component,
           renderField.props,
-          getRender({ prerender, injectProxy, context })(renderField.children)
+          getRender({ injectProxy, context })(renderField.children)
         )
       )
     }
