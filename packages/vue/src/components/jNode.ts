@@ -64,14 +64,20 @@ export default defineComponent({
             ? renderField.component
             : resolveComponent(renderField.component)))
 
-      return (
+      const rendered =
         component &&
         h(
           component,
           renderField.props,
           getRender({ injectProxy, context })(renderField.children)
         )
-      )
+
+      if (rendered?.ref) {
+        const { r, i } = rendered.ref
+        context.refs[r] = i.refs[r]
+      }
+
+      return rendered
     }
   }
 })

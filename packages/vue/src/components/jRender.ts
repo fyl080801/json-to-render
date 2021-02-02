@@ -33,7 +33,8 @@ export default defineComponent({
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
     const context: { [key: string]: any } = reactive({
-      model: toRaw(props.modelValue)
+      model: toRaw(props.modelValue),
+      refs: {}
     })
     const root = reactive({ field: {} })
     const updating = ref(false) // 为了更新 fields 时从根节点刷新

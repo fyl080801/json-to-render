@@ -119,8 +119,15 @@
       ]
     },
     {
+      "component": "input",
+      "model": "model.text1",
+      "props": { "ref": "oriinput" }
+    },
+    { "component": "span", "text": "$:JSON.stringify(refs.tb.data)" },
+    {
       "component": "el-table",
       "props": {
+        "ref": "tb",
         "data": "$:remotedata.data"
       },
       "children": [
