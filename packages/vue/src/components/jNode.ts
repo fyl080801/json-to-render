@@ -1,4 +1,4 @@
-import { resolveComponent, defineComponent, h, onBeforeUpdate } from 'vue'
+import { resolveComponent, defineComponent, h, watch } from 'vue'
 import getRender from '../utils/render'
 import { isArray, assignObject, isOriginTag } from '@json-to-render/utils'
 import { getState } from '../store'
@@ -42,9 +42,12 @@ export default defineComponent({
 
     prerender([slot], { injectProxy, context })(props.field)
 
-    onBeforeUpdate(() => {
-      prerender([slot], { injectProxy, context })(props.field)
-    })
+    watch(
+      () => props.field,
+      () => {
+        prerender([slot], { injectProxy, context })(props.field)
+      }
+    )
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
