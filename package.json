@@ -2,9 +2,10 @@
   "name": "json-to-render",
   "version": "0.1.0",
   "private": true,
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
+    "dist": "yarn workspaces run dist",
     "push": "yarn commit && git push --set-upstream origin master",
     "commit": "git add . && git status && git-cz"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@json-to-render/core",
   "version": "0.2.0",
-  "license": "ISC",
+  "license": "MIT",
   "module": "dist/index.esm.js",
   "main": "src/index.ts",
   "unpkg": "dist/index.min.js",
