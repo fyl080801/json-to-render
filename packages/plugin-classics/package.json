@@ -1,6 +1,6 @@
 {
   "name": "@json-to-render/plugin-classics",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
   "module": "dist/index.esm.js",
   "main": "src/index.ts",
@@ -18,8 +18,8 @@
     "typings/*.d.ts"
   ],
   "dependencies": {
-    "@json-to-render/core": "^0.3.3",
-    "@json-to-render/utils": "^0.3.3"
+    "@json-to-render/core": "^0.3.4",
+    "@json-to-render/utils": "^0.3.4"
   },
   "gitHead": "4120ff1f57ec394b464a44251c2a45b8c71c2c5d"
 }

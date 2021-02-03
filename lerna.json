@@ -1,12 +1,19 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "command": {
     "publish": {
       "registry": "http://registry.npmjs.org/",
-      "ignoreChanges": [".gitignore", ".eslintignore", "*.log", "*.md"]
+      "ignoreChanges": [
+        ".gitignore",
+        ".eslintignore",
+        "*.log",
+        "*.md"
+      ]
     },
     "version": {
       "conventionalCommits": true
