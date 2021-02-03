@@ -1,6 +1,6 @@
 {
   "name": "@json-to-render/plugin-modern",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "module": "dist/index.esm.js",
   "main": "src/index.ts",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/fyl080801/json-to-render/compare/v0.2.0...v0.3.0) (2021-02-03)
+
+
+### Features
+
+* 打包相关 ([261683b](https://github.com/fyl080801/json-to-render/commit/261683b32f382f0fe877fe9cd53565fc875f4d24))
+
+
+
+
+
 # 0.2.0 (2021-02-02)
 
 
