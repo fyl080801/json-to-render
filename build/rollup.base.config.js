@@ -44,19 +44,14 @@ const { helperGlobal } = require('./runtime.helper')
  * };
  */
 
-const commonGlobal = {
-  // 'vuetify/lib': 'Vuetify',
-  '@mdi/js': 'mdi-js'
-}
+const commonGlobal = {}
 
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
 
 const defaultExternal = [
-  // 'vuetify/lib',
-  '@mdi/js',
   /core-js/,
-  /@babel\/runtime/,
-  /@babel\/runtime-corejs3/,
+  // /@babel\/runtime/,
+  // /@babel\/runtime-corejs3/,
   /vue-runtime-helpers/,
   /regenerator-runtime/
 ]
@@ -85,8 +80,7 @@ const defaultPlugins = [
     css: false
   }),
   typescript({
-    tsconfig: path.resolve('../../', 'tsconfig.json'),
-    experimentalDecorators: true
+    tsconfig: path.resolve('../../', 'tsconfig.json')
   }),
   // vuetify(),
   babel({
