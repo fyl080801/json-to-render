@@ -1,6 +1,6 @@
 {
   "name": "@json-to-render/utils",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "license": "MIT",
   "module": "dist/index.esm.js",
   "main": "src/index.ts",
