@@ -2,7 +2,8 @@
 const { rollups } = require('../../build')
 
 const configs = {
-  types: ['umd', 'iife', 'esm']
+  types: ['umd', 'iife', 'esm'],
+  external: ['@json-to-render/core', '@json-to-render/utils']
 }
 
 const entries = (() => {

@@ -18,7 +18,8 @@
     "typings/*.d.ts"
   ],
   "dependencies": {
-    "core-js": "^3.6.5"
+    "@json-to-render/core": "^0.3.1",
+    "@json-to-render/utils": "^0.3.1"
   },
   "gitHead": "4120ff1f57ec394b464a44251c2a45b8c71c2c5d"
 }

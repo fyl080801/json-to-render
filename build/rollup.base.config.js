@@ -44,7 +44,9 @@ const { helperGlobal } = require('./runtime.helper')
  * };
  */
 
-const commonGlobal = {}
+const commonGlobal = {
+  vue: 'vue'
+}
 
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
 
