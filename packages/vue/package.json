@@ -5,6 +5,9 @@
   "module": "dist/index.esm.js",
   "main": "src/index.ts",
   "unpkg": "dist/index.min.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
