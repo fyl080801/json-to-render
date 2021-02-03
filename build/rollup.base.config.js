@@ -92,6 +92,7 @@ const defaultPlugins = [
     configFile: path.resolve('../../', 'babel.config.js')
   }),
   nodeResolve({
+    modulesOnly: true,
     moduleDirectories: ['node_modules']
   }),
   commonjs({
