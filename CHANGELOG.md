@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/fyl080801/json-to-render/compare/v0.3.1...v0.3.3) (2021-02-03)
+
+
+### Bug Fixes
+
+* 打包问题 ([77b9454](https://github.com/fyl080801/json-to-render/commit/77b9454e654e07918207aff8bdbf95db14607370))
+* 打包问题修复 ([2384dfe](https://github.com/fyl080801/json-to-render/commit/2384dfed087dd818f3bb474bd147017fbd41dec3))
+
+
+
+
+
 ## [0.3.1](https://github.com/fyl080801/json-to-render/compare/v0.3.0...v0.3.1) (2021-02-03)
 
 **Note:** Version bump only for package json-to-render
