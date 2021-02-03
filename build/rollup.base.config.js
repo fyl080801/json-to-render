@@ -84,7 +84,6 @@ const defaultPlugins = [
   typescript({
     tsconfig: path.resolve('../../', 'tsconfig.json')
   }),
-  // vuetify(),
   babel({
     extensions: ['.ts'],
     exclude: ['node_modules/**'],
@@ -92,7 +91,7 @@ const defaultPlugins = [
     configFile: path.resolve('../../', 'babel.config.js')
   }),
   nodeResolve({
-    modulesOnly: true,
+    browser: true,
     moduleDirectories: ['node_modules']
   }),
   commonjs({
@@ -137,6 +136,7 @@ const createOutputType = (entryKey, entryValue, format, globals = {}) => {
 
   result.format = format
   result.globals = assignObject(globals, defaultGlobal)
+  result.sourcemap = true
 
   if (format === 'umd' || format === 'iife') {
     result.name = entryKey

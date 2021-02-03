@@ -1,3 +1,5 @@
+import { FunctionHook, FunctionNext, FunctionPipeLine } from './types'
+
 const pipeline: FunctionPipeLine = (funcs, opts) => {
   return (scope: any) => {
     // 全局索引

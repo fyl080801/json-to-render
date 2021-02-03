@@ -5,12 +5,7 @@ import {
   isArray,
   isObject
 } from '@json-to-render/utils'
-
-export enum ProxyFlags {
-  IS_PROXY = '__jr_isProxy',
-  NOT_PROXY = '__jr_notProxy',
-  PROXY_DEFINE = '__jr_proxyDefine'
-}
+import { ProxyFlags } from '../types'
 
 export const isProxy = (target: unknown) => {
   const proxy: any = target

@@ -1,6 +1,7 @@
 import { assignArray } from '@json-to-render/utils'
+import { ProxyHandlerResolver } from '@json-to-render/core'
 
-const expression: ProxyHandlerResolver<BindTransform> = value => {
+const expression: ProxyHandlerResolver<string> = value => {
   const func = (context: any) => {
     try {
       const expr = value.slice(value.indexOf(':') + 1, value.length)

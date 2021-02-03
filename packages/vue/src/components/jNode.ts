@@ -73,7 +73,7 @@ export default defineComponent({
         )
 
       if (rendered?.ref) {
-        const { r, i } = rendered.ref
+        const { r, i }: any = rendered.ref
         context.refs[r] = i.refs[r]
       }
 

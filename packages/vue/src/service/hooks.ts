@@ -1,4 +1,10 @@
-import { assignArray, pipeline } from '@json-to-render/utils'
+import {
+  assignArray,
+  FunctionHook,
+  FunctionNext,
+  pipeline
+} from '@json-to-render/utils'
+import { HookItem } from '../types'
 
 export const createHookSetup = (store: HookItem[]) => {
   return (hook: FunctionHook, index?: number) => {

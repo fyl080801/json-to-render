@@ -1,3 +1,5 @@
+import { FunctionHook } from '@json-to-render/utils'
+
 const hook: FunctionHook = () => (field, next) => {
   const textProp = Reflect.getOwnPropertyDescriptor(field, 'text')
 

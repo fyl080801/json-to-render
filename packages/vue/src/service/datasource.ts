@@ -1,6 +1,5 @@
 import { assignObject, cloneDeep } from '@json-to-render/utils'
-
-type DatasourceProviders = { [key: string]: Function }
+import { DatasourceProviders } from '../types'
 
 export const createDatasourceSetup = (store: DatasourceProviders) => {
   return (type: string, provider: any) => {

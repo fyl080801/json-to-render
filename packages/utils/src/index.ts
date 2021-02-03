@@ -13,3 +13,5 @@ export {
 import pipeline from './pipeline'
 
 export { pipeline }
+
+export * from './types'

@@ -1,4 +1,5 @@
 import { getProxyDefine } from '@json-to-render/core'
+import { FunctionHook } from '@json-to-render/utils'
 
 const hook: FunctionHook = () => {
   return (field, next) => {

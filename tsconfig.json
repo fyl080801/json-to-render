@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "module": "ESNext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
+    "declaration": true,
+    "outDir": "./dist/lib",
+    "declarationDir": "./dist/lib",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "jsx": "preserve",
+    "noLib": false,
+    "target": "es6",
     "sourceMap": true,
-    "baseUrl": ".",
-    "types": ["webpack-env"],
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"],
-    "typeRoots": ["typings"]
+    "lib": ["ESNext", "DOM"],
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts",

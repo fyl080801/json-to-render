@@ -4,13 +4,19 @@ import {
   forEachTarget,
   isArray
 } from '@json-to-render/utils'
-import { isAllowedProxy, isProxy, ProxyFlags } from './utils'
+import {
+  JProxyHandler,
+  ProxyFlags,
+  ProxyHandlerResolver,
+  ProxyTarget
+} from '../types'
+import { isAllowedProxy, isProxy } from './utils'
 
 export const createProxyInjector = (
   proxies: JProxyHandler[],
   services?: { [key: string]: any }
 ) => {
-  const getProxyHandler: ProxyHandlerResolver = value => {
+  const getProxyHandler: ProxyHandlerResolver<any> = value => {
     const assigned = assignArray([], proxies)
     for (const index in assigned) {
       const handler = assigned[index](value)
@@ -104,30 +110,6 @@ export const createProxyInjector = (
       deleteProperty: deleter
     })
   }
-
-  // const process = (context: any) => {
-  //   return (value: any, index: any, collection: any) => {
-  //     if (isProxy(value) || !isAllowedProxy(value)) {
-  //       return
-  //     }
-
-  //     collection[index] = createProxy(collection[index], context)
-
-  //     if (!isRejectProxy(collection[index])) {
-  //       forEachTarget(collection[index], process(context))
-  //     }
-  //   }
-  // }
-
-  // const processProxy = (target: any, context: any) => {
-  //   forEachTarget(target, process(context))
-  // }
-
-  // const injectProxy = (target: any, context: any) => {
-  //   const proxy = { value: target }
-  //   processProxy(proxy, context)
-  //   return proxy.value
-  // }
 
   const injectProxy = (target: any, context: any) => {
     if (isProxy(target) || !isAllowedProxy(target)) {

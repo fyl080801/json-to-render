@@ -1,6 +1,7 @@
 import { assignArray, deepSet } from '@json-to-render/utils'
+import { ProxyHandlerResolver } from '@json-to-render/core'
 
-const method: ProxyHandlerResolver<FunctionTransform> = value => {
+const method: ProxyHandlerResolver<string> = value => {
   const execute = (context: any) => {
     return (...args: any) => {
       try {
