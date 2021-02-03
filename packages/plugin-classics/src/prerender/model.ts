@@ -29,8 +29,10 @@ const hook: FunctionHook = () => {
     field.props = assignObject(field.props || {}, {
       value: valueDefine,
       modelValue: valueDefine,
-      onChange: updateDefine,
+      'onUpdate:value': updateDefine,
       'onUpdate:modelValue': updateDefine,
+      onChange: updateDefine,
+      onInput: updateDefine,
     })
     // delete field.model
 
