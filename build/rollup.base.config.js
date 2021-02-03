@@ -91,10 +91,13 @@ const defaultPlugins = [
     configFile: path.resolve('../../', 'babel.config.js')
   }),
   nodeResolve({
-    browser: true,
+    // browser: true,
+    // modulesOnly: false,
     moduleDirectories: ['node_modules']
   }),
   commonjs({
+    // esmExternals: true,
+    // requireReturnsDefault: true,
     include: 'node_modules/**'
   }),
 

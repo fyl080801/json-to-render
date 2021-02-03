@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
+    "clean": "yarn workspaces run clean",
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
     "publish": "yarn dist && lerna publish"
@@ -25,7 +26,7 @@
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-buble": "^0.21.3",
-    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-image": "^2.0.6",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-multi-entry": "^4.0.0",
@@ -44,6 +45,7 @@
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
+    "babel-plugin-add-module-exports": "^1.0.4",
     "babel-plugin-module-resolver": "^4.1.0",
     "chalk": "^4.1.0",
     "commitizen": "^4.2.3",

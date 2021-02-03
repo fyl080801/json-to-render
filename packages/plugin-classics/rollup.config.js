@@ -2,7 +2,7 @@
 const { rollups } = require('../../build')
 
 const configs = {
-  types: ['umd', 'iife', 'esm']
+  types: ['umd', 'iife', 'cjs']
 }
 
 const entries = (() => {
