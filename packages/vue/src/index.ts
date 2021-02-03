@@ -4,10 +4,12 @@ import { JRenderPlugin } from './types'
 
 export * from './types'
 
-export const plugin: JRenderPlugin = {
+const plugin: JRenderPlugin = {
   ...jRender,
   install: (app: any) => {
     app.component(jRender.name, jRender)
   },
-  use: globalServiceBuilder
+  use: globalServiceBuilder,
 }
+
+export default plugin

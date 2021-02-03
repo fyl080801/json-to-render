@@ -1,5 +1,5 @@
-import { assignArray } from '@json-to-render/utils'
-import { ProxyHandlerResolver } from '@json-to-render/core'
+import { assignArray } from '@json2render/utils'
+import { ProxyHandlerResolver } from '@json2render/core'
 
 export const createProxySetup = (store: ProxyHandlerResolver[]) => {
   return (proxy: ProxyHandlerResolver) => {
@@ -12,6 +12,6 @@ export const createProxyService = (inits?: ProxyHandlerResolver[]) => {
 
   return {
     store,
-    setup: createProxySetup(store)
+    setup: createProxySetup(store),
   }
 }

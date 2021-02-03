@@ -3,8 +3,8 @@ import {
   assignObject,
   forEachTarget,
   isArray,
-  isObject
-} from '@json-to-render/utils'
+  isObject,
+} from '@json2render/utils'
 import { ProxyFlags } from '../types'
 
 export const isProxy = (target: unknown) => {

@@ -13,7 +13,7 @@ export default defineComponent({
   setup() {
     return {
       model: reactive({}),
-      fields: []
+      fields: [],
       // fields: [
       //   {
       //     type: 'object',
@@ -44,6 +44,6 @@ export default defineComponent({
       //   }
       // ]
     }
-  }
+  },
 })
 </script>

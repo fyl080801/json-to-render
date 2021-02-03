@@ -1,10 +1,20 @@
 {
-  "name": "@json-to-render/plugin-classics",
-  "version": "0.3.5",
-  "license": "MIT",
-  "module": "dist/index.umd.js",
+  "name": "@json2render/plugin-classics",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
+  "homepage": "",
+  "license": "ISC",
   "main": "src/index.ts",
+  "module": "dist/index.esm.js",
   "unpkg": "dist/index.min.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -12,14 +22,9 @@
     "clean": "rimraf dist",
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
-  "files": [
-    "src",
-    "dist/*.js",
-    "typings/*.d.ts"
-  ],
   "dependencies": {
-    "@json-to-render/core": "^0.3.5",
-    "@json-to-render/utils": "^0.3.5"
+    "@json2render/core": "^0.0.0",
+    "@json2render/utils": "^0.0.0"
   },
-  "gitHead": "4120ff1f57ec394b464a44251c2a45b8c71c2c5d"
+  "devDependencies": {}
 }

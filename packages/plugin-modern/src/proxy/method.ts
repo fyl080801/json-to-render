@@ -1,7 +1,7 @@
-import { assignArray, deepSet } from '@json-to-render/utils'
-import { ProxyHandlerResolver } from '@json-to-render/core'
+import { assignArray, deepSet } from '@json2render/utils'
+import { ProxyHandlerResolver } from '@json2render/core'
 
-const method: ProxyHandlerResolver<string> = value => {
+const method: ProxyHandlerResolver<string> = (value) => {
   const execute = (context: any) => {
     return (...args: any) => {
       try {
@@ -9,7 +9,7 @@ const method: ProxyHandlerResolver<string> = value => {
         const expProp = value.slice(1, value.indexOf(':'))
         const contextkeys = Object.keys(context)
         const inputs = assignArray(
-          contextkeys.map(key => context[key]),
+          contextkeys.map((key) => context[key]),
           [args]
         )
 

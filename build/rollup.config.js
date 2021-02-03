@@ -1,122 +1,40 @@
 const {
   alias,
   babel,
-  buble,
   commonjs,
-  filesize,
-  image,
-  json,
-  multi,
   nodeResolve,
-  progress,
-  sizes,
-  strip,
-  terser,
-  vue,
   typescript,
-  // vuetify,
-  postcss,
-  postcssPresetEnv,
-  simpleVars,
-  nested,
-  cssnano
+  terser,
 } = require('./rollup.plugins')
-
-const { path, resolve, assignObject, assignArray } = require('./utils')
 const { helperGlobal } = require('./runtime.helper')
-
-/**
- * globals配置写法与import配置写法正好相反
- * 例如：
- * Main.js:
- *
- * import React from 'react';
- * import ReactDOM from 'react-dom';
- *
- * config.js
- *
- * export default {
- *   external: ['react', 'react-dom'],
- *   globals: {
- *     'react': 'React',
- *     'react-dom': 'ReactDOM'
- *   },
- * };
- */
+const { path, assignObject, assignArray } = require('./utils')
 
 const commonGlobal = {
-  vue: 'vue'
+  vue: 'vue',
 }
-
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
-
-const defaultExternal = [
-  /core-js/,
-  // /@babel\/runtime/,
-  // /@babel\/runtime-corejs3/,
-  /vue-runtime-helpers/,
-  /regenerator-runtime/
-]
+const defaultExternal = [/core-js/]
 
 const defaultPlugins = [
   alias({
-    resolve: ['.vue', '.js', '.ts'],
-    entries: [{ find: '@', replacement: path.resolve('./', 'src') }]
-  }),
-  postcss({
-    // https://github.com/remaxjs/rollup-plugin-postcss
-    // This plugin will process files ending with these extensions and the extensions supported by custom loaders.
-    extensions: ['.css'],
-    // PostCSS Plugins.
-    plugins: [simpleVars(), nested(), postcssPresetEnv(), cssnano()],
-    // Extract CSS to the same location where JS file is generated but with .css extension.
-    extract: true,
-    // Use named exports alongside default export.
-    module: true,
-    // Minimize CSS, boolean or options for cssnano.
-    minimize: true,
-    // Enable sourceMap.
-    sourceMap: true
-  }),
-  vue({
-    css: false
-  }),
-  typescript({
-    tsconfig: path.resolve('../../', 'tsconfig.json')
+    resolve: ['.ts'],
   }),
   babel({
     extensions: ['.ts'],
     exclude: ['node_modules/**'],
     babelHelpers: 'runtime',
-    configFile: path.resolve('../../', 'babel.config.js')
+    configFile: path.resolve('../../', 'babel.config.js'),
+  }),
+  typescript({
+    tsconfig: path.resolve('../../', 'tsconfig.json'),
   }),
   nodeResolve({
-    // browser: true,
-    // modulesOnly: false,
-    moduleDirectories: ['node_modules']
+    moduleDirectories: ['node_modules'],
   }),
   commonjs({
-    // esmExternals: true,
-    // requireReturnsDefault: true,
-    include: 'node_modules/**'
+    include: 'node_modules/**',
   }),
-
-  json(),
-  image(),
-  multi(),
   terser(),
-  strip(),
-  progress({
-    clearLine: false
-  }),
-  filesize(),
-  buble({
-    objectAssign: 'Object.assign',
-    transforms: { forOf: false }
-  }),
-  sizes({
-    details: true
-  })
 ]
 
 /**
@@ -172,7 +90,7 @@ const createEntry = (name, path, configs) => {
     input: path,
     output: createOutput(name, path.replace('.ts', '.js'), configs),
     plugins: configs.plugins ? configs.plugins : defaultPlugins,
-    external: assignArray(configs.external, defaultExternal)
+    external: assignArray(configs.external, defaultExternal),
   }
 }
 

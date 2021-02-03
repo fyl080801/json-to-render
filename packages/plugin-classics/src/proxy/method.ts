@@ -1,17 +1,24 @@
-import { deepSet } from '@json-to-render/utils'
-import { getProxyDefine, ProxyHandlerResolver } from '@json-to-render/core'
+import { deepSet } from '@json2render/utils'
+import {
+  getProxyDefine,
+  JProxyHandler,
+  ProxyHandlerResolver,
+} from '@json2render/core'
 import { MethodTransform } from '../types'
 
-const method: ProxyHandlerResolver<MethodTransform> = value => {
-  const execute = (context: any, { injectProxy }: any) => {
+const method: ProxyHandlerResolver<MethodTransform> = (value) => {
+  const execute: JProxyHandler | undefined = (context, { injectProxy }) => {
     return (...args: any) => {
       try {
         const params = [
           ...Object.keys(context),
           'arguments',
-          `return ${value.$result}`
+          `return ${value.$result}`,
         ]
-        const inputs = [...Object.keys(context).map(key => context[key]), args]
+        const inputs = [
+          ...Object.keys(context).map((key) => context[key]),
+          args,
+        ]
         const result = new Function(...params)(...inputs)
 
         const define = getProxyDefine(value)

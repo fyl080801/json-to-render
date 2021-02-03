@@ -92,7 +92,7 @@ export const cloneDeep = (item: any) => {
   let result: any
 
   // normalizing primitives if someone did new String('aaa'), or new Number('444');
-  types.forEach(type => {
+  types.forEach((type) => {
     if (item instanceof type) {
       result = type(item)
     }

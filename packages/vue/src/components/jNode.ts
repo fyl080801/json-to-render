@@ -1,9 +1,9 @@
 import { resolveComponent, defineComponent, h, watch } from 'vue'
 import getRender from '../utils/render'
-import { isArray, assignObject, isOriginTag } from '@json-to-render/utils'
+import { isArray, assignObject, isOriginTag } from '@json2render/utils'
 import { getState } from '../store'
 
-const slot = () => (field: any, next: Function) => {
+const slot = () => (field: any, next: any) => {
   if (!isArray(field.children)) {
     next(field)
     return
@@ -29,15 +29,15 @@ const slot = () => (field: any, next: Function) => {
 export default defineComponent({
   name: 'vJnode',
   props: {
-    field: { type: Object, required: true }
+    field: { type: Object, required: true },
   },
-  setup: props => {
+  setup: (props) => {
     const {
       prerender,
       render,
       injectProxy,
       components,
-      context
+      context,
     }: any = getState()
 
     prerender([slot], { injectProxy, context })(props.field)
@@ -52,7 +52,7 @@ export default defineComponent({
     return () => {
       // 暂时规划每次渲染都用非代理对象
       const renderField = assignObject(props.field, {
-        children: props.field.children && assignObject(props.field.children)
+        children: props.field.children && assignObject(props.field.children),
       })
 
       render([], { injectProxy, context })(renderField)
@@ -79,5 +79,5 @@ export default defineComponent({
 
       return rendered
     }
-  }
+  },
 })

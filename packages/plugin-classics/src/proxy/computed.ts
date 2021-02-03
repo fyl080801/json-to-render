@@ -1,15 +1,15 @@
-import { assignArray } from '@json-to-render/utils'
-import { ProxyHandlerResolver } from '@json-to-render/core'
+import { assignArray } from '@json2render/utils'
+import { ProxyHandlerResolver } from '@json2render/core'
 import { ComputedTransform } from '../types'
 
-const computed: ProxyHandlerResolver<ComputedTransform> = value => {
+const computed: ProxyHandlerResolver<ComputedTransform> = (value) => {
   const func = (context: any) => {
     try {
       const contextKeys = Object.keys(context)
 
       return new Function(
         ...assignArray(contextKeys, [`return ${value.$result}`])
-      )(...contextKeys.map(key => context[key]))
+      )(...contextKeys.map((key) => context[key]))
     } catch {
       //
     }

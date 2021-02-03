@@ -1,4 +1,4 @@
-import { cloneDeep } from '@json-to-render/utils'
+import { cloneDeep } from '@json2render/utils'
 import { reactive } from 'vue'
 
 export default ({ define }: any) => {
@@ -21,7 +21,7 @@ export default ({ define }: any) => {
       } finally {
         instance.loading = false
       }
-    }
+    },
   })
 
   if (auto) {

@@ -1,21 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 import Element from 'element-plus'
 
-import { plugin } from '@json-to-render/vue'
-import { classics } from '@json-to-render/plugin-classics'
-import { modern } from '@json-to-render/plugin-modern'
+import JRender from '@json2render/vue'
+import classics from '@json2render/plugin-classics'
+import modern from '@json2render/plugin-modern'
 
-plugin.use(classics)
-plugin.use(modern)
+JRender.use(classics)
+JRender.use(modern)
 
 import 'element-plus/lib/theme-chalk/index.css'
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .use(Element)
-  .use(plugin)
-  .mount('#app')
+createApp(App).use(router).use(Element).use(JRender).mount('#app')

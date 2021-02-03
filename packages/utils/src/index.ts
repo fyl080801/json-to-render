@@ -1,3 +1,5 @@
+import pipeline from './pipeline'
+
 export { isOriginTag } from './domTags'
 export {
   assignArray,
@@ -7,10 +9,8 @@ export {
   forEachTarget,
   isArray,
   isObject,
-  isFunction
+  isFunction,
 } from './helpers'
-
-import pipeline from './pipeline'
 
 export { pipeline }
 

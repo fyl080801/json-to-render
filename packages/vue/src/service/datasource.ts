@@ -1,4 +1,4 @@
-import { assignObject, cloneDeep } from '@json-to-render/utils'
+import { assignObject, cloneDeep } from '@json2render/utils'
 import { DatasourceProviders } from '../types'
 
 export const createDatasourceSetup = (store: DatasourceProviders) => {
@@ -27,6 +27,6 @@ export const createDatasourceService = (inits?: DatasourceProviders) => {
   return {
     store,
     setup: createDatasourceSetup(store),
-    resolve
+    resolve,
   }
 }

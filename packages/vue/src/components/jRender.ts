@@ -7,10 +7,10 @@ import {
   toRaw,
   nextTick,
   onBeforeUnmount,
-  reactive
+  reactive,
 } from 'vue'
-import { createProxyInjector, getProxyDefine } from '@json-to-render/core'
-import { assignObject, isFunction, isArray } from '@json-to-render/utils'
+import { createProxyInjector, getProxyDefine } from '@json2render/core'
+import { assignObject, isFunction, isArray } from '@json2render/utils'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
 import { createHookService } from '../service/hooks'
@@ -28,13 +28,13 @@ export default defineComponent({
     component: { type: String, default: 'div' },
     fields: { type: Array, default: () => [] },
     datasource: { type: Object, default: () => ({}) },
-    listeners: { type: Array, default: () => [] }
+    listeners: { type: Array, default: () => [] },
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
     const context: { [key: string]: any } = reactive({
       model: toRaw(props.modelValue),
-      refs: {}
+      refs: {},
     })
     const root = reactive({ field: {} })
     const updating = ref(false) // 为了更新 fields 时从根节点刷新
@@ -52,7 +52,7 @@ export default defineComponent({
       prerender: prerenderService.processHook,
       render: renderService.processHook,
       components: componentService.store,
-      context
+      context,
     }
 
     createStore(assignObject(services, { injectProxy }))
@@ -62,20 +62,20 @@ export default defineComponent({
       prerender: prerenderService.setup,
       render: renderService.setup,
       component: componentService.setup,
-      datasource: datasourceService.setup
+      datasource: datasourceService.setup,
     })
     //#endregion
 
     //#region 相关监听
     watch(
       () => props.fields,
-      value => {
+      (value) => {
         updating.value = true
 
         root.field = injectProxy(
           {
             component: props.component,
-            children: toRaw(getProxyDefine(value || []))
+            children: toRaw(getProxyDefine(value || [])),
           },
           context
         )
@@ -89,7 +89,7 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      value => {
+      (value) => {
         context.model = toRaw(value || {})
       },
       { deep: false, immediate: false }
@@ -99,17 +99,17 @@ export default defineComponent({
       () => props.datasource,
       (value, origin) => {
         Object.keys(origin || {})
-          .filter(item => !innerDataNames.includes(item))
-          .forEach(key => {
+          .filter((item) => !innerDataNames.includes(item))
+          .forEach((key) => {
             delete context[key]
           })
 
         Object.keys(value || {})
-          .filter(item => !innerDataNames.includes(item))
-          .forEach(key => {
+          .filter((item) => !innerDataNames.includes(item))
+          .forEach((key) => {
             context[key] = datasourceService.resolve(value[key], {
               injectProxy,
-              context
+              context,
             })
           })
       },
@@ -122,12 +122,12 @@ export default defineComponent({
 
     watch(
       () => props.listeners,
-      value => {
+      (value) => {
         if (!value || !isArray(value)) {
           return
         }
 
-        watchs.value = value.map(item => {
+        watchs.value = value.map((item) => {
           const injected = injectProxy(item, context)
 
           const watcher = isFunction(injected.watch)
@@ -149,7 +149,7 @@ export default defineComponent({
             },
             {
               deep: injected.deep,
-              immediate: injected.immediate
+              immediate: injected.immediate,
             }
           )
         })
@@ -158,11 +158,11 @@ export default defineComponent({
     )
 
     onBeforeUnmount(() => {
-      watchs.value.forEach(w => w())
+      watchs.value.forEach((w) => w())
     })
     //#endregion
 
     return () =>
       !updating.value ? h(resolveComponent(JNode.name), root) : null
-  }
+  },
 })

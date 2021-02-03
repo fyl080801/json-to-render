@@ -2,13 +2,13 @@ import {
   assignArray,
   assignObject,
   forEachTarget,
-  isArray
-} from '@json-to-render/utils'
+  isArray,
+} from '@json2render/utils'
 import {
   JProxyHandler,
   ProxyFlags,
   ProxyHandlerResolver,
-  ProxyTarget
+  ProxyTarget,
 } from '../types'
 import { isAllowedProxy, isProxy } from './utils'
 
@@ -16,7 +16,7 @@ export const createProxyInjector = (
   proxies: JProxyHandler[],
   services?: { [key: string]: any }
 ) => {
-  const getProxyHandler: ProxyHandlerResolver<any> = value => {
+  const getProxyHandler: ProxyHandlerResolver<any> = (value) => {
     const assigned = assignArray([], proxies)
     for (const index in assigned) {
       const handler = assigned[index](value)
@@ -48,7 +48,7 @@ export const createProxyInjector = (
         if (map.has(key)) {
           map.delete(key)
         }
-      }
+      },
     }
   }
 
@@ -78,7 +78,7 @@ export const createProxyInjector = (
             context,
             assignObject(services, {
               /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
-              injectProxy
+              injectProxy,
             })
           )
         : Reflect.get(target, p, receiver)
@@ -107,7 +107,7 @@ export const createProxyInjector = (
     return new Proxy(originTarget, {
       get: getter,
       set: setter,
-      deleteProperty: deleter
+      deleteProperty: deleter,
     })
   }
 

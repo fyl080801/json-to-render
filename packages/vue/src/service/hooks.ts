@@ -2,8 +2,8 @@ import {
   assignArray,
   FunctionHook,
   FunctionNext,
-  pipeline
-} from '@json-to-render/utils'
+  pipeline,
+} from '@json2render/utils'
 import { HookItem } from '../types'
 
 export const createHookSetup = (store: HookItem[]) => {
@@ -22,7 +22,7 @@ export const createHookService = (inits?: HookItem[]) => {
     const hooks = assignArray(
       assignArray(store)
         .sort((a, b) => a.index - b.index)
-        .map(item => item.hook),
+        .map((item) => item.hook),
       extras
     )
     return pipeline(hooks, opts)
@@ -31,6 +31,6 @@ export const createHookService = (inits?: HookItem[]) => {
   return {
     store,
     setup: createHookSetup(store),
-    processHook
+    processHook,
   }
 }

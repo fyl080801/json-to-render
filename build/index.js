@@ -1,4 +1,4 @@
 const utils = require('./utils')
-const rollups = require('./rollup.base.config')
+const rollups = require('./rollup.config')
 
 module.exports = { utils, rollups }

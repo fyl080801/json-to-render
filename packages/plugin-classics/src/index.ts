@@ -7,7 +7,7 @@ import condition from './render/condition'
 
 import fetchDatasource from './datasource/fetch'
 
-export const classics = ({ prerender, render, proxy, datasource }: any) => {
+export default ({ prerender, render, proxy, datasource }: any) => {
   prerender(model)
 
   render(text)

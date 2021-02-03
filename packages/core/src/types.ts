@@ -1,11 +1,11 @@
 export declare interface ServiceBuilderFactory {
-  (services: any): (builder: Function) => void
+  (services: any): (builder: any) => void
 }
 
 export enum ProxyFlags {
   IS_PROXY = '__jr_isProxy',
   NOT_PROXY = '__jr_notProxy',
-  PROXY_DEFINE = '__jr_proxyDefine'
+  PROXY_DEFINE = '__jr_proxyDefine',
 }
 
 export declare interface ProxyTarget {
@@ -23,6 +23,4 @@ export declare type JProxyHandler = (
 ) => unknown
 
 //
-export declare type ProxyHandlerResolver<T = any> = (
-  target: T
-) => JProxyHandler | undefined
+export declare type ProxyHandlerResolver<T = any> = (target: T) => any // JProxyHandler

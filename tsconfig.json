@@ -1,25 +1,26 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "declaration": true,
-    "outDir": "./dist/lib",
-    "declarationDir": "./dist/lib",
-    "noImplicitAny": false,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
     "jsx": "preserve",
-    "noLib": false,
-    "target": "es6",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "lib": ["ESNext", "DOM"],
-    "allowSyntheticDefaultImports": true
+    "baseUrl": ".",
+    "types": ["webpack-env"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "packages/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "typings/**/*.d.ts"

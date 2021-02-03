@@ -13,6 +13,6 @@ export const createComponentService = () => {
 
   return {
     store,
-    setup: createComponentSetup(store)
+    setup: createComponentSetup(store),
   }
 }

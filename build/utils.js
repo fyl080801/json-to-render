@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 const join = path.join
-const resolve = dir => join(__dirname, '../', dir)
+const resolve = (dir) => join(__dirname, '../', dir)
 
 function getFiles(folders, regex) {
   if (!Array.isArray(folders)) {
@@ -37,7 +37,7 @@ function getEntries(folders, regex) {
 
   let entries = files.reduce((obj, file) => {
     return Object.assign(obj, {
-      [path.basename(path.dirname(file))]: './' + file
+      [path.basename(path.dirname(file))]: './' + file,
     })
   }, {})
 
@@ -66,5 +66,5 @@ module.exports = {
   getFiles,
   getEntries,
   assignObject,
-  assignArray
+  assignArray,
 }

@@ -23,12 +23,12 @@ export default defineComponent({
       model: { text1: 'xxx', obj: { selected: 0, value: 'text1' } },
       fields: [],
       datasource: {},
-      listeners: []
+      listeners: [],
     })
 
     onMounted(() => {
-      fetch('/data/basic.json').then(response => {
-        response.json().then(json => {
+      fetch('/data/basic.json').then((response) => {
+        response.json().then((json) => {
           ret.fields = json.fields
           ret.datasource = json.datasource
           ret.listeners = json.listeners
@@ -47,7 +47,7 @@ export default defineComponent({
 
         return props
       })
-    }
-  }
+    },
+  },
 })
 </script>

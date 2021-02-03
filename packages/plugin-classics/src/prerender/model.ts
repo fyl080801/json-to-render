@@ -1,5 +1,5 @@
-import { getProxyDefine } from '@json-to-render/core'
-import { assignObject, FunctionHook } from '@json-to-render/utils'
+import { getProxyDefine } from '@json2render/core'
+import { assignObject, FunctionHook } from '@json2render/utils'
 
 const hook: FunctionHook = () => {
   return (field, next) => {
@@ -17,20 +17,20 @@ const hook: FunctionHook = () => {
 
     const valueDefine = {
       $type: 'computed',
-      $result: modelDefine
+      $result: modelDefine,
     }
 
     const updateDefine = {
       $type: 'method',
       $context: modelDefine,
-      $result: 'arguments[0].target ? arguments[0].target.value : arguments[0]'
+      $result: 'arguments[0].target ? arguments[0].target.value : arguments[0]',
     }
 
     field.props = assignObject(field.props || {}, {
       value: valueDefine,
       modelValue: valueDefine,
       onChange: updateDefine,
-      'onUpdate:modelValue': updateDefine
+      'onUpdate:modelValue': updateDefine,
     })
     // delete field.model
 

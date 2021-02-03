@@ -3,7 +3,7 @@ export {
   getProxyDefine,
   isAllowedProxy,
   isRejectProxy,
-  isProxy
+  isProxy,
 } from './proxy/utils'
 
 export { createProxyInjector } from './proxy'

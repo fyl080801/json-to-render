@@ -1,11 +1,11 @@
 import { resolveComponent, h } from 'vue'
-import { getProxyDefine } from '@json-to-render/core'
-import { assignObject } from '@json-to-render/utils'
+import { getProxyDefine } from '@json2render/core'
+import { assignObject } from '@json2render/utils'
 
 const render = (children: any[], services: any, scope?: any) => {
   const { context, injectProxy } = services
 
-  return children.map(child => {
+  return children.map((child) => {
     if (!scope) {
       return h(resolveComponent('vJnode'), { field: child })
     }

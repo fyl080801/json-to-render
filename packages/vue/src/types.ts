@@ -1,4 +1,4 @@
-import { FunctionHook } from '@json-to-render/utils'
+import { FunctionHook } from '@json2render/utils'
 import { Plugin } from 'vue'
 
 export declare type JRenderPlugin = Plugin & { use: any }
@@ -8,4 +8,4 @@ export declare interface HookItem {
   index: number
 }
 
-export type DatasourceProviders = { [key: string]: Function }
+export type DatasourceProviders = { [key: string]: any }

@@ -1,7 +1,7 @@
-import { assignArray } from '@json-to-render/utils'
-import { ProxyHandlerResolver } from '@json-to-render/core'
+import { assignArray } from '@json2render/utils'
+import { ProxyHandlerResolver } from '@json2render/core'
 
-const expression: ProxyHandlerResolver<string> = value => {
+const expression: ProxyHandlerResolver<string> = (value) => {
   const func = (context: any) => {
     try {
       const expr = value.slice(value.indexOf(':') + 1, value.length)
@@ -9,7 +9,7 @@ const expression: ProxyHandlerResolver<string> = value => {
       const contextKeys = Object.keys(context)
 
       return new Function(...assignArray(contextKeys, [`return ${expr}`]))(
-        ...contextKeys.map(key => context[key])
+        ...contextKeys.map((key) => context[key])
       )
     } catch {
       //
