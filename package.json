@@ -10,7 +10,8 @@
     "clean": "yarn workspaces run clean",
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "prepublish": "yarn dist"
   },
   "dependencies": {
     "core-js": "^3.6.5",
