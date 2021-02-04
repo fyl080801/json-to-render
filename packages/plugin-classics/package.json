@@ -1,6 +1,6 @@
 {
   "name": "@json2render/plugin-classics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "> TODO: description",
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "",
@@ -23,8 +23,8 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/core": "^0.1.0",
-    "@json2render/utils": "^0.1.0"
+    "@json2render/core": "^0.1.1",
+    "@json2render/utils": "^0.1.1"
   },
   "gitHead": "ddf28da6c2292c9cd6bc43bc682d096f294b88f0"
 }
