@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4-beta.2](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.4...@json2render/plugin-modern@0.1.4-beta.2) (2021-02-04)
+
+**Note:** Version bump only for package @json2render/plugin-modern
+
+
+
+
+
 ## [0.1.4](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.3...@json2render/plugin-modern@0.1.4) (2021-02-04)
 
 
