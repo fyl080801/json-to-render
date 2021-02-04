@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.3...@json2render/plugin-classics@0.1.4) (2021-02-04)
+
+
+### Bug Fixes
+
+* 打包问题 ([c2fda5d](https://github.com/fyl080801/json-to-render/commit/c2fda5dd375ab6adc9061a917e39490f65753279))
+
+
+
+
+
 ## [0.1.3](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.1...@json2render/plugin-classics@0.1.3) (2021-02-04)
 
 **Note:** Version bump only for package @json2render/plugin-classics
