@@ -1,11 +1,11 @@
 # `@json2render/core`
 
-> TODO: description
+json to render 核心库
 
 ## Usage
 
-```
-const core = require('@json2render/core');
+```javascript
+const core = require('@json2render/core')
 
 // TODO: DEMONSTRATE API
 ```
