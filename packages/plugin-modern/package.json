@@ -1,6 +1,6 @@
 {
   "name": "@json2render/plugin-modern",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "> TODO: description",
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "",
@@ -23,6 +23,6 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/utils": "^0.0.0"
+    "@json2render/utils": "^0.1.0"
   }
 }
