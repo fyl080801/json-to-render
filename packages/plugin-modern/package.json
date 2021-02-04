@@ -24,5 +24,6 @@
   },
   "dependencies": {
     "@json2render/utils": "^0.1.0"
-  }
+  },
+  "gitHead": "ddf28da6c2292c9cd6bc43bc682d096f294b88f0"
 }

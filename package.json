@@ -1,7 +1,7 @@
 {
   "name": "json-to-render",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.4.0",
+  "private": false,
   "workspaces": [
     "packages/*"
   ],
@@ -10,7 +10,7 @@
     "clean": "yarn workspaces run clean",
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
-    "publish": "yarn workspaces run publish"
+    "publish": "lerna publish"
   },
   "dependencies": {
     "core-js": "^3.6.5",
