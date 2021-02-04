@@ -8,7 +8,7 @@ const configs = {
 
 const entries = (() => {
   const entries = {}
-  entries['main'] = './src/index.ts'
+  entries['JRenderUtils'] = './src/index.ts'
 
   const result = rollups.establish(entries, configs)
   return result

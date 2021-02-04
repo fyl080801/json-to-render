@@ -3,12 +3,12 @@ const { rollups } = require('../../build')
 
 const configs = {
   types: ['umd', 'iife', 'esm'],
-  external: ['vue'],
+  external: [],
 }
 
 const entries = (() => {
   const entries = {}
-  entries['main'] = './src/index.ts'
+  entries['JRenderPluginClassics'] = './src/index.ts'
 
   const result = rollups.establish(entries, configs)
   return result

@@ -11,7 +11,7 @@ const { helperGlobal } = require('./runtime.helper')
 const { path, assignObject, assignArray } = require('./utils')
 
 const commonGlobal = {
-  vue: 'vue',
+  vue: 'Vue',
 }
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
 const defaultExternal = ['vue', /core-js/]
