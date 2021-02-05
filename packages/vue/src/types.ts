@@ -8,4 +8,4 @@ export declare interface HookItem {
   index: number
 }
 
-export type DatasourceProviders = { [key: string]: any }
+export declare type DatasourceProviders = { [key: string]: any }

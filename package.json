@@ -2,6 +2,16 @@
   "name": "json-to-render",
   "version": "0.4.0",
   "private": true,
+  "author": "fyl080801 <fyl080801@hotmail.com>",
+  "homepage": "https://github.com/fyl080801/json-to-render#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyl080801/json-to-render.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fyl080801/json-to-render/issues"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -11,7 +21,7 @@
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
     "publish": "lerna publish",
-    "prepublish": "yarn dist"
+    "postpack": "yarn dist"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -35,6 +45,7 @@
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "axios": "^0.21.1",
     "commitizen": "^4.2.3",
     "cross-env": "^7.0.3",
     "cz-lerna-changelog": "^2.0.3",
@@ -48,8 +59,10 @@
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.38.4",
+    "rollup-plugin-sizes": "^1.0.3",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-vue": "^6.0.0",
+    "semantic-release": "~15.8.0",
     "tslib": "^2.1.0",
     "typescript": "^4.1.3",
     "vue-router": "^4.0.0-0"

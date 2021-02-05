@@ -5,6 +5,7 @@ const commonjs = require('@rollup/plugin-commonjs')
 const typescript = require('@rollup/plugin-typescript')
 const terser = require('rollup-plugin-terser').terser
 const vuePlugin = require('rollup-plugin-vue')
+const sizes = require('rollup-plugin-sizes')
 
 module.exports = {
   alias,
@@ -14,4 +15,5 @@ module.exports = {
   typescript,
   terser,
   vuePlugin,
+  sizes,
 }

@@ -6,6 +6,7 @@ const {
   typescript,
   terser,
   vuePlugin,
+  sizes,
 } = require('./rollup.plugins')
 const { helperGlobal } = require('./runtime.helper')
 const { path, assignObject, assignArray } = require('./utils')
@@ -14,7 +15,7 @@ const commonGlobal = {
   vue: 'Vue',
 }
 const defaultGlobal = assignObject(helperGlobal, commonGlobal)
-const defaultExternal = ['vue', /core-js/]
+const defaultExternal = ['vue', /core-js/, /regenerator-runtime/]
 
 const defaultPlugins = [
   alias({
@@ -37,6 +38,7 @@ const defaultPlugins = [
   }),
   terser(),
   vuePlugin(),
+  sizes(),
 ]
 
 /**
