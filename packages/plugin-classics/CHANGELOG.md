@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.6-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.5...@json2render/plugin-classics@0.1.6-alpha.0) (2021-02-05)
+
+
+### Features
+
+* **vue-full:** 全插件 ([fcee879](https://github.com/fyl080801/json-to-render/commit/fcee879876d95b1dee572e2442179251b195f2ad))
+
+
+
+
+
 ## [0.1.5](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.4-beta.2...@json2render/plugin-classics@0.1.5) (2021-02-04)
 
 **Note:** Version bump only for package @json2render/plugin-classics
