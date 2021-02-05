@@ -1,12 +1,19 @@
 {
   "version": "independent",
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "publish": {
       "registry": "http://registry.npmjs.org/",
-      "ignoreChanges": [".gitignore", ".eslintignore", "*.log", "*.md"]
+      "ignoreChanges": [
+        ".gitignore",
+        ".eslintignore",
+        "*.log",
+        "*.md"
+      ]
     },
     "version": {
       "conventionalCommits": true
