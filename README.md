@@ -15,7 +15,7 @@
 使用 npm 安装
 
 ```bash
-npm i @json2render/vue @json2render/plugin-classics @json2render/plugin-modern
+npm i @json2render/vue-full
 ```
 
 实现一个简单示例
@@ -25,12 +25,7 @@ main.js
 ```javascript
 import { createApp } from 'vue'
 import App from './App.vue'
-import JRender from '@json2render/vue'
-import classics from '@json2render/plugin-classics'
-import modern from '@json2render/plugin-modern'
-
-JRender.use(classics)
-JRender.use(modern)
+import JRender from '@json2render/vue-full'
 
 createApp(App).use(JRender).mount('#app')
 ```
@@ -52,7 +47,7 @@ export default defineComponent({
       model: { text1: 'Hello world!!' },
       fields: [
         { component: 'p', text: '$:model.text1' },
-        { component: 'input', model: 'model.text1' },
+        { component: 'input', context: 'model.text1' },
       ],
     }
   },
