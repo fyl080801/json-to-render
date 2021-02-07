@@ -1,41 +1,40 @@
 import { resolveComponent, h } from 'vue'
-import { getProxyDefine } from '@json2render/core'
-import { assignObject } from '@json2render/utils'
+// import { getProxyDefine } from '@json2render/core'
+import { assignObject, isArray, isObject } from '@json2render/utils'
 
-const render = (children: any[], services: any, scope?: any) => {
-  const { context, injectProxy } = services
+const render = (children: any[], scope: any) => {
+  // const { injectProxy } = services
 
   return children.map((child) => {
-    if (!scope) {
-      return h(resolveComponent('vJnode'), { field: child })
-    }
+    // if (!scope) {
+    //   return h(resolveComponent('vJnode'), { field: child, context })
+    // }
 
-    const childDefine = getProxyDefine(child)
+    // const childDefine = getProxyDefine(child)
 
-    const scopedChild = injectProxy(
-      childDefine,
-      assignObject(context, { scope })
-    )
+    // const combinedContext = assignObject(context, { scope })
 
-    return h(resolveComponent('vJnode'), { field: scopedChild })
+    // const scopedChild = injectProxy(childDefine, combinedContext)
+
+    return h(resolveComponent('vJnode'), {
+      field: child,
+      scope,
+    })
   })
 }
 
-export default (services: any) => (children: any) => {
+export default (scope: any) => (children: any) => {
   if (!children) {
     return null
   }
 
-  return Array.isArray(children)
-    ? render(children, services)
-    : Object.keys(children).reduce((pre: any, key: string) => {
-        pre[key] = (scope: any) => {
-          return render(
-            children[key],
-            services,
-            Object.keys(scope || {}).length && scope
-          )
-        }
+  return isArray(children)
+    ? render(children, scope)
+    : isObject(children)
+    ? Object.keys(children).reduce((pre: any, key: string) => {
+        pre[key] = (scope: any) =>
+          render(children[key], assignObject(scope, Object.keys(scope || {})))
         return pre
       }, {})
+    : null
 }

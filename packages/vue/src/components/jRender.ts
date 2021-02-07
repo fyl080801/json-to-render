@@ -9,7 +9,7 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { createProxyInjector, getProxyDefine } from '@json2render/core'
+import { createProxyInjector } from '@json2render/core'
 import { assignObject, isFunction, isArray } from '@json2render/utils'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
@@ -36,7 +36,7 @@ export default defineComponent({
       model: toRaw(props.modelValue),
       refs: {},
     })
-    const root = reactive({ field: {} })
+    const root = reactive({ field: {}, scope: {} })
     const updating = ref(false) // 为了更新 fields 时从根节点刷新
 
     //#region 初始化服务相关
@@ -72,13 +72,18 @@ export default defineComponent({
       (value) => {
         updating.value = true
 
-        root.field = injectProxy(
-          {
-            component: props.component,
-            children: toRaw(getProxyDefine(value || [])),
-          },
-          context
-        )
+        root.field = {
+          component: props.component,
+          children: toRaw(value || []),
+        }
+        // root.field = injectProxy(
+        //   {
+        //     component: props.component,
+        //     children: toRaw(getProxyDefine(value || [])),
+        //   },
+        //   context
+        // )
+        root.scope = {}
 
         nextTick(() => {
           updating.value = false

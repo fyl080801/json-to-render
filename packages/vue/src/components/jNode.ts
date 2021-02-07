@@ -1,5 +1,5 @@
-import { resolveComponent, defineComponent, h, watch } from 'vue'
-import getRender from '../utils/render'
+import { resolveComponent, defineComponent, h, watch, ref } from 'vue'
+import getRenderer from '../utils/render'
 import { isArray, assignObject, isOriginTag } from '@json2render/utils'
 import { getState } from '../store'
 
@@ -30,6 +30,7 @@ export default defineComponent({
   name: 'vJnode',
   props: {
     field: { type: Object, required: true },
+    scope: { type: Object, required: true },
   },
   setup: (props) => {
     const {
@@ -40,26 +41,46 @@ export default defineComponent({
       context,
     }: any = getState()
 
-    prerender([slot], { injectProxy, context })(props.field)
+    const nodeField = ref({ children: [] })
+
+    const injectedContext = assignObject(context, { scope: props.scope })
+
+    // prerender([slot], { injectProxy, context: props.context })(props.field)
 
     watch(
       () => props.field,
-      () => {
-        prerender([slot], { injectProxy, context })(props.field)
-      }
+      (value) => {
+        const hookField = injectProxy(value, injectedContext)
+
+        prerender(
+          [
+            slot,
+            () => (field: any, next: any) => {
+              nodeField.value = field
+              next(nodeField.value)
+            },
+          ],
+          {
+            injectProxy,
+            context: injectedContext,
+          }
+        )(hookField)
+      },
+      { deep: false, immediate: true }
     )
 
     return () => {
       // 暂时规划每次渲染都用非代理对象
-      const renderField = assignObject(props.field, {
-        children: props.field.children && assignObject(props.field.children),
+      const renderField = assignObject(nodeField.value, {
+        children:
+          nodeField.value.children && assignObject(nodeField.value.children),
       })
 
-      render([], { injectProxy, context })(renderField)
+      render([], { injectProxy, context: injectedContext })(renderField)
 
       const component =
         renderField.component &&
-        (components[renderField.component] ||
+        (components[renderField.component] || // 是否要加上外部引用组件的类型判断？
           (isOriginTag(renderField.component)
             ? renderField.component
             : resolveComponent(renderField.component)))
@@ -69,7 +90,7 @@ export default defineComponent({
         h(
           component,
           renderField.props,
-          getRender({ injectProxy, context })(renderField.children)
+          getRenderer(props.scope)(renderField.children)
         )
 
       if (rendered?.ref) {

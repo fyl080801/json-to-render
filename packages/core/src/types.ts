@@ -17,10 +17,10 @@ export declare interface ProxyTarget {
 export declare type ProxyContext = { [key: string]: unknown }
 
 // 返回真实对象
-export declare type JProxyHandler = (
-  context: any,
-  services: { [key: string]: any }
-) => unknown
+export declare type JsonProxyHandler = (context: any) => unknown
 
 //
-export declare type ProxyHandlerResolver<T = any> = (target: T) => any // JProxyHandler
+export declare type ProxyHandlerResolver<T = any> = (
+  target: T,
+  injectProxy: any
+) => any

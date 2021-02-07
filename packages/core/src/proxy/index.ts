@@ -1,134 +1,59 @@
-import {
-  assignArray,
-  assignObject,
-  forEachTarget,
-  isArray,
-} from '@json2render/utils'
-import {
-  JProxyHandler,
-  ProxyFlags,
-  ProxyHandlerResolver,
-  ProxyTarget,
-} from '../types'
-import { isAllowedProxy, isProxy } from './utils'
+import { JsonProxyHandler, ProxyFlags, ProxyHandlerResolver } from '../types'
+import { getProxyDefine, isAllowedProxy, isProxy } from './utils'
 
-export const createProxyInjector = (
-  proxies: JProxyHandler[],
-  services?: { [key: string]: any }
-) => {
-  const getProxyHandler: ProxyHandlerResolver<any> = (value) => {
-    const assigned = assignArray([], proxies)
-    for (const index in assigned) {
-      const handler = assigned[index](value)
+const getProxyHandler = (
+  proxies: ProxyHandlerResolver[],
+  injectProxy: any
+): JsonProxyHandler => {
+  return (value: any) => {
+    for (const index in proxies) {
+      const handler = proxies[index](value, injectProxy)
       if (handler) {
         return handler
       }
     }
   }
+}
 
-  const createProxyHandlerMap = () => {
-    const map = new Map<string, JProxyHandler>()
-
-    return {
-      set: (key: string, handler?: JProxyHandler) => {
-        if (map.has(key)) {
-          map.delete(key)
-        }
-
-        if (handler) {
-          map.set(key, handler)
-        }
-      },
-
-      get: (key: string) => {
-        return map.get(key)
-      },
-
-      remove: (key: string) => {
-        if (map.has(key)) {
-          map.delete(key)
-        }
-      },
-    }
-  }
-
-  const createProxyMap = (target: any) => {
-    const handlers = createProxyHandlerMap()
-
-    forEachTarget(target, (value: any, prop: any) => {
-      handlers.set(prop, getProxyHandler(value))
-    })
-
-    handlers.set(ProxyFlags.IS_PROXY, () => true)
-
-    return handlers
-  }
-
+export const createProxyInjector = (proxies: ProxyHandlerResolver[]) => {
   const createProxy = (originTarget: any, context: any) => {
-    const handlers = createProxyMap(originTarget)
-
-    const getter = (target: any, p: any, receiver: any): ProxyTarget => {
+    const getter = (target: any, p: any, receiver: any): any => {
       if (p === ProxyFlags.PROXY_DEFINE) {
         return target
       }
-      const handler = handlers.get(p)
-      // 获取属性时候，处理传入 context 和 services
-      return handler
-        ? handler(
-            context,
-            assignObject(services, {
-              /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
-              injectProxy,
-            })
-          )
-        : Reflect.get(target, p, receiver)
-    }
 
-    const setter = (
-      target: any,
-      p: any,
-      value: any,
-      receiver: any
-    ): boolean => {
-      const input =
-        isProxy(value) || !isAllowedProxy(value)
-          ? value
-          : /* eslint-disable-next-line @typescript-eslint/no-use-before-define */
-            injectProxy(value, context)
-      handlers.set(p, getProxyHandler(input))
-      return Reflect.set(target, p, input, receiver)
-    }
+      if (p === ProxyFlags.IS_PROXY) {
+        return true
+      }
 
-    const deleter = (target: any, p: any) => {
-      handlers.remove(p)
-      return Reflect.deleteProperty(target, p)
+      const originValue = Reflect.get(target, p, receiver)
+
+      const handler = getProxyHandler(proxies, injectProxy)(originValue)
+
+      if (handler !== undefined && typeof handler === 'function') {
+        return injectProxy(handler(context), context)
+      } else {
+        return injectProxy(originValue, context)
+      }
     }
 
     return new Proxy(originTarget, {
       get: getter,
-      set: setter,
-      deleteProperty: deleter,
     })
   }
 
   const injectProxy = (target: any, context: any) => {
-    if (isProxy(target) || !isAllowedProxy(target)) {
+    if (!isAllowedProxy(target)) {
       return target
     }
 
-    const cloned: any = isArray(target) ? [] : {}
+    if (isProxy(target)) {
+      return createProxy(getProxyDefine(target), context)
+    }
 
-    forEachTarget(target, (value: any, prop: any) => {
-      cloned[prop] = value
-    })
+    const proxed = createProxy(target, context)
 
-    const proxy: any = createProxy(target, context)
-
-    forEachTarget(cloned, (value: any, prop: any) => {
-      proxy[prop] = injectProxy(value, context)
-    })
-
-    return proxy
+    return proxed
   }
 
   return injectProxy
