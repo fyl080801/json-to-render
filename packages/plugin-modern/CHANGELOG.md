@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.8-alpha.0...@json2render/plugin-modern@0.1.8) (2021-02-07)
+
+
+### Features
+
+* 拆分原生支持的和vue支持的plugin ([18dfa2f](https://github.com/fyl080801/json-to-render/commit/18dfa2f42db009d39f515910008319e582b0364c))
+
+
+
+
+
 ## [0.1.8-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.6-alpha.3...@json2render/plugin-modern@0.1.8-alpha.0) (2021-02-07)
 
 
