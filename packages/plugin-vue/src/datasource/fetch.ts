@@ -11,6 +11,7 @@ export default ({ define }: any) => {
       const { url, dataType = 'json', props } = define()
 
       instance.loading = true
+
       try {
         const response: any = await fetch(url, props)
 

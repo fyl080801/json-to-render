@@ -76,13 +76,7 @@ export default defineComponent({
           component: props.component,
           children: toRaw(value || []),
         }
-        // root.field = injectProxy(
-        //   {
-        //     component: props.component,
-        //     children: toRaw(getProxyDefine(value || [])),
-        //   },
-        //   context
-        // )
+
         root.scope = {}
 
         nextTick(() => {

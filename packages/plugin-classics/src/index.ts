@@ -5,9 +5,7 @@ import computed from './proxy/computed'
 import method from './proxy/method'
 import condition from './render/condition'
 
-import fetchDatasource from './datasource/fetch'
-
-export default ({ prerender, render, proxy, datasource }: any) => {
+export default ({ prerender, render, proxy }: any) => {
   prerender(context)
 
   render(text)
@@ -15,6 +13,4 @@ export default ({ prerender, render, proxy, datasource }: any) => {
 
   proxy(computed)
   proxy(method)
-
-  datasource('fetch', fetchDatasource)
 }
