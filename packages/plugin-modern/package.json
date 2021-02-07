@@ -1,6 +1,6 @@
 {
   "name": "@json2render/plugin-modern",
-  "version": "0.1.6-alpha.2",
+  "version": "0.1.6-alpha.3",
   "description": "> TODO: description",
   "author": "fyl080801 <fyl080801@hotmail.com>",
   "homepage": "https://github.com/fyl080801/json-to-render#readme",
@@ -30,7 +30,7 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/utils": "^0.1.6-alpha.2"
+    "@json2render/utils": "^0.1.6-alpha.3"
   },
   "gitHead": "ddf28da6c2292c9cd6bc43bc682d096f294b88f0"
 }

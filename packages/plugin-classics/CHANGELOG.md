@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.6-alpha.2...@json2render/plugin-classics@0.2.0-alpha.0) (2021-02-07)
+
+
+### Features
+
+* 更好的 context hook 实现 ([1f3e2f0](https://github.com/fyl080801/json-to-render/commit/1f3e2f081b6ba19bb5578e3124781d78f60a6343))
+
+
+
+
+
 ## [0.1.6-alpha.2](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.6-alpha.0...@json2render/plugin-classics@0.1.6-alpha.2) (2021-02-05)
 
 **Note:** Version bump only for package @json2render/plugin-classics
