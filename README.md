@@ -47,7 +47,7 @@ export default defineComponent({
       model: { text1: 'Hello world!!' },
       fields: [
         { component: 'p', text: '$:model.text1' },
-        { component: 'input', context: 'model.text1' },
+        { component: 'input', value: 'model.text1' },
       ],
     }
   },
