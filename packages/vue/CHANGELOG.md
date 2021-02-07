@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.9-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.1.8-alpha.0...@json2render/vue@0.1.9-alpha.0) (2021-02-07)
+
+
+### Features
+
+* **plugin-vue:** 引用vue的plugin单独出来 ([117e65c](https://github.com/fyl080801/json-to-render/commit/117e65c4f8f11e519e9268708c9632483af78c2d))
+
+
+
+
+
 ## [0.1.8-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.1.6-alpha.3...@json2render/vue@0.1.8-alpha.0) (2021-02-07)
 
 
