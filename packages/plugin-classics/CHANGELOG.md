@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.2.0-alpha.0...@json2render/plugin-classics@0.1.8-alpha.0) (2021-02-07)
+
+
+### Features
+
+* package ([21a232a](https://github.com/fyl080801/json-to-render/commit/21a232a82766424503b2fb7aa78d0a3b5704ecfd))
+
+
+
+
+
 # [0.2.0-alpha.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-classics@0.1.6-alpha.2...@json2render/plugin-classics@0.2.0-alpha.0) (2021-02-07)
 
 
