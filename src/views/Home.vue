@@ -22,7 +22,6 @@ export default defineComponent({
     const ret: any = reactive({
       model: {
         text1: 'xxx',
-        selects: [],
         obj: { selected: 0, value: 'text1' },
       },
       fields: [],
@@ -36,6 +35,7 @@ export default defineComponent({
           ret.fields = json.fields
           ret.datasource = json.datasource
           ret.listeners = json.listeners
+          ret.model = Object.assign(ret.model, json.model)
         })
       })
     })
