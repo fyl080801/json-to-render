@@ -11,7 +11,7 @@ export const isObject = (target: any) => {
 }
 
 export const isFunction = (target: any) => {
-  return typeof target === 'function'
+  return target !== undefined && typeof target === 'function'
 }
 
 export const assignArray = (...targets: Array<Array<any>>) => {

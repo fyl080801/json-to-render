@@ -1,10 +1,11 @@
+import { isFunction } from '@json2render/utils'
 import { JsonProxyHandler, ProxyFlags, ProxyHandlerResolver } from '../types'
 import { getProxyDefine, isAllowedProxy, isProxy } from './utils'
 
 const getProxyHandler = (
   proxies: ProxyHandlerResolver[],
   injectProxy: any
-): JsonProxyHandler => {
+): ((value: any) => JsonProxyHandler) => {
   return (value: any) => {
     for (const index in proxies) {
       const handler = proxies[index](value, injectProxy)
@@ -30,11 +31,16 @@ export const createProxyInjector = (proxies: ProxyHandlerResolver[]) => {
 
       const handler = getProxyHandler(proxies, injectProxy)(originValue)
 
-      if (handler !== undefined && typeof handler === 'function') {
-        return injectProxy(handler(context), context)
-      } else {
-        return injectProxy(originValue, context)
-      }
+      return injectProxy(
+        isFunction(handler) ? handler(context) : originValue,
+        context
+      )
+
+      // if (handler !== undefined && typeof handler === 'function') {
+      //   return injectProxy(handler(context), context)
+      // } else {
+      //   return injectProxy(originValue, context)
+      // }
     }
 
     return new Proxy(originTarget, {

@@ -57,7 +57,7 @@ export default defineComponent({
             slot,
             () => (field: any, next: any) => {
               nodeField.value = field
-              next(nodeField.value)
+              next(field)
             },
           ],
           {

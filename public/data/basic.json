@@ -154,7 +154,7 @@
               "text": "明细",
               "props": {
                 "type": "text",
-                "onClick": "@:alert(JSON.stringify(scope.row))"
+                "onClick": "@:alert(JSON.stringify(remotedata.data[scope.$index]))"
               }
             }
           ]
