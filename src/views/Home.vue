@@ -20,7 +20,11 @@ export default defineComponent({
   name: 'Home',
   setup: () => {
     const ret: any = reactive({
-      model: { text1: 'xxx', obj: { selected: 0, value: 'text1' } },
+      model: {
+        text1: 'xxx',
+        selects: [],
+        obj: { selected: 0, value: 'text1' },
+      },
       fields: [],
       datasource: {},
       listeners: [],
@@ -41,11 +45,9 @@ export default defineComponent({
   methods: {
     onSetup({ datasource }: any) {
       datasource('rawdata', ({ define }: any) => {
-        const { props } = define()
+        const { data } = define()
 
-        // set(props)
-
-        return props
+        return data
       })
     },
   },

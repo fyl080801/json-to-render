@@ -1,5 +1,5 @@
 import { getProxyDefine } from '@json2render/core'
-import { assignObject, FunctionHook, isArray } from '@json2render/utils'
+import { FunctionHook, isArray } from '@json2render/utils'
 
 const hook: FunctionHook = ({ injectProxy, context }) => {
   return (field, next) => {
@@ -13,7 +13,7 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
     field.props = field.props || {}
 
     if (isArray(define)) {
-      const evts = define.reduce((props, evt) => {
+      const events = define.reduce((props: any, evt: any) => {
         props[evt.name] = props[evt.name] || []
 
         props[evt.name].push(evt)
@@ -21,12 +21,12 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
         return props
       }, {})
 
-      Object.keys(evts).reduce((props, key) => {
+      field.props = Object.keys(events).reduce((props, key) => {
         props[`on${key.charAt(0).toUpperCase() + key.slice(1)}`] = (
           ...args: any
         ) => {
-          evts[key].forEach((evt) => {
-            injectProxy(evt, assignObject(context, { arguments: args }))
+          events[key].forEach((evt: any) => {
+            injectProxy(evt, context)?.handler(...args)
           })
         }
         return props

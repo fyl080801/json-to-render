@@ -30,10 +30,10 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/plugin-classics": "^0.2.0-alpha.0",
-    "@json2render/plugin-modern": "^0.1.6-alpha.3",
+    "@json2render/plugin-classics": "^0.1.9-alpha.0",
+    "@json2render/plugin-modern": "^0.1.8-alpha.0",
     "@json2render/plugin-vue": "^0.1.1-alpha.0",
-    "@json2render/vue": "^0.1.6-alpha.3"
+    "@json2render/vue": "^0.1.9-alpha.0"
   },
   "gitHead": "1708cbf86a1c54de5c216a21295eb08a530e6cbb"
 }

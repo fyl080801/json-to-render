@@ -20,15 +20,15 @@
     },
     {
       "component": "input",
-      "context": "model.text1"
+      "value": "model.text1"
     },
     {
       "component": "el-input",
-      "context": "model.text1"
+      "model": "model.text1"
     },
     {
       "component": "el-select",
-      "context": "model.obj.selected",
+      "model": "model.obj.selected",
       "children": [
         {
           "component": "el-option",

@@ -45,8 +45,6 @@ export default defineComponent({
 
     const injectedContext = assignObject(context, { scope: props.scope })
 
-    // prerender([slot], { injectProxy, context: props.context })(props.field)
-
     watch(
       () => props.field,
       (value) => {
@@ -70,7 +68,7 @@ export default defineComponent({
     )
 
     return () => {
-      // 暂时规划每次渲染都用非代理对象
+      // 是否需要每次渲染都转换成真实对象?
       const renderField = assignObject(nodeField.value, {
         children:
           nodeField.value.children && assignObject(nodeField.value.children),
@@ -80,7 +78,7 @@ export default defineComponent({
 
       const component =
         renderField.component &&
-        (components[renderField.component] || // 是否要加上外部引用组件的类型判断？
+        (components[renderField.component] ||
           (isOriginTag(renderField.component)
             ? renderField.component
             : resolveComponent(renderField.component)))
