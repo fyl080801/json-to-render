@@ -1,4 +1,3 @@
-import { getProxyDefine } from '@json2render/core'
 import { assignObject, FunctionHook } from '@json2render/utils'
 
 const hook: FunctionHook = () => {
@@ -8,21 +7,19 @@ const hook: FunctionHook = () => {
       return
     }
 
-    const modelDefine = getProxyDefine(field.context)
-
-    if (typeof modelDefine !== 'string' || modelDefine.length <= 0) {
+    if (typeof field.context !== 'string' || field.context.length <= 0) {
       next(field)
       return
     }
 
     const valueDefine = {
       $type: 'computed',
-      $result: modelDefine,
+      $result: field.context,
     }
 
     const updateDefine = {
       $type: 'method',
-      $context: modelDefine,
+      $context: field.context,
       $result:
         'arguments[0].target ? (["checkbox", "radio"].indexOf(arguments[0].target.type) >= 0 ? arguments[0].target.checked : arguments[0].target.value) : arguments[0]',
     }

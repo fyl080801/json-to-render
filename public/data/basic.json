@@ -141,10 +141,7 @@
           "children": [
             {
               "component": "el-input",
-              "props": {
-                "modelValue": "$:remotedata.data[scope.$index].name",
-                "onUpdate:modelValue": "@remotedata.data[${scope.$index}].name:arguments[0]"
-              }
+              "context": "#:remotedata.data[${scope.$index}].name"
             }
           ]
         },
