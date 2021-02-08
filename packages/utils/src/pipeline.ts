@@ -4,6 +4,7 @@ const pipeline: FunctionPipeLine = (funcs, opts) => {
   return (scope: any) => {
     // 全局索引
     let index = -1
+    let currentScope = scope
 
     // 索引遍历的递归委托，返回当前索引函数执行的 Promise 对象
     const dispatch = (i: number) => {
@@ -14,7 +15,8 @@ const pipeline: FunctionPipeLine = (funcs, opts) => {
       index = i
 
       // 下个方法委托，返回索引遍历的递归委托执行结果
-      const next: FunctionNext = () => {
+      const next: FunctionNext = (nextScope: any) => {
+        currentScope = nextScope
         // 执行时索引加 1
         return dispatch(i + 1)
       }
@@ -25,11 +27,13 @@ const pipeline: FunctionPipeLine = (funcs, opts) => {
       const currentFn: FunctionHook | null = i >= funcs.length ? null : funcs[i]
 
       // 当前函数是空的，说明最后一个索引的函数已经执行完毕
-      if (!currentFn) return Promise.resolve()
+      if (!currentFn) {
+        return Promise.resolve()
+      }
 
       // 返回一个 Promise 对象，任务是执行当前指针处的函数
       // 将上下文对象和返回下个方法的委托函数作为参数传递进去
-      return Promise.resolve(currentFn(opts)(scope, next))
+      return Promise.resolve(currentFn(opts)(currentScope, next))
     }
 
     // 传递索引 0 开始执行索引遍历递归委托

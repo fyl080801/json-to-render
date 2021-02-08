@@ -48,35 +48,45 @@ export default defineComponent({
     watch(
       () => props.field,
       (value) => {
-        const hookField = injectProxy(value, injectedContext)
-
         prerender(
           [
             slot,
             () => (field: any, next: any) => {
-              nodeField.value = field
-              next(field)
+              nodeField.value = injectProxy(field, injectedContext)
+              next(nodeField.value)
             },
           ],
           {
             injectProxy,
             context: injectedContext,
           }
-        )(hookField)
+        )(injectProxy(value, injectedContext))
       },
       { deep: false, immediate: true }
     )
 
     return () => {
       // 是否需要每次渲染都转换成真实对象?
-      const renderField = assignObject(nodeField.value, {
+      let renderField = assignObject(nodeField.value, {
         children:
           nodeField.value.children && assignObject(nodeField.value.children),
       })
 
-      render([], { injectProxy, context: injectedContext })(renderField)
+      render(
+        [
+          () => (field: any, next: any) => {
+            renderField = field
+            next(renderField)
+          },
+        ],
+        {
+          injectProxy,
+          context: injectedContext,
+        }
+      )(renderField)
 
       const component =
+        renderField &&
         renderField.component &&
         (components[renderField.component] ||
           (isOriginTag(renderField.component)

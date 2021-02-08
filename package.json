@@ -21,7 +21,8 @@
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
     "publish": "lerna publish",
-    "prepack": "yarn run dist"
+    "prepack": "yarn run dist",
+    "postpublish": "yarn run clean"
   },
   "dependencies": {
     "core-js": "^3.6.5",
