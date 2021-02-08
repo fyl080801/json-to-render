@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.9](https://github.com/fyl080801/json-to-render/compare/@json2render/utils@0.1.8...@json2render/utils@0.1.9) (2021-02-08)
+
+
+### Features
+
+* **vue:** hook支持next传递新的field ([a635e64](https://github.com/fyl080801/json-to-render/commit/a635e6496d2a1efb7f4e6f4771bd8fe9fcf508ec))
+
+
+
+
+
 ## [0.1.8](https://github.com/fyl080801/json-to-render/compare/@json2render/utils@0.1.8-alpha.0...@json2render/utils@0.1.8) (2021-02-07)
 
 **Note:** Version bump only for package @json2render/utils
