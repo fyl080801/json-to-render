@@ -157,7 +157,7 @@ export default defineComponent({
     )
 
     onBeforeUnmount(() => {
-      watchs.value.forEach((w) => w())
+      watchs.value.forEach((watcher) => watcher())
     })
     //#endregion
 

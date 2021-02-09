@@ -1,6 +1,6 @@
-import { resolveComponent, defineComponent, h, watch, ref } from 'vue'
-import getRenderer from '../utils/render'
-import { isArray, assignObject, isOriginTag } from '@json2render/utils'
+import { defineComponent, h, watch, ref } from 'vue'
+import { getRenderer, resolveRenderComponent } from '../utils/render'
+import { isArray, assignObject } from '@json2render/utils'
 import { getState } from '../store'
 
 const slot = () => (field: any, next: any) => {
@@ -89,9 +89,7 @@ export default defineComponent({
         renderField &&
         renderField.component &&
         (components[renderField.component] ||
-          (isOriginTag(renderField.component)
-            ? renderField.component
-            : resolveComponent(renderField.component)))
+          resolveRenderComponent(renderField.component))
 
       const rendered =
         component &&

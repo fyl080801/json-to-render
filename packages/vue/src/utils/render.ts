@@ -1,16 +1,31 @@
 import { resolveComponent, h } from 'vue'
-import { assignObject, isArray, isObject } from '@json2render/utils'
+import {
+  assignObject,
+  isArray,
+  isObject,
+  isOriginTag,
+} from '@json2render/utils'
 
 const render = (children: any[], scope: any) => {
   return children.map((child) => {
-    return h(resolveComponent('vJnode'), {
-      field: child,
-      scope,
-    })
+    return child.options && child.options.direct
+      ? h(
+          resolveComponent(child.component),
+          child.props,
+          getRenderer(scope)(child.children)
+        )
+      : h(resolveComponent('vJnode'), {
+          field: child,
+          scope,
+        })
   })
 }
 
-export default (scope: any) => (children: any) => {
+export const resolveRenderComponent = (name: string) => {
+  return isOriginTag(name) ? name : resolveComponent(name)
+}
+
+export const getRenderer = (scope: any) => (children: any): any => {
   if (!children) {
     return null
   }
