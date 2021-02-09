@@ -4,6 +4,7 @@ export default defineComponent({
   setup() {
     const data = reactive({ active: 'first' })
     const fields = reactive([
+      { component: 'input', value: 'model.text' },
       {
         component: 'el-tabs',
         model: 'model.active',
@@ -12,7 +13,7 @@ export default defineComponent({
             component: 'el-tab-pane',
             options: { direct: true },
             props: { label: 'aaa', name: 'first' },
-            children: [{ component: 'p', text: 'aaa' }],
+            children: [{ component: 'p', text: '$:model.text' }],
           },
           {
             component: 'el-tab-pane',

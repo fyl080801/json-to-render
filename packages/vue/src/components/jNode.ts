@@ -1,30 +1,11 @@
 import { defineComponent, h, watch, ref } from 'vue'
-import { getRenderer, resolveRenderComponent } from '../utils/render'
+import {
+  getRenderer,
+  resolveRenderComponent,
+  resolveChildren,
+} from '../utils/render'
 import { isArray, assignObject } from '@json2render/utils'
 import { getState } from '../store'
-
-const slot = () => (field: any, next: any) => {
-  if (!isArray(field.children)) {
-    next(field)
-    return
-  }
-
-  const children = field.children?.filter((child: any) => child) ?? []
-
-  if (children.length <= 0) {
-    next(field)
-    return
-  }
-
-  field.children = children.reduce((pre: any, cur: any) => {
-    const currentSlot = cur.slot || 'default'
-    pre[currentSlot] = pre[currentSlot] || []
-    pre[currentSlot].push(cur)
-    return pre
-  }, {})
-
-  next(field)
-}
 
 export default defineComponent({
   name: 'vJnode',
@@ -50,7 +31,24 @@ export default defineComponent({
       (value) => {
         prerender(
           [
-            slot,
+            () => (field: any, next: any) => {
+              if (!isArray(field.children)) {
+                next(field)
+                return
+              }
+
+              const children =
+                field.children?.filter((child: any) => child) ?? []
+
+              if (children.length <= 0) {
+                next(field)
+                return
+              }
+
+              field.children = resolveChildren(field.children)
+
+              next(field)
+            },
             () => (field: any, next: any) => {
               nodeField.value = injectProxy(field, injectedContext)
               next(nodeField.value)

@@ -12,13 +12,24 @@ const render = (children: any[], scope: any) => {
       ? h(
           resolveComponent(child.component),
           child.props,
-          getRenderer(scope)(child.children)
+          getRenderer(scope)(resolveChildren(child.children))
         )
       : h(resolveComponent('vJnode'), {
           field: child,
           scope,
         })
   })
+}
+
+export const resolveChildren = (children: any[]) => {
+  return children
+    ? children.reduce((pre: any, cur: any) => {
+        const currentSlot = cur.slot || 'default'
+        pre[currentSlot] = pre[currentSlot] || []
+        pre[currentSlot].push(cur)
+        return pre
+      }, {})
+    : null
 }
 
 export const resolveRenderComponent = (name: string) => {
