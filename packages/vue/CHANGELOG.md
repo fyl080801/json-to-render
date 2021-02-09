@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.1.10...@json2render/vue@0.2.0) (2021-02-09)
+
+
+### Features
+
+* **vue:** 支持不通过node渲染,解决父组件查找直接下级的情景 ([2abc08f](https://github.com/fyl080801/json-to-render/commit/2abc08f72dc11cc4a73533c9e8a99619f5f49420))
+
+
+
+
+
 ## [0.1.10](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.1.9...@json2render/vue@0.1.10) (2021-02-08)
 
 
