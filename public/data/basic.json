@@ -101,7 +101,8 @@
                   "component": "span",
                   "condition": "$:model.obj.selected",
                   "text": "$:model.text1"
-                }
+                },
+                { "component": "p", "text": "$:GET(model, 'obj.selected')" }
               ]
             },
             {
@@ -137,7 +138,7 @@
           "component": "el-button",
           "text": "click1",
           "events": [
-            { "name": "click", "handler": "@:alert('aaa')" },
+            { "name": "click", "handler": "@:alert(GET(model, 'text1'))" },
             { "name": "click", "handler": "@:alert('bbb')" }
           ],
           "props": {

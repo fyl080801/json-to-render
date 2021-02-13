@@ -6,6 +6,7 @@ export {
   assignObject,
   cloneDeep,
   deepSet,
+  deepGet,
   forEachTarget,
   isArray,
   isObject,

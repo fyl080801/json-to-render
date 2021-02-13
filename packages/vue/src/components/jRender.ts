@@ -9,13 +9,13 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { createProxyInjector } from '@json2render/core'
+import { createFunctionalService, createProxyInjector } from '@json2render/core'
 import { assignObject, isFunction, isArray } from '@json2render/utils'
 import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
-import { proxy, prerender, render, datasource } from '../service'
+import { proxy, prerender, render, datasource, functional } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
 import JNode from './jNode'
@@ -45,7 +45,10 @@ export default defineComponent({
     const renderService = createHookService(render.store)
     const componentService = createComponentService()
     const datasourceService = createDatasourceService(datasource.store)
-    const injectProxy = createProxyInjector(proxyService.store)
+    const functionalService = createFunctionalService(functional.store)
+    const injectProxy = createProxyInjector(proxyService.store, {
+      functional: functionalService.resolve,
+    })
 
     // 共享给节点的服务
     const services = {
@@ -63,6 +66,7 @@ export default defineComponent({
       render: renderService.setup,
       component: componentService.setup,
       datasource: datasourceService.setup,
+      functional: functionalService.setup,
     })
     //#endregion
 

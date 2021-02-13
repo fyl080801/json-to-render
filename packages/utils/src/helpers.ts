@@ -40,25 +40,28 @@ const isNumberLike = (value: any) => {
   return String(value).match(/^\d+$/)
 }
 
-const toPath = (pathString: string) => {
+const toPath = (
+  pathString: string | Array<string | number>
+): Array<string | number> => {
   if (isArray(pathString)) {
-    return pathString
+    return pathString as Array<string | number>
   }
   if (typeof pathString === 'number') {
-    return [pathString]
+    return [pathString] as Array<string | number>
   }
   pathString = String(pathString)
 
   // lodash 的实现 - https://github.com/lodash/lodash
   const pathRx = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g
-  const pathArray: Array<any> = []
+  const pathArray: Array<string | number> = []
 
-  pathString.replace(pathRx, (match, number, quote, string) => {
-    pathArray.push(
-      quote ? string : number !== undefined ? Number(number) : match
-    )
+  const replacer: any = (match: any, num: any, quote: any, str: any) => {
+    pathArray.push(quote ? str : num !== undefined ? Number(num) : match)
     return pathArray[pathArray.length - 1]
-  })
+  }
+
+  pathString.replace(pathRx, replacer)
+
   return pathArray
 }
 
@@ -81,6 +84,24 @@ export const deepSet = (target: any, path: any, value: any) => {
   }
 
   deepSet(target[prop], fields, value)
+}
+
+export const deepGet = (target: any, path: string | Array<string | number>) => {
+  const fields = isArray(path) ? (path as Array<string | number>) : toPath(path)
+
+  if (!fields.length) {
+    return target
+  }
+
+  let prop = fields.shift()
+  let result = target
+
+  while (prop) {
+    result = result[prop]
+    prop = fields.shift()
+  }
+
+  return result
 }
 
 export const cloneDeep = (item: any) => {

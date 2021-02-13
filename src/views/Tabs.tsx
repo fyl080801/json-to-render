@@ -13,7 +13,10 @@ export default defineComponent({
             component: 'el-tab-pane',
             options: { direct: true },
             props: { label: 'aaa', name: 'first' },
-            children: [{ component: 'p', text: '$:model.text' }],
+            children: [
+              { component: 'p', text: '$:model.text' },
+              { component: 'p', text: '$:ADD(1, 1)' },
+            ],
           },
           {
             component: 'el-tab-pane',
