@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.2.0...@json2render/vue@0.3.0) (2021-02-13)
+
+
+### Bug Fixes
+
+* **vue:** 直接渲染节点也做子元素转换成slot操作 ([4a70307](https://github.com/fyl080801/json-to-render/commit/4a70307622bdb3c97d04d5ec499c301c8b575209))
+
+
+### Features
+
+* 功能函数支持 ([5485ded](https://github.com/fyl080801/json-to-render/commit/5485ded2befff833e4f52f32c78b8edcd19d3395))
+
+
+
+
+
 # [0.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.1.10...@json2render/vue@0.2.0) (2021-02-09)
 
 

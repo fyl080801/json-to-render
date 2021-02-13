@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.9...@json2render/plugin-modern@0.2.0) (2021-02-13)
+
+
+### Features
+
+* 功能函数支持 ([5485ded](https://github.com/fyl080801/json-to-render/commit/5485ded2befff833e4f52f32c78b8edcd19d3395))
+
+
+
+
+
 ## [0.1.9](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-modern@0.1.8...@json2render/plugin-modern@0.1.9) (2021-02-08)
 
 **Note:** Version bump only for package @json2render/plugin-modern
