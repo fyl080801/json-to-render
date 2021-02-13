@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/fyl080801/json-to-render/compare/@json2render/vue-full@0.1.7...@json2render/vue-full@0.1.8) (2021-02-13)
+
+**Note:** Version bump only for package @json2render/vue-full
+
+
+
+
+
 ## [0.1.7](https://github.com/fyl080801/json-to-render/compare/@json2render/vue-full@0.1.6...@json2render/vue-full@0.1.7) (2021-02-13)
 
 **Note:** Version bump only for package @json2render/vue-full
