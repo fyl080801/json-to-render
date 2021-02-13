@@ -31,5 +31,6 @@
   },
   "dependencies": {
     "@json2render/utils": "^0.2.0"
-  }
+  },
+  "gitHead": "dfa6221a71e001e21f119f407f7fb35899b69df3"
 }
