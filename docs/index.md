@@ -1,12 +1,12 @@
 ---
 home: true
-actions:
-  - text: 指南
-    link: /guide/00.intro.html
-    type: primary
-  - text: 快速上手
-    link: /guide/01.getting-started.html
-    type: secondary
+
+actionText: 指南
+actionLink: /guide/
+
+altActionText: 快速上手
+altActionLink: /guide/getting-started
+
 features:
   - title: 易用性
     details: 通过 json 数据渲染界面
