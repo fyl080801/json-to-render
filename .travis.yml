@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - stable
+
+branches:
+  only:
+    - master
+
+install:
+  - yarn install
+
+script:
+  - yarn dist
+  - chmod u+x deploy.sh
+  - bash ./deploy.sh
