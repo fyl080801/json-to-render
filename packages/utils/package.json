@@ -30,5 +30,5 @@
     "clean": "rimraf dist",
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
-  "gitHead": "3818876314f5a49f8e6308357674d3d861c08c1d"
+  "gitHead": "78759e7f6247f2d10b0202c33b2cad5746d02d61"
 }
