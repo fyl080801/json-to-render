@@ -6,6 +6,7 @@
   "homepage": "https://github.com/fyl080801/json-to-render#readme",
   "license": "MIT",
   "main": "src/index.ts",
+  "module": "src/index.ts",
   "browser": "dist/index.umd.js",
   "unpkg": "dist/index.min.js",
   "directories": {

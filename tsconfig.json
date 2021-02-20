@@ -11,7 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env"],
+    "types": ["vite/client"],
     "paths": {
       "@/*": ["src/*"]
     },
@@ -21,6 +21,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "packages/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "typings/**/*.d.ts"
