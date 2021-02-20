@@ -25,7 +25,9 @@ const defaultPlugins = [
     extensions: ['.ts'],
     exclude: ['node_modules/**'],
     babelHelpers: 'runtime',
-    configFile: path.resolve('../../', 'babel.config.js'),
+    presets: ['@babel/typescript'],
+    plugins: ['@babel/transform-runtime'],
+    exclude: /node_modules/,
   }),
   typescript({
     tsconfig: path.resolve('../../', 'tsconfig.json'),
