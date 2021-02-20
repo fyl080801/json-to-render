@@ -11,5 +11,5 @@ install:
 
 script:
   - yarn dist
-  - chmod u+x deploy.sh
-  - bash ./deploy.sh
+  - chmod u+x ./scripts/deploy.sh
+  - bash ./scripts/deploy.sh
