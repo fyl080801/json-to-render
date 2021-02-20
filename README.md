@@ -4,7 +4,7 @@
 
 将 json 数据渲染成界面的 vue 组件库，是根据 [vjform 动态表单](https://github.com/fyl080801/vjform)、[jformer 动态表单](https://github.com/fyl080801/jformer) 以及[vjdesign 设计器](https://github.com/fyl080801/vjdesign) 相关项目开发的 vue3 版本
 
-[说明文档](https://fyl080801.github.io/json-to-render/)
+详细参考[说明文档](https://fyl080801.github.io/json-to-render/)
 
 ## 特性
 
