@@ -1,8 +1,10 @@
 # Json to Render
 
-[![Build Status](https://travis-ci.org/fyl080801/json-to-render.svg?branch=master)](https://travis-ci.org/fyl080801/json-to-render)
+[![Build Status](https://travis-ci.com/fyl080801/json-to-render.svg?branch=master)](https://travis-ci.com/fyl080801/json-to-render)
 
 将 json 数据渲染成界面的 vue 组件库，是根据 [vjform 动态表单](https://github.com/fyl080801/vjform)、[jformer 动态表单](https://github.com/fyl080801/jformer) 以及[vjdesign 设计器](https://github.com/fyl080801/vjdesign) 相关项目开发的 vue3 版本
+
+[说明文档](https://fyl080801.github.io/json-to-render/)
 
 ## 特性
 
@@ -121,7 +123,7 @@ export default defineComponent({
 
 ## 相关链接
 
-[使用文档](https://fyl080801.github.io/json-to-render/) 完善中...
+[说明文档](https://fyl080801.github.io/json-to-render/) 完善中...
 
 ## 关于
 
