@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "component": "input", "value": "model.text" },
+    { "component": "p", "props": { "innerText": "$:model.text" } }
+  ]
+}

@@ -1,46 +1,56 @@
 <template>
   <div class="home">
+    <select :value="current" @change="(evt) => (current = evt.target.value)">
+      <option :key="item" v-for="item in basics" :value="item">
+        {{ item }}
+      </option>
+    </select>
     <v-jrender
-      v-model="model"
-      :fields="fields"
-      :datasource="datasource"
-      :listeners="listeners"
+      v-model="active.model"
+      :fields="active.fields"
+      :datasource="active.datasource"
+      :listeners="active.listeners"
       class="j-form"
       @setup="onSetup"
     ></v-jrender>
-    <hr />
-    <p>{{ JSON.stringify(model) }}</p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive } from 'vue'
+import { defineComponent, watch, onMounted, ref } from 'vue'
 
 export default defineComponent({
   name: 'Home',
   setup: () => {
-    const ret: any = reactive({
-      model: {
-        text1: 'xxx',
-        obj: { selected: 0, value: 'text1' },
-      },
-      fields: [],
-      datasource: {},
-      listeners: [],
-    })
+    const current = ref('')
+    const basics = ref(['simple', 'input', 'full'])
+    const active = ref({})
+
+    watch(
+      () => current.value,
+      (value) => {
+        fetch(`/data/basic/${value}.json`).then((response) => {
+          response.json().then((json) => {
+            Object.assign(
+              active.value,
+              { fields: [], datasource: {}, listeners: [], model: {} },
+              json
+            )
+          })
+        })
+      }
+    )
 
     onMounted(() => {
-      fetch('/data/basic.json').then((response) => {
-        response.json().then((json) => {
-          ret.fields = json.fields
-          ret.datasource = json.datasource
-          ret.listeners = json.listeners
-          ret.model = Object.assign(ret.model, json.model)
-        })
-      })
+      current.value = 'full'
     })
 
-    return ret
+    // return ret
+    return {
+      current,
+      active,
+      basics,
+    }
   },
   methods: {
     onSetup({ datasource }: any) {
