@@ -1,6 +1,6 @@
 {
   "name": "@json2render/vue",
-  "version": "0.3.2-alpha.2",
+  "version": "0.3.2-alpha.3",
   "description": "> TODO: description",
   "author": "fyl080801 <fyl080801@hotmail.com>",
   "homepage": "https://github.com/fyl080801/json-to-render#readme",
@@ -31,8 +31,8 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/core": "^0.2.3-alpha.2",
-    "@json2render/utils": "^0.2.2-alpha.2"
+    "@json2render/core": "^0.2.3-alpha.3",
+    "@json2render/utils": "^0.2.2-alpha.3"
   },
   "gitHead": "78759e7f6247f2d10b0202c33b2cad5746d02d61"
 }
