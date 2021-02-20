@@ -23,7 +23,7 @@ module.exports = {
     },
     {
       text: '高级',
-      children: [{ text: '自定义渲染', link: '/guide/setup' }],
+      children: [{ text: '自定义', link: '/guide/setup' }],
     },
   ],
   '/reference/json-to-render/': 'auto',
