@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "dev": "vite -c ./build/vite.config.js",
+    "build": "vite build -c ./build/vite.config.js",
     "clean": "yarn workspaces run clean",
     "dist": "yarn workspaces run dist",
     "commit": "git add . && git status && git-cz",
