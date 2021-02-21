@@ -1,6 +1,10 @@
 {
   "fields": [
-    { "component": "input", "value": "model.text" },
+    {
+      "component": "input",
+      "value": "model.text",
+      "props": { "type": "text", "class": "border", "placeholder": "请输入" }
+    },
     { "component": "p", "props": { "innerText": "$:model.text" } }
   ]
 }

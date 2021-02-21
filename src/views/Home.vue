@@ -1,18 +1,38 @@
 <template>
-  <div class="home">
-    <select :value="current" @change="(evt) => (current = evt.target.value)">
+  <div class="h-full flex flex-row">
+    <!-- <select :value="current" @change="(evt) => (current = evt.target.value)">
       <option :key="item" v-for="item in basics" :value="item">
         {{ item }}
       </option>
-    </select>
-    <v-jrender
-      v-model="active.model"
-      :fields="active.fields"
-      :datasource="active.datasource"
-      :listeners="active.listeners"
-      class="j-form"
-      @setup="onSetup"
-    ></v-jrender>
+    </select> -->
+    <div class="flex-none w-60">
+      <ul class="flex flex-col">
+        <a :key="item" v-for="item in basics" @click="current = item">
+          <li
+            class="border-b px-5 py-3 cursor-pointer"
+            :class="{
+              'bg-blue-400 text-white': current === item,
+              'hover:bg-gray-100': current !== item,
+            }"
+          >
+            {{ item }}
+          </li>
+        </a>
+      </ul>
+    </div>
+    <div class="flex-1 border-l px-5 py-3">
+      {{ JSON.stringify(Object.assign({}, active, { model: undefined })) }}
+    </div>
+    <div class="flex-1 border-l px-5 py-3 overflow-auto">
+      <v-jrender
+        v-model="active.model"
+        :fields="active.fields"
+        :datasource="active.datasource"
+        :listeners="active.listeners"
+        class="j-form"
+        @setup="onSetup"
+      ></v-jrender>
+    </div>
   </div>
 </template>
 
