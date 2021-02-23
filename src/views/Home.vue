@@ -1,15 +1,10 @@
 <template>
   <div class="h-full flex flex-row">
-    <!-- <select :value="current" @change="(evt) => (current = evt.target.value)">
-      <option :key="item" v-for="item in basics" :value="item">
-        {{ item }}
-      </option>
-    </select> -->
     <div class="flex-none w-60">
-      <ul class="flex flex-col">
+      <ul class="flex flex-col divide-y">
         <a :key="item" v-for="item in basics" @click="current = item">
           <li
-            class="border-b px-5 py-3 cursor-pointer"
+            class="px-5 py-3 cursor-pointer"
             :class="{
               'bg-blue-400 text-white': current === item,
               'hover:bg-gray-100': current !== item,
@@ -20,8 +15,8 @@
         </a>
       </ul>
     </div>
-    <div class="flex-1 border-l px-5 py-3">
-      {{ JSON.stringify(Object.assign({}, active, { model: undefined })) }}
+    <div class="flex-1 border-l">
+      <json-editor :modelValue="code" @change="onCodeChange"></json-editor>
     </div>
     <div class="flex-1 border-l px-5 py-3 overflow-auto">
       <v-jrender
@@ -38,6 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, watch, onMounted, ref } from 'vue'
+import { debounce } from '../utils/helpers'
 
 export default defineComponent({
   name: 'Home',
@@ -45,6 +41,14 @@ export default defineComponent({
     const current = ref('')
     const basics = ref(['simple', 'input', 'full'])
     const active = ref({})
+    const code = ref('')
+    const updater = debounce((value) => {
+      try {
+        Object.assign(active.value, JSON.parse(value))
+      } catch {
+        //
+      }
+    }, 1000)
 
     watch(
       () => current.value,
@@ -55,6 +59,10 @@ export default defineComponent({
               active.value,
               { fields: [], datasource: {}, listeners: [], model: {} },
               json
+            )
+
+            code.value = JSON.stringify(
+              Object.assign({}, json, { model: undefined })
             )
           })
         })
@@ -70,6 +78,8 @@ export default defineComponent({
       current,
       active,
       basics,
+      code,
+      updater,
     }
   },
   methods: {
@@ -79,6 +89,9 @@ export default defineComponent({
 
         return data
       })
+    },
+    onCodeChange(value: string) {
+      this.updater(value)
     },
   },
 })
