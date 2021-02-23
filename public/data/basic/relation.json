@@ -1,0 +1,31 @@
+{
+  "fields": [
+    { "component": "el-input", "model": "model.text" },
+    {
+      "component": "div",
+      "children": [
+        {
+          "component": "el-checkbox",
+          "condition": "$:!!model.text",
+          "model": "model.checked",
+          "children": [{ "component": "span", "text": "选中" }]
+        }
+      ]
+    },
+    {
+      "component": "el-select",
+      "condition": "$:!!model.checked",
+      "model": "model.selected",
+      "children": [
+        {
+          "component": "el-option",
+          "props": { "value": 1, "label": "select1" }
+        },
+        {
+          "component": "el-option",
+          "props": { "value": 2, "label": "select2" }
+        }
+      ]
+    }
+  ]
+}

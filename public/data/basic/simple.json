@@ -1,3 +1,32 @@
 {
-  "fields": [{ "component": "p", "props": { "innerText": "aaa" } }]
+  "fields": [
+    {
+      "component": "h1",
+      "props": { "style": { "fontSize": "40pt" }, "innerText": "H1 text" }
+    },
+    {
+      "component": "h2",
+      "props": { "style": { "fontSize": "30pt" }, "innerText": "H2 text" }
+    },
+    {
+      "component": "h3",
+      "props": { "style": { "fontSize": "20pt" }, "innerText": "H3 text" }
+    },
+    { "component": "p", "props": { "innerText": "p text" } },
+    {
+      "component": "ul",
+      "props": {
+        "style": {
+          "marginTop": "0.25rem",
+          "marginLeft": "1.25rem",
+          "listStyle": "disc"
+        }
+      },
+      "children": [
+        { "component": "li", "text": "item1" },
+        { "component": "li", "text": "item2" },
+        { "component": "li", "text": "item3" }
+      ]
+    }
+  ]
 }

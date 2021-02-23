@@ -1,10 +1,21 @@
 {
   "fields": [
     {
-      "component": "input",
-      "value": "model.text",
-      "props": { "type": "text", "class": "border", "placeholder": "请输入" }
+      "component": "el-input",
+      "model": "model.text",
+      "props": { "type": "text", "placeholder": "请输入" }
     },
-    { "component": "p", "props": { "innerText": "$:model.text" } }
+    {
+      "component": "p",
+      "props": { "innerText": "#:输入了：${model.text || ''}" }
+    },
+    {
+      "component": "el-input-number",
+      "model": "model.num"
+    },
+    {
+      "component": "p",
+      "text": "#:输入了：${model.num || 0}"
+    }
   ]
 }

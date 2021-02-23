@@ -2,8 +2,9 @@ import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-;(self as any).MonacoEnvironment = {
-  getWorker(_: any, label: any) {
+
+self.MonacoEnvironment = {
+  getWorker(workerId, label) {
     if (label === 'json') {
       return new JsonWorker()
     }

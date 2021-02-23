@@ -39,7 +39,7 @@ export default defineComponent({
   name: 'Home',
   setup: () => {
     const current = ref('')
-    const basics = ref(['simple', 'input', 'full'])
+    const basics = ref(['simple', 'input', 'events', 'relation', 'full'])
     const active = ref({})
     const code = ref('')
     const updater = debounce((value) => {
@@ -61,9 +61,10 @@ export default defineComponent({
               json
             )
 
-            code.value = JSON.stringify(
-              Object.assign({}, json, { model: undefined })
-            )
+            const display = Object.assign({}, json)
+            delete display.model
+
+            code.value = JSON.stringify(display)
           })
         })
       }
