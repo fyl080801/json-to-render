@@ -14,6 +14,29 @@
 - 支持将 json 数据特殊对象转换成数据关联关系实现联动
 - 支持二次开发 json 属性解析方式、数据交互来源与渲染逻辑
 
+## 示例项目
+
+此项目安装依赖
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+或
+
+```bash
+yarn install
+
+```
+
+```bash
+yarn run dev
+```
+
 ## 快速上手
 
 使用 npm 安装

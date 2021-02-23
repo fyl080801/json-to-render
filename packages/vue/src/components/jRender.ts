@@ -126,6 +126,8 @@ export default defineComponent({
     watch(
       () => props.listeners,
       (value) => {
+        watchs.value.forEach((watcher) => watcher())
+
         if (!value || !isArray(value)) {
           return
         }

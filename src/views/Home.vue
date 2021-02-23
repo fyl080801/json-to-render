@@ -39,7 +39,14 @@ export default defineComponent({
   name: 'Home',
   setup: () => {
     const current = ref('')
-    const basics = ref(['simple', 'input', 'events', 'relation', 'full'])
+    const basics = ref([
+      'simple',
+      'input',
+      'events',
+      'relation',
+      'listeners',
+      'full',
+    ])
     const active = ref({})
     const code = ref('')
     const updater = debounce((value) => {
