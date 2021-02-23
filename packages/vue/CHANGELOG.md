@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.3.2...@json2render/vue@0.3.3) (2021-02-23)
+
+
+### Features
+
+* **@json2render/vue:** 监听被整体改变后释放已监听对象 ([a63b5dc](https://github.com/fyl080801/json-to-render/commit/a63b5dc3c99cbbef81ef5467bb2f626786769564))
+
+
+
+
+
 ## [0.3.2](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@0.3.2-alpha.5...@json2render/vue@0.3.2) (2021-02-20)
 
 **Note:** Version bump only for package @json2render/vue
