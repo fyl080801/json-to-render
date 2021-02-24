@@ -25,7 +25,6 @@
     "commit": "git add . && git status && git-cz",
     "publish": "lerna publish",
     "prepack": "yarn run dist",
-    "precommit": "lint-staged",
     "postinstall": "husky install",
     "postpublish": "yarn run clean"
   },
