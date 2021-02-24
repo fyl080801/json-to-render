@@ -1,16 +1,17 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import loader from '@monaco-editor/loader'
+// import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+// import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 
-self.MonacoEnvironment = {
-  getWorker(workerId, label) {
-    if (label === 'json') {
-      return new JsonWorker()
-    }
-    return new EditorWorker()
-  },
-}
+// self.MonacoEnvironment = {
+//   getWorker(workerId, label) {
+//     if (label === 'json') {
+//       return new JsonWorker()
+//     }
+//     return new EditorWorker()
+//   },
+// }
 
 export default defineComponent({
   name: 'json-editor',
@@ -23,28 +24,30 @@ export default defineComponent({
     let instance: monaco.editor.IStandaloneCodeEditor
 
     onMounted(() => {
-      const jsonModel = monaco.editor.createModel(
-        props.modelValue,
-        'json',
-        monaco.Uri.parse('json://grid/settings.json')
-      )
+      loader.init().then((m) => {
+        const jsonModel = m.editor.createModel(
+          props.modelValue,
+          'json',
+          m.Uri.parse('json://grid/settings.json')
+        )
 
-      instance = monaco.editor.create(dom.value, {
-        model: jsonModel,
-        tabSize: 2,
-        automaticLayout: true,
-        scrollBeyondLastLine: false,
+        instance = m.editor.create(dom.value, {
+          model: jsonModel,
+          tabSize: 2,
+          automaticLayout: true,
+          scrollBeyondLastLine: false,
+        })
+
+        instance?.onDidChangeModelContent(() => {
+          const value = instance?.getValue()
+          ctx.emit('change', value)
+          ctx.emit('update:modelValue', value)
+        })
+
+        setTimeout(() => {
+          instance?.getAction('editor.action.formatDocument').run()
+        }, 1000)
       })
-
-      instance?.onDidChangeModelContent(() => {
-        const value = instance?.getValue()
-        ctx.emit('change', value)
-        ctx.emit('update:modelValue', value)
-      })
-
-      setTimeout(() => {
-        instance?.getAction('editor.action.formatDocument').run()
-      }, 1000)
     })
 
     onBeforeUnmount(() => {

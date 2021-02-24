@@ -36,6 +36,7 @@
     "@babel/core": "^7.12.17",
     "@babel/plugin-transform-runtime": "^7.13.6",
     "@babel/preset-typescript": "^7.12.17",
+    "@monaco-editor/loader": "^1.0.0",
     "@octokit/core": "^3.2.5",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.2.3",
@@ -46,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "@vitejs/plugin-vue": "^1.1.4",
-    "@vitejs/plugin-vue-jsx": "^1.1.0",
+    "@vitejs/plugin-vue-jsx": "^1.1.1",
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
@@ -88,7 +89,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.(vue|vuex|js|ts)": [
+    "*.(vue|tsx|js|ts)": [
       "prettier --write"
     ]
   }
