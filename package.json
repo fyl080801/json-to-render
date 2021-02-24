@@ -20,12 +20,14 @@
     "build": "vite build -c ./vite.config.js",
     "clean": "yarn workspaces run clean",
     "dist": "yarn workspaces run dist",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
     "commit": "git add . && git status && git-cz",
     "publish": "lerna publish",
     "prepack": "yarn run dist",
-    "postpublish": "yarn run clean",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs"
+    "precommit": "lint-staged",
+    "postinstall": "husky install",
+    "postpublish": "yarn run clean"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -33,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
-    "@babel/plugin-transform-runtime": "^7.12.17",
+    "@babel/plugin-transform-runtime": "^7.13.6",
     "@babel/preset-typescript": "^7.12.17",
     "@octokit/core": "^3.2.5",
     "@rollup/plugin-alias": "^3.1.2",
@@ -55,10 +57,10 @@
     "cross-env": "^7.0.3",
     "cz-lerna-changelog": "^2.0.3",
     "element-plus": "^1.0.2-beta.32",
-    "eslint": "^6.7.2",
+    "eslint": "^7.20.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^7.5.0",
-    "husky": "^4.3.8",
+    "husky": "^5.1.1",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.3",
     "monaco-editor": "^0.22.3",
@@ -73,7 +75,7 @@
     "semantic-release": "~15.8.0",
     "tailwindcss": "^2.0.3",
     "tslib": "^2.1.0",
-    "typescript": "^4.1.3",
+    "typescript": "^4.2.2",
     "vite": "^2.0.1",
     "vitepress": "^0.12.2",
     "vue-router": "^4.0.0-0"
@@ -86,13 +88,8 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.(vue|js|ts)": [
+    "*.(vue|vuex|js|ts)": [
       "prettier --write"
     ]
   }
