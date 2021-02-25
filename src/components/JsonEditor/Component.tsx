@@ -1,6 +1,7 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import * as monaco from 'monaco-editor'
+import { editor } from 'monaco-editor'
 import loader from '@monaco-editor/loader'
+
 // import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 
@@ -13,26 +14,24 @@ import loader from '@monaco-editor/loader'
 //   },
 // }
 
+if (import.meta.env.PROD) {
+  loader.config({ paths: { vs: '/assets/monaco-editor/vs' } })
+}
+
 export default defineComponent({
   name: 'json-editor',
   props: {
     modelValue: { type: String, required: true },
   },
-  emits: ['change', 'update:modelValue'],
+  emits: ['update:modelValue'],
   setup(props, ctx) {
     const dom = ref()
-    let instance: monaco.editor.IStandaloneCodeEditor
+    let instance: editor.IStandaloneCodeEditor
 
     onMounted(() => {
-      loader.init().then((m) => {
-        const jsonModel = m.editor.createModel(
-          props.modelValue,
-          'json',
-          m.Uri.parse('json://grid/settings.json')
-        )
-
-        instance = m.editor.create(dom.value, {
-          model: jsonModel,
+      loader.init().then((monaco) => {
+        instance = monaco.editor.create(dom.value, {
+          model: monaco.editor.createModel(props.modelValue, 'json'),
           tabSize: 2,
           automaticLayout: true,
           scrollBeyondLastLine: false,
@@ -40,7 +39,6 @@ export default defineComponent({
 
         instance?.onDidChangeModelContent(() => {
           const value = instance?.getValue()
-          ctx.emit('change', value)
           ctx.emit('update:modelValue', value)
         })
 
