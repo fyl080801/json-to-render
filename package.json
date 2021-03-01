@@ -26,7 +26,8 @@
     "publish": "lerna publish",
     "prepack": "yarn run dist",
     "postinstall": "husky install",
-    "postpublish": "yarn run clean"
+    "postpublish": "yarn run clean",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "core-js": "^3.9.1",
