@@ -1,6 +1,5 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { editor } from 'monaco-editor'
-import loader from '@monaco-editor/loader'
 
 // import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
@@ -14,8 +13,12 @@ import loader from '@monaco-editor/loader'
 //   },
 // }
 
+import loader from '@monaco-editor/loader'
+
 if (import.meta.env.PROD) {
   loader.config({ paths: { vs: '/assets/monaco-editor/vs' } })
+} else {
+  loader.config({ paths: { vs: '/node_modules/monaco-editor/min/vs' } })
 }
 
 export default defineComponent({
@@ -28,24 +31,23 @@ export default defineComponent({
     const dom = ref()
     let instance: editor.IStandaloneCodeEditor
 
-    onMounted(() => {
-      loader.init().then((monaco) => {
-        instance = monaco.editor.create(dom.value, {
-          model: monaco.editor.createModel(props.modelValue, 'json'),
-          tabSize: 2,
-          automaticLayout: true,
-          scrollBeyondLastLine: false,
-        })
+    onMounted(async () => {
+      const monaco = await loader.init()
 
-        instance?.onDidChangeModelContent(() => {
-          const value = instance?.getValue()
-          ctx.emit('update:modelValue', value)
-        })
-
-        setTimeout(() => {
-          instance?.getAction('editor.action.formatDocument').run()
-        }, 1000)
+      instance = monaco.editor.create(dom.value, {
+        model: monaco.editor.createModel(props.modelValue, 'json'),
+        tabSize: 2,
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
       })
+
+      instance?.onDidChangeModelContent(() => {
+        ctx.emit('update:modelValue', instance?.getValue())
+      })
+
+      setTimeout(() => {
+        instance?.getAction('editor.action.formatDocument').run()
+      }, 1000)
     })
 
     onBeforeUnmount(() => {
