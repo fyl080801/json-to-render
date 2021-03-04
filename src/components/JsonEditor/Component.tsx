@@ -1,23 +1,25 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { editor } from 'monaco-editor'
 
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+// import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+// import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 
-self.MonacoEnvironment = {
-  getWorker(workerId, label) {
-    if (label === 'json') {
-      return new JsonWorker()
-    }
-    return new EditorWorker()
-  },
-}
-
-// import loader from '@monaco-editor/loader'
-
-// if (import.meta.env.PROD) {
-//   loader.config({ paths: { vs: '/assets/monaco-editor/vs' } })
+// self.MonacoEnvironment = {
+//   getWorker(workerId, label) {
+//     if (label === 'json') {
+//       return new JsonWorker()
+//     }
+//     return new EditorWorker()
+//   },
 // }
+
+import loader from '@monaco-editor/loader'
+
+if (import.meta.env.PROD) {
+  loader.config({ paths: { vs: '/assets/monaco-editor/vs' } })
+} else {
+  loader.config({ paths: { vs: '/node_modules/monaco-editor/min/vs' } })
+}
 
 export default defineComponent({
   name: 'json-editor',
@@ -30,10 +32,10 @@ export default defineComponent({
     let instance: editor.IStandaloneCodeEditor
 
     onMounted(async () => {
-      // const monaco = await loader.init()
+      const monaco = await loader.init()
 
-      instance = editor.create(dom.value, {
-        model: editor.createModel(props.modelValue, 'json'),
+      instance = monaco.editor.create(dom.value, {
+        model: monaco.editor.createModel(props.modelValue, 'json'),
         tabSize: 2,
         automaticLayout: true,
         scrollBeyondLastLine: false,
