@@ -18,6 +18,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Tabs',
     component: () => import(/* webpackChunkName: "tabs" */ '../views/Tabs'),
   },
+  {
+    path: '/designer',
+    name: 'Designer',
+    component: () =>
+      import(/* webpackChunkName: "designer" */ '../views/Designer'),
+  },
 ]
 
 const router = createRouter({

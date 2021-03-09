@@ -10,6 +10,7 @@ export default defineComponent({
             <router-link to="/">Home</router-link>
             <router-link to="/element">Element</router-link>
             <router-link to="/tabs">Tabs</router-link>
+            <router-link to="/designer">Designer</router-link>
           </div>
         </header>
         <main class="flex-1 relative border-t border-gray-200 dark:border-gray-800">

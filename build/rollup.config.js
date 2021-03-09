@@ -19,14 +19,14 @@ const defaultExternal = ['vue', /core-js/, /regenerator-runtime/]
 
 const defaultPlugins = [
   alias({
-    resolve: ['.ts'],
+    resolve: ['.ts', '.tsx'],
   }),
   babel({
-    extensions: ['.ts'],
+    extensions: ['.ts', '.tsx'],
     exclude: ['node_modules/**'],
     babelHelpers: 'runtime',
     presets: ['@babel/typescript'],
-    plugins: ['@babel/transform-runtime'],
+    plugins: ['@babel/transform-runtime', '@vue/babel-plugin-jsx'],
     exclude: /node_modules/,
   }),
   typescript({
