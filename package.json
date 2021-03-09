@@ -34,8 +34,8 @@
     "vue": "^3.0.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/plugin-transform-runtime": "^7.13.9",
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-typescript": "^7.12.17",
     "@monaco-editor/loader": "^1.0.0",
     "@octokit/core": "^3.2.5",
@@ -45,8 +45,8 @@
     "@rollup/plugin-node-resolve": "^11.1.1",
     "@rollup/plugin-typescript": "^8.1.1",
     "@tailwindcss/forms": "^0.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
     "@vitejs/plugin-vue": "^1.1.5",
     "@vitejs/plugin-vue-jsx": "^1.1.2",
     "@vue/compiler-sfc": "^3.0.7",
