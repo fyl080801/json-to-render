@@ -4,7 +4,11 @@ export default defineComponent({
   setup() {
     const data = reactive({ active: 'first' })
     const fields = reactive([
-      { component: 'input', value: 'model.text' },
+      {
+        component: 'el-input',
+        model: 'model.text',
+        props: { style: { width: '200px' }, placeholder: '请输入' },
+      },
       {
         component: 'el-tabs',
         model: 'model.active',

@@ -46,7 +46,11 @@ export default defineComponent({
       })
 
       setTimeout(() => {
-        instance?.getAction('editor.action.formatDocument').run()
+        try {
+          instance?.getAction('editor.action.formatDocument')?.run()
+        } catch {
+          //
+        }
       }, 1000)
     })
 
