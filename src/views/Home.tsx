@@ -10,6 +10,7 @@ export default defineComponent({
       'events',
       'relation',
       'listeners',
+      'nest',
       'full',
     ])
     const active = ref({ fields: [], datasource: {}, listeners: [], model: {} })
@@ -83,15 +84,17 @@ export default defineComponent({
             onChange={onCodeChange}
           ></json-editor>
         </div>
-        <div class="flex-1 border-l px-5 py-3 overflow-auto">
-          <v-jrender
-            v-model={active.value.model}
-            fields={active.value.fields}
-            datasource={active.value.datasource}
-            listeners={active.value.listeners}
-            class="j-form"
-            onSetup={onSetup}
-          ></v-jrender>
+        <div class="flex-1 border-l overflow-auto">
+          <div class=" px-5 py-3">
+            <v-jrender
+              v-model={active.value.model}
+              fields={active.value.fields}
+              datasource={active.value.datasource}
+              listeners={active.value.listeners}
+              class="j-form"
+              onSetup={onSetup}
+            ></v-jrender>
+          </div>
         </div>
       </div>
     )

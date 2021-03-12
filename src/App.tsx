@@ -48,7 +48,7 @@ export default defineComponent({
             </router-link>
           </div>
         </header>
-        <main class="flex-1 relative border-t border-gray-200 dark:border-gray-800">
+        <main class="flex-1 border-t border-gray-200 dark:border-gray-800 h-full">
           <router-view />
         </main>
       </div>
