@@ -20,16 +20,36 @@
     }
   ],
   "fields": [
-    { "component": "el-input", "model": "model.text" },
     {
-      "component": "el-button",
-      "text": "获取定义",
-      "props": { "onClick": "@:subform.request()" }
+      "component": "el-form",
+      "children": [
+        {
+          "component": "el-form-item",
+          "children": [{ "component": "el-input", "model": "model.text" }]
+        },
+        {
+          "component": "el-form-item",
+          "children": [
+            {
+              "component": "el-button",
+              "text": "加载表单",
+              "props": { "onClick": "@:subform.request()", "type": "primary" }
+            },
+            {
+              "component": "el-button",
+              "text": "显示数据",
+              "props": { "onClick": "@:alert(JSON.stringify(model))" }
+            },
+            {
+              "component": "el-button",
+              "text": "清除当前",
+              "props": { "onClick": "@subform.data:{}", "type": "danger" }
+            }
+          ]
+        }
+      ]
     },
-    {
-      "component": "p",
-      "text": "$:JSON.stringify(model)"
-    },
+
     {
       "component": "div",
       "props": {
@@ -42,15 +62,15 @@
       "children": [
         {
           "component": "p",
-          "condition": "$:!subform.data",
+          "condition": "$:!model.submodel",
           "text": "加载远程表单区域",
           "props": { "style": { "textAlign": "center" } }
         },
         {
           "component": "v-jrender",
-          "condition": "$:subform.data",
+          "condition": "$:model.submodel",
           "props": {
-            "modelValue": "$:model.submodel",
+            "modelValue": "$:subform.data.model",
             "datasource": "$:subform.data.datasource",
             "listeners": "$:subform.data.listeners",
             "fields": "$:subform.data.fields"
