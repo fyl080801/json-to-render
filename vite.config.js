@@ -4,6 +4,7 @@ import jsx from '@vitejs/plugin-vue-jsx'
 import copy from 'rollup-plugin-copy'
 
 export default defineConfig({
+  base: './',
   build: {
     rollupOptions: {
       plugins: [
