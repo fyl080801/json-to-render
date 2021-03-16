@@ -82,7 +82,6 @@ export default defineComponent({
           context: injectedContext,
         }
       )(renderField)
-
       const component =
         renderField &&
         renderField.component &&

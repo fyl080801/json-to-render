@@ -7,6 +7,7 @@ const {
   terser,
   vuePlugin,
   sizes,
+  scss,
 } = require('./rollup.plugins')
 const { helperGlobal } = require('./runtime.helper')
 const { path, assignObject, assignArray } = require('./utils')
@@ -19,7 +20,7 @@ const defaultExternal = ['vue', /core-js/, /regenerator-runtime/]
 
 const defaultPlugins = [
   alias({
-    resolve: ['.ts', '.tsx'],
+    resolve: ['.ts', '.tsx', '.scss'],
   }),
   babel({
     extensions: ['.ts', '.tsx'],
@@ -41,6 +42,9 @@ const defaultPlugins = [
   terser(),
   vuePlugin(),
   sizes(),
+  scss({
+    output: 'dist/style.css',
+  }),
 ]
 
 /**
