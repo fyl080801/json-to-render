@@ -16,9 +16,9 @@ import { editor } from 'monaco-editor'
 import loader from '@monaco-editor/loader'
 
 if (import.meta.env.PROD) {
-  loader.config({ paths: { vs: '/assets/monaco-editor/vs' } })
+  loader.config({ paths: { vs: './assets/monaco-editor/vs' } })
 } else {
-  loader.config({ paths: { vs: '/node_modules/monaco-editor/min/vs' } })
+  loader.config({ paths: { vs: './node_modules/monaco-editor/min/vs' } })
 }
 
 export default defineComponent({
