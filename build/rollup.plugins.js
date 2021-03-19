@@ -7,6 +7,7 @@ const terser = require('rollup-plugin-terser').terser
 const vuePlugin = require('rollup-plugin-vue')
 const sizes = require('rollup-plugin-sizes')
 const scss = require('rollup-plugin-scss')
+const postcss = require('rollup-plugin-postcss')
 
 module.exports = {
   alias,
@@ -18,4 +19,5 @@ module.exports = {
   vuePlugin,
   sizes,
   scss,
+  postcss,
 }

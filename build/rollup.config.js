@@ -8,6 +8,7 @@ const {
   vuePlugin,
   sizes,
   scss,
+  postcss,
 } = require('./rollup.plugins')
 const { helperGlobal } = require('./runtime.helper')
 const { path, assignObject, assignArray } = require('./utils')
@@ -42,8 +43,11 @@ const defaultPlugins = [
   terser(),
   vuePlugin(),
   sizes(),
-  scss({
-    output: 'dist/style.css',
+  // scss({
+  //   output: 'dist/style.css',
+  // }),
+  postcss({
+    plugins: [require('tailwindcss'), require('autoprefixer')],
   }),
 ]
 
