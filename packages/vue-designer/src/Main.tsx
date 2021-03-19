@@ -3,7 +3,10 @@ import Jrender from '@json2render/vue'
 import Toolbox from './components/Toolbox'
 import PropertyBox from './components/PropertyBox'
 import Container from './components/Container'
+import Designer from './components/Designer'
 import './Main.css'
+
+import containerHook from './hooks/container'
 
 export default defineComponent({
   name: 'vJdesigner',
@@ -16,19 +19,29 @@ export default defineComponent({
 
     const layout = [
       {
-        component: 'v-jdesigner-toolbox',
-        location: {},
+        component: 'toolbox',
+        location: {
+          type: 'dock',
+        },
       },
       {
-        component: 'v-jdesigner-propertybox',
-        location: {},
+        component: 'propertybox',
+        location: {
+          type: 'dock',
+        },
+      },
+      {
+        component: 'designer',
       },
     ]
 
-    const onSetup = ({ component }: any) => {
-      component(Toolbox.name, Toolbox)
-      component(PropertyBox.name, PropertyBox)
+    const onSetup = ({ component, prerender }: any) => {
+      component('toolbox', Toolbox)
+      component('propertybox', PropertyBox)
       component(Container.name, Container)
+      component('designer', Designer)
+
+      prerender(containerHook)
     }
 
     // return () => (
