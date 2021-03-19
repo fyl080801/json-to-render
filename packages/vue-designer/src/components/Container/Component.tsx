@@ -7,6 +7,7 @@ export default defineComponent({
   setup() {
     const reactived: any = reactive({})
 
+    // 这里实现标题栏和布局设置
     return () => (
       <div>
         <jrender

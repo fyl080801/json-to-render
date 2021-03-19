@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'v-jdesigner-toolbox',
+  name: 'v-jdesigner-propertybox',
   setup() {
-    return () => <div>toolbox</div>
+    return () => <div></div>
   },
 })
