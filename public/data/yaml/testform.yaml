@@ -1,0 +1,37 @@
+# 数据源
+datasource:
+  listdata:
+    type: fetch
+    url: /data.json
+
+# 组件
+fields:
+  - component: el-form
+    props:
+      labelWidth: 120px
+    children:
+      - component: el-input
+        model: model.text
+      - component: p
+        text: =:输入了:${model.text}
+      - component: el-select
+        model: model.selected
+      - component: el-checkbox
+        model: model.show
+      - component: span
+        condition: $:model.show
+  - component: el-table
+    props:
+      data: $:listdata.data
+    children:
+      - component: el-table-column
+        props:
+          prop: data1
+          label: 名称
+      - component: el-table-column
+        children:
+          - component: el-button
+            text: 明细
+            props:
+              type: link
+              onClick: ~:alert(JSON.stringify(scope.row))
