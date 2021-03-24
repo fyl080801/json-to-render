@@ -6,20 +6,32 @@ datasource:
 
 # 组件
 fields:
+  - component: p
+    text: 渲染 yaml
   - component: el-form
     props:
       labelWidth: 120px
     children:
-      - component: el-input
-        model: model.text
-      - component: p
-        text: =:输入了:${model.text}
-      - component: el-select
-        model: model.selected
-      - component: el-checkbox
-        model: model.show
-      - component: span
-        condition: $:model.show
+      - component: el-form-item
+        children:
+          - component: el-input
+            model: model.text
+          - component: p
+            text: =:输入了:${model.text}
+
+      - component: el-form-item
+        children:
+          - component: el-select
+            model: model.selected
+
+      - component: el-form-item
+        children:
+          - component: el-checkbox
+            model: model.show
+          - component: span
+            condition: $:!!model.show
+            text: showed
+
   - component: el-table
     props:
       data: $:listdata.data
@@ -33,5 +45,5 @@ fields:
           - component: el-button
             text: 明细
             props:
-              type: link
+              type: text
               onClick: ~:alert(JSON.stringify(scope.row))

@@ -46,6 +46,15 @@ export default defineComponent({
             >
               Designer
             </router-link>
+            <router-link
+              to="/yaml"
+              class={{
+                'text-green-400': route.name === 'Yaml',
+                'hover:text-green-400': true,
+              }}
+            >
+              Yaml
+            </router-link>
           </div>
         </header>
         <main class="flex-1 border-t border-gray-200 dark:border-gray-800 h-full">

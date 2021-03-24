@@ -24,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "designer" */ '../views/Designer'),
   },
+  {
+    path: '/yaml',
+    name: 'Yaml',
+    component: () => import('../views/Yaml'),
+  },
 ]
 
 const router = createRouter({
