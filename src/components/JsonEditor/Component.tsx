@@ -1,12 +1,16 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { editor } from 'monaco-editor'
 
-import loader from '@monaco-editor/loader'
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 
-if (import.meta.env.PROD) {
-  loader.config({ paths: { vs: './assets/monaco-editor/vs' } })
-} else {
-  loader.config({ paths: { vs: './node_modules/monaco-editor/min/vs' } })
+self.MonacoEnvironment = {
+  getWorker(workerId, label) {
+    if (label === 'json') {
+      return new JsonWorker()
+    }
+    return new EditorWorker()
+  },
 }
 
 export default defineComponent({
@@ -20,10 +24,8 @@ export default defineComponent({
     let instance: editor.IStandaloneCodeEditor
 
     onMounted(async () => {
-      const monaco = await loader.init()
-
-      instance = monaco.editor.create(dom.value, {
-        model: monaco.editor.createModel(props.modelValue, 'json'),
+      instance = editor.create(dom.value, {
+        model: editor.createModel(props.modelValue, 'json'),
         tabSize: 2,
         automaticLayout: true,
         scrollBeyondLastLine: false,
