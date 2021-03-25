@@ -8630,10 +8630,10 @@ rollup@^2.38.5:
   optionalDependencies:
     fsevents "~2.3.1"
 
-rollup@^2.42.3:
-  version "2.42.3"
-  resolved "https://registry.npm.taobao.org/rollup/download/rollup-2.42.3.tgz#7935d7bc8687faa5743432e207d761aa31fe6fee"
-  integrity sha1-eTXXvIaH+qV0NDLiB9dhqjH+b+4=
+rollup@^2.42.4:
+  version "2.42.4"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-2.42.4.tgz#97c910a48bd0db6aaa4271dd48745870cbbbf970"
+  integrity sha1-l8kQpIvQ22qqQnHdSHRYcMu7+XA=
   optionalDependencies:
     fsevents "~2.3.1"
 
