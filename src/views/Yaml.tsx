@@ -1,6 +1,7 @@
 import { defineComponent, ref } from 'vue'
 import yaml from 'js-yaml'
 import { assignArray, deepSet } from '@json2render/utils'
+import pluginElementUI from '@json2render/plugin-elementui'
 
 export default defineComponent({
   setup() {
@@ -18,7 +19,11 @@ export default defineComponent({
       )
     })
 
-    const onSetup = ({ proxy }: any) => {
+    const onSetup = (hooks: any) => {
+      const { proxy } = hooks
+
+      pluginElementUI(hooks)
+
       // 用 = 代替 # 表示模板字符
       proxy((value: any, { functional }: any) => {
         const func = (context: any) => {

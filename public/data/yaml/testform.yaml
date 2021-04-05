@@ -8,26 +8,34 @@ datasource:
 fields:
   - component: p
     text: 渲染 yaml
+
   - component: el-form
     props:
       labelWidth: 120px
+    row: 20
     children:
-      - component: el-form-item
-        children:
-          - component: el-input
-            model: model.text
-          - component: p
-            text: =:输入了:${model.text}
+      - component: el-input
+        model: model.text
+        col: 12
+        form: 输入
+
+      - component: el-select
+        model: model.selected
+        col: 12
+        form: 选择
+
+      - component: p
+        text: =:输入了:${model.text}
+        col: 12
+        form: ' '
+
+      - component: el-checkbox
+        model: model.show
+        col: 12
+        form: 显示
 
       - component: el-form-item
         children:
-          - component: el-select
-            model: model.selected
-
-      - component: el-form-item
-        children:
-          - component: el-checkbox
-            model: model.show
           - component: span
             condition: $:!!model.show
             text: showed

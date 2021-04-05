@@ -1,0 +1,37 @@
+{
+  "name": "@json2render/plugin-elementui",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
+  "homepage": "https://github.com/fyl080801/json-to-render/tree/main/packages/plugin-elementui#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyl080801/json-to-render.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fyl080801/json-to-render/issues"
+  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "browser": "dist/index.umd.js",
+  "unpkg": "dist/index.min.js",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
+  },
+  "dependencies": {
+    "@json2render/core": "^0.2.3",
+    "@json2render/utils": "^0.2.2"
+  }
+}
