@@ -30,7 +30,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
-    "core-js": "^3.10.2",
+    "core-js": "^3.11.0",
     "vue": "^3.0.11"
   },
   "devDependencies": {
@@ -69,7 +69,7 @@
     "lodash": "^4.17.21",
     "monaco-editor": "^0.23.0",
     "node-sass": "^5.0.0",
-    "postcss": "^8.2.10",
+    "postcss": "^8.2.12",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.45.2",

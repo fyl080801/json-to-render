@@ -12,17 +12,23 @@ fields:
   - component: el-form
     props:
       labelWidth: 120px
-    row: 20
+    row: 20 # gutter
     children:
       - component: el-input
         model: model.text
-        col: 12
-        form: 输入
+        col: 12 # span
+        form: 输入 # label
 
       - component: el-select
         model: model.selected
         col: 12
         form: 选择
+        child:
+          type: el-option
+          props:
+            value: value
+            label: label
+          data: []
 
       - component: p
         text: =:输入了:${model.text}
