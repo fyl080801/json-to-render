@@ -15,13 +15,13 @@ export default defineComponent({
     ])
     const active = ref({ fields: [], datasource: {}, listeners: [], model: {} })
     const code = ref('')
-    const updater = debounce((value) => {
-      try {
-        Object.assign(active.value, JSON.parse(value))
-      } catch {
-        //
-      }
-    }, 1000)
+    // const updater = debounce((value) => {
+    //   try {
+    //     Object.assign(active.value, JSON.parse(value))
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // }, 1000)
 
     const onSetup = ({ datasource }: any) => {
       datasource('rawdata', ({ define }: any) => {
@@ -29,10 +29,6 @@ export default defineComponent({
 
         return data
       })
-    }
-
-    const onCodeChange = (value: string) => {
-      updater(value)
     }
 
     watch(
@@ -54,6 +50,15 @@ export default defineComponent({
         })
       }
     )
+
+    // watch(
+    //   () => code.value,
+    //   (value) => {
+    //     // debugger
+    //     // updater(value)
+    //     console.log(value)
+    //   }
+    // )
 
     onMounted(() => {
       current.value = 'full'
@@ -79,10 +84,7 @@ export default defineComponent({
           </ul>
         </div>
         <div class="flex-1 border-l">
-          <json-editor
-            modelValue={code.value}
-            onChange={onCodeChange}
-          ></json-editor>
+          <json-editor modelValue={code.value}></json-editor>
         </div>
         <div class="flex-1 border-l overflow-auto">
           <div class=" px-5 py-3">
