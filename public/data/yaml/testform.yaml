@@ -23,12 +23,6 @@ fields:
         model: model.selected
         col: 12
         form: 选择
-        child:
-          type: el-option
-          props:
-            value: value
-            label: label
-          data: []
 
       - component: p
         text: =:输入了:${model.text}

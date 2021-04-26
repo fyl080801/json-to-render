@@ -58,7 +58,7 @@
     "commitizen": "^4.2.3",
     "cross-env": "^7.0.3",
     "cz-lerna-changelog": "^2.0.3",
-    "element-plus": "^1.0.2-beta.40",
+    "element-plus": "^1.0.2-beta.41",
     "eslint": "^7.25.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^7.9.0",

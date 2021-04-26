@@ -3673,9 +3673,9 @@ electron-to-chromium@^1.3.649:
   integrity sha512-3kRVibBeCM4vsgoHHGKHmPocLqtFAGTrebXxxtgKs87hNUzXrX2NuS3jnBys7IozCnw7viQlozxKkmty2KNfrw==
 
 element-plus@^1.0.2-beta.40:
-  version "1.0.2-beta.40"
-  resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-1.0.2-beta.40.tgz#30fc9b161496ae587fab86235c80b728ea43d909"
-  integrity sha512-8S7JbBpJLUa3ggexuKuKeyrTo451gMDHa/BKJVFiHSyexcHPgnHQwHf2nIoZvY1w6FzmZPdBdZ3NoDLXu51SIw==
+  version "1.0.2-beta.41"
+  resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-1.0.2-beta.41.tgz#9c234b536b3401d042505c003e579bd65081f0f0"
+  integrity sha512-GikmQdajaKB5oLxfHxhKXGXtiNoaN1wYiLr9aRx+yxwLx3nPDfoBx60+nrZoN6BOCk2M0HjBVj9TtA214WLRYw==
   dependencies:
     "@popperjs/core" "^2.4.4"
     "@types/lodash" "^4.14.161"
@@ -7833,7 +7833,7 @@ postcss@^8.1.10:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
-postcss@^8.2.12:
+postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.12:
   version "8.2.12"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.12.tgz#81248a1a87e0f575cc594a99a08207fd1c4addc4"
   integrity sha512-BJnGT5+0q2tzvs6oQfnY2NpEJ7rIXNfBnZtQOKCIsweeWXBXeDd5k31UgTdS3d/c02ouspufn37mTaHWkJyzMQ==
