@@ -3672,7 +3672,7 @@ electron-to-chromium@^1.3.649:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.712.tgz#ae467ffe5f95961c6d41ceefe858fc36eb53b38f"
   integrity sha512-3kRVibBeCM4vsgoHHGKHmPocLqtFAGTrebXxxtgKs87hNUzXrX2NuS3jnBys7IozCnw7viQlozxKkmty2KNfrw==
 
-element-plus@^1.0.2-beta.40:
+element-plus@^1.0.2-beta.41:
   version "1.0.2-beta.41"
   resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-1.0.2-beta.41.tgz#9c234b536b3401d042505c003e579bd65081f0f0"
   integrity sha512-GikmQdajaKB5oLxfHxhKXGXtiNoaN1wYiLr9aRx+yxwLx3nPDfoBx60+nrZoN6BOCk2M0HjBVj9TtA214WLRYw==
@@ -7833,10 +7833,19 @@ postcss@^8.1.10:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
-postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.12:
+postcss@^8.1.6, postcss@^8.2.1:
   version "8.2.12"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.12.tgz#81248a1a87e0f575cc594a99a08207fd1c4addc4"
   integrity sha512-BJnGT5+0q2tzvs6oQfnY2NpEJ7rIXNfBnZtQOKCIsweeWXBXeDd5k31UgTdS3d/c02ouspufn37mTaHWkJyzMQ==
+  dependencies:
+    colorette "^1.2.2"
+    nanoid "^3.1.22"
+    source-map "^0.6.1"
+
+postcss@^8.2.13:
+  version "8.2.13"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.13.tgz#dbe043e26e3c068e45113b1ed6375d2d37e2129f"
+  integrity sha512-FCE5xLH+hjbzRdpbRb1IMCvPv9yZx2QnDarBEYSN0N0HYk+TcXsEhwdFcFb+SRWOKzKGErhIEbBK2ogyLdTtfQ==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.22"
@@ -9863,10 +9872,10 @@ vite@^2.2.1:
   optionalDependencies:
     fsevents "~2.3.1"
 
-vitepress@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.13.0.tgz#99fbeccc7e18f5371713b381c8c9725fa6bfd72d"
-  integrity sha512-LTVxbHTZt46kKwxreKe3EFARuwtbsK5DyXFPvhQ8oUkKFFR9FDI/vt79ABFQWUQM1AokQEoa6RXsBr1qFv0s4Q==
+vitepress@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.13.2.tgz#f4bc7d11844172fb2e2fedb42945f84e1b60b207"
+  integrity sha512-Y5gN7QAXh2Dd3+e59FWnLuszudg7sO/0//9qUKg84cAX/cZrjvhUgxcAh8MqfCFw8K5m2/0D445FzuwBcqHQLw==
   dependencies:
     "@docsearch/css" "^1.0.0-alpha.28"
     "@docsearch/js" "^1.0.0-alpha.28"
