@@ -52,7 +52,8 @@ const toPath = (
   pathString = String(pathString)
 
   // lodash 的实现 - https://github.com/lodash/lodash
-  const pathRx = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g
+  const pathRx =
+    /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g
   const pathArray: Array<string | number> = []
 
   const replacer: any = (match: any, num: any, quote: any, str: any) => {

@@ -36,18 +36,20 @@ export const resolveRenderComponent = (name: string) => {
   return isOriginTag(name) ? name : resolveComponent(name)
 }
 
-export const getRenderer = (scope: any) => (children: any): any => {
-  if (!children) {
-    return null
-  }
+export const getRenderer =
+  (scope: any) =>
+  (children: any): any => {
+    if (!children) {
+      return null
+    }
 
-  return isArray(children)
-    ? render(children, scope)
-    : isObject(children)
-    ? Object.keys(children).reduce((pre: any, key: string) => {
-        pre[key] = (scope: any) =>
-          render(children[key], assignObject(scope, Object.keys(scope || {})))
-        return pre
-      }, {})
-    : null
-}
+    return isArray(children)
+      ? render(children, scope)
+      : isObject(children)
+      ? Object.keys(children).reduce((pre: any, key: string) => {
+          pre[key] = (scope: any) =>
+            render(children[key], assignObject(scope, Object.keys(scope || {})))
+          return pre
+        }, {})
+      : null
+  }

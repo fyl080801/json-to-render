@@ -14,13 +14,8 @@ export default defineComponent({
     scope: { type: Object, required: true },
   },
   setup: (props) => {
-    const {
-      prerender,
-      render,
-      injectProxy,
-      components,
-      context,
-    }: any = getState()
+    const { prerender, render, injectProxy, components, context }: any =
+      getState()
 
     const nodeField = ref({ children: [] })
 
