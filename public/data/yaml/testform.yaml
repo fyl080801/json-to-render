@@ -8,6 +8,15 @@ datasource:
 fields:
   - component: p
     text: 渲染 yaml
+  
+  - component: el-button
+    text: alert
+    props: 
+      onClick: |
+        $: () => {
+          console.log('xxxxxx')
+          alert('xxx')
+        }
 
   - component: el-form
     props:
@@ -25,7 +34,7 @@ fields:
         form: 选择
 
       - component: p
-        text: =:输入了:${model.text}
+        text: $:`输入了:${model.text || ''}`
         col: 12
         form: ' '
 
@@ -54,4 +63,6 @@ fields:
             text: 明细
             props:
               type: text
-              onClick: ~:alert(JSON.stringify(scope.row))
+              onClick: | 
+                $:()=>
+                  alert(JSON.stringify(scope.row))
