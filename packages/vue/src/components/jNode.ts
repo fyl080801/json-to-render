@@ -17,7 +17,7 @@ export default defineComponent({
     const { prerender, render, injectProxy, components, context }: any =
       getState()
 
-    const nodeField = ref({ children: [] })
+    const nodeField = ref<any>({})
 
     const injectedContext = assignObject(context, { scope: props.scope })
 
@@ -40,7 +40,7 @@ export default defineComponent({
                 return
               }
 
-              field.children = resolveChildren(field.children)
+              field.children = resolveChildren(children)
 
               next(field)
             },
@@ -60,10 +60,7 @@ export default defineComponent({
 
     return () => {
       // 是否需要每次渲染都转换成真实对象?
-      let renderField = assignObject(nodeField.value, {
-        children:
-          nodeField.value.children && assignObject(nodeField.value.children),
-      })
+      let renderField = assignObject(nodeField.value)
 
       render(
         [
@@ -77,6 +74,7 @@ export default defineComponent({
           context: injectedContext,
         }
       )(renderField)
+
       const component =
         renderField &&
         renderField.component &&

@@ -8,10 +8,10 @@ datasource:
 fields:
   - component: p
     text: 渲染 yaml
-  
+
   - component: el-button
     text: alert
-    props: 
+    props:
       onClick: |
         $: () => {
           console.log('xxxxxx')
@@ -63,6 +63,4 @@ fields:
             text: 明细
             props:
               type: text
-              onClick: | 
-                $:()=>
-                  alert(JSON.stringify(scope.row))
+              onClick: $:() => alert(JSON.stringify(scope.row))
