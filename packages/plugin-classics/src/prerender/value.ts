@@ -2,7 +2,7 @@ import { assignObject, FunctionHook } from '@json2render/utils'
 
 const hook: FunctionHook = () => {
   return (field, next) => {
-    if (field.value == undefined) {
+    if (field.value === undefined) {
       next(field)
       return
     }
