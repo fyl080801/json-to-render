@@ -9,6 +9,10 @@ import 'element-plus/lib/theme-chalk/index.css'
 
 import JsonEditor from './components/JsonEditor'
 
+JRender.use(({ proxy }) => {
+  //
+})
+
 createApp(App)
   .use(router)
   .use(Element)

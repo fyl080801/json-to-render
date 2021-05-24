@@ -1,26 +1,21 @@
-import { assignObject, isFunction } from '@json2render/utils'
-import { JsonProxyHandler, ProxyFlags, ProxyHandlerResolver } from '../types'
+import { ProxyContext, ProxyFlags, ProxyInjector } from '../types'
 import { getProxyDefine, isAllowedProxy, isProxy } from './utils'
+import { proxyServiceProvider } from '../service/proxy'
 
-const getProxyHandler = (
-  proxies: ProxyHandlerResolver[],
-  services: any
-): ((value: any) => JsonProxyHandler) => {
-  return (value: any) => {
-    for (const index in proxies) {
-      const handler = proxies[index](value, services)
+export const getProxyInjector = (excludes: string[]) => {
+  const proxies = proxyServiceProvider.resolveAll(excludes)
+
+  const getProxyHandler = (value: any) => {
+    for (const proxy of proxies) {
+      const handler = proxy(value)
       if (handler) {
         return handler
       }
     }
+    return false
   }
-}
 
-export const createProxyInjector = (
-  proxies: ProxyHandlerResolver[],
-  services: any
-) => {
-  const createProxy = (originTarget: any, context: any) => {
+  const createProxy = (originTarget: any, context: ProxyContext) => {
     const getter = (target: any, p: any, receiver: any): any => {
       if (p === ProxyFlags.PROXY_DEFINE) {
         return target
@@ -32,15 +27,9 @@ export const createProxyInjector = (
 
       const originValue = Reflect.get(target, p, receiver)
 
-      const handler = getProxyHandler(
-        proxies,
-        assignObject(services, { injectProxy })
-      )(originValue)
+      const handler = getProxyHandler(originValue)
 
-      return injectProxy(
-        isFunction(handler) ? handler(context) : originValue,
-        context
-      )
+      return injectProxy(handler ? handler(context) : originValue, context)
     }
 
     return new Proxy(originTarget, {
@@ -48,7 +37,7 @@ export const createProxyInjector = (
     })
   }
 
-  const injectProxy = (target: any, context: any) => {
+  const injectProxy: ProxyInjector = (target: any, context: any) => {
     if (!isAllowedProxy(target)) {
       return target
     }

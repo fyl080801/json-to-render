@@ -1,7 +1,3 @@
-import { ServiceBuilderFactory } from '../types'
-
-export const createServiceBuilder: ServiceBuilderFactory = (services) => {
-  return (builder) => {
-    builder(services)
-  }
-}
+export * from './functional'
+export * from './proxy'
+export * from './utils'

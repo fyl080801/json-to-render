@@ -6,10 +6,10 @@ export {
   isProxy,
 } from './proxy/utils'
 
-export { createProxyInjector } from './proxy'
+export { getProxyInjector } from './proxy'
 
-export { createServiceBuilder } from './service'
+export * from './service'
 
-export { createService as createFunctionalService } from './functional'
+// export { createService as createFunctionalService } from './functional'
 
 export * from './types'
