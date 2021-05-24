@@ -1,9 +1,3 @@
-import value from './prerender/value'
-import checked from './prerender/checked'
-import events from './prerender/events'
-
-import text from './render/text'
-
 import computed from './proxy/computed'
 import method from './proxy/method'
 import condition from './render/condition'
@@ -22,12 +16,7 @@ import reduce from './functional/reduce'
 import subtraction from './functional/subtraction'
 import textFunctional from './functional/text'
 
-export default ({ prerender, render, proxy, functional }: any) => {
-  prerender(value)
-  prerender(checked)
-  prerender(events)
-
-  render(text)
+export default ({ render, proxy, functional }: any) => {
   render(condition)
 
   proxy(computed)
