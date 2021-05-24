@@ -81,4 +81,4 @@ export default defineComponent({
 
 ## 自定义数据源
 
-除了固定数据来源以外，可使用的数据也包括通过插件定义的或自定义的数据来源，具体参考[高级用法](/json-to-render/guide/setup)
+除了固定数据来源以外，可使用的数据也包括通过插件定义的或自定义的数据来源，具体参考[高级用法](/json-to-render/guide/setup.html)
