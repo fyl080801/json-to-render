@@ -1,6 +1,9 @@
 import pipeline from './pipeline'
 
+export { pipeline }
+
 export { isOriginTag } from './domTags'
+
 export {
   assignArray,
   assignObject,
@@ -13,8 +16,6 @@ export {
   isFunction,
 } from './helpers'
 
-export { pipeline }
-
-export * from './di'
+export * from './dependencyInjection'
 
 export * from './types'

@@ -9,16 +9,23 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { createFunctionalService, createProxyInjector } from '@json2render/core'
 import { assignObject, isFunction, isArray } from '@json2render/utils'
-import { createProxyService } from '../service/proxy'
+// import { createProxyService } from '../service/proxy'
 import { createDatasourceService } from '../service/datasource'
 import { createHookService } from '../service/hooks'
 import { createComponentService } from '../service/component'
-import { proxy, prerender, render, datasource, functional } from '../service'
+import {
+  prerender,
+  render,
+  datasource,
+  containerBuilder,
+  proxySetup,
+  functionalSetup,
+} from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
 import JNode from './jNode'
+import { ProxyContext, proxyContextToken } from '@json2render/core'
 
 export default defineComponent({
   name: 'vJrender',
@@ -32,41 +39,50 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    const context: { [key: string]: any } = reactive({
+    const context: ProxyContext = reactive({
       model: toRaw(props.modelValue),
+      scope: {},
       refs: {},
     })
     const root = reactive({ field: {}, scope: {} })
     const updating = ref(false) // 为了更新 fields 时从根节点刷新
 
     //#region 初始化服务相关
-    const proxyService = createProxyService(proxy.store)
+    const container = containerBuilder.build()
+
+    container.addValue<ProxyContext>(proxyContextToken, context)
+
+    // const proxyService = createProxyService(proxy.store)
     const prerenderService = createHookService(prerender.store)
     const renderService = createHookService(render.store)
     const componentService = createComponentService()
     const datasourceService = createDatasourceService(datasource.store)
-    const functionalService = createFunctionalService(functional.store)
-    const injectProxy = createProxyInjector(proxyService.store, {
-      functional: functionalService.resolve,
-    })
+    // const functionalService = createFunctionalService(functional.store)
+    // const injectProxy = createProxyInjector(proxyService.store, {
+    //   functional: functionalService.resolve,
+    // })
 
     // 共享给节点的服务
-    const services = {
-      prerender: prerenderService.processHook,
-      render: renderService.processHook,
-      components: componentService.store,
-      context,
-    }
+    // const services = {
+    //   prerender: prerenderService.processHook,
+    //   render: renderService.processHook,
+    //   components: componentService.store,
+    //   context,
+    // }
 
-    createStore(assignObject(services, { injectProxy }))
+    createStore(container)
 
+    // ctx.emit('setup', {
+    //   proxy: proxyService.setup,
+    //   prerender: prerenderService.setup,
+    //   render: renderService.setup,
+    //   component: componentService.setup,
+    //   datasource: datasourceService.setup,
+    //   functional: functionalService.setup,
+    // })
     ctx.emit('setup', {
-      proxy: proxyService.setup,
-      prerender: prerenderService.setup,
-      render: renderService.setup,
-      component: componentService.setup,
-      datasource: datasourceService.setup,
-      functional: functionalService.setup,
+      proxy: proxySetup,
+      functional: functionalSetup,
     })
     //#endregion
 

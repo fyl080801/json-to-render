@@ -33,6 +33,7 @@
     "core-js": "^3.13.0",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
+    "uuid": "^8.3.2",
     "vue": "^3.0.11"
   },
   "devDependencies": {
@@ -47,6 +48,7 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@tailwindcss/forms": "^0.3.2",
     "@types/js-yaml": "^4.0.1",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
     "@vitejs/plugin-vue": "^1.2.1",
