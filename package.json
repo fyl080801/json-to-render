@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "core-js": "^3.13.0",
+    "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0",
     "vue": "^3.0.11"
   },
   "devDependencies": {

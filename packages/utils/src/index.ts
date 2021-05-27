@@ -15,4 +15,6 @@ export {
 
 export { pipeline }
 
+export * from './di'
+
 export * from './types'
