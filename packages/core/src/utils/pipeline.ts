@@ -1,6 +1,6 @@
-import { FunctionHook, FunctionNext, FunctionPipeLine } from './types'
+import { FunctionHook, FunctionNext, FunctionPipeLine } from '../types'
 
-const pipeline: FunctionPipeLine = (funcs, opts) => {
+const pipeline: FunctionPipeLine = (hooks, services) => {
   return (scope: any) => {
     // 全局索引
     let index = -1
@@ -24,16 +24,16 @@ const pipeline: FunctionPipeLine = (funcs, opts) => {
       // 方法执行当前索引是否超过函数数组索引
       // 如果超过了则当前函数是空
       // 否则指针移到当前索引位置，得到当前需要执行的函数
-      const currentFn: FunctionHook | null = i >= funcs.length ? null : funcs[i]
+      const current: FunctionHook | null = i >= hooks.length ? null : hooks[i]
 
       // 当前函数是空的，说明最后一个索引的函数已经执行完毕
-      if (!currentFn) {
+      if (!current) {
         return Promise.resolve()
       }
 
       // 返回一个 Promise 对象，任务是执行当前指针处的函数
       // 将上下文对象和返回下个方法的委托函数作为参数传递进去
-      return Promise.resolve(currentFn(opts)(currentScope, next))
+      return Promise.resolve(current.invoke(services)(currentScope, next))
     }
 
     // 传递索引 0 开始执行索引遍历递归委托

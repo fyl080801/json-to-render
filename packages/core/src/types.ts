@@ -30,3 +30,18 @@ export interface FunctionalBase {
   name: string
   invoke(...args: unknown[]): unknown
 }
+
+// hook
+export interface FunctionNext {
+  (scope: any): void
+}
+
+export interface FunctionHook {
+  index: number
+  invoke(services: unknown): (scope: any, next: FunctionNext) => void
+}
+
+export declare type FunctionPipeLine = (
+  hooks: FunctionHook[],
+  services: unknown
+) => FunctionNext

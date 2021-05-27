@@ -1,4 +1,4 @@
-export * from './proxy'
+export * from './feature'
 export * from './service'
-export * from './functional'
+export * from './utils'
 export * from './types'

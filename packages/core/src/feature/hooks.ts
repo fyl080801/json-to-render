@@ -1,12 +1,12 @@
 // import {
-//   assignArray,
-//   FunctionHook,
-//   FunctionNext,
+//   // assignArray,
+//   // FunctionHook,
+//   // FunctionNext,
 //   pipeline,
 // } from '@json2render/utils'
 // import { HookItem } from '../types'
 
-import { createToken } from '@json2render/utils'
+import { assignArray, FunctionHook, pipeline } from '../utils'
 
 // export const createHookSetup = (store: HookItem[]) => {
 //   return (hook: FunctionHook, index?: number) => {
@@ -37,6 +37,15 @@ import { createToken } from '@json2render/utils'
 //   }
 // }
 
-export const prerenderToken = createToken()
+export class HookService {
+  constructor(private readonly hooks: FunctionHook[]) {}
 
-export const renderToken = createToken()
+  invoke(extras: FunctionHook[]) {
+    const sorted = assignArray(
+      this.hooks.sort((a, b) => a.index - b.index),
+      extras
+    )
+
+    return pipeline(sorted, {})
+  }
+}

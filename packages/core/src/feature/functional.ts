@@ -1,5 +1,5 @@
-import { createToken, InjectMany } from '@json2render/utils'
-import { FunctionalBase } from './types'
+import { createToken, InjectMany } from '../utils'
+import { FunctionalBase } from '../types'
 
 export const functionalToken = createToken<FunctionalBase>('functional')
 

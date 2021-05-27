@@ -18,4 +18,4 @@ export {
 
 export * from './dependencyInjection'
 
-export * from './types'
+export * from '../types'

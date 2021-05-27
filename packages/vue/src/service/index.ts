@@ -1,5 +1,5 @@
 // import { createHookService } from './hooks'
-import { createDatasourceService } from './datasource'
+// import { createDatasourceService } from './datasource'
 import {
   createServiceContainer,
   functionalToken,
@@ -19,7 +19,7 @@ import { ServiceBuilder } from '../types'
 
 // export const render = createHookService()
 
-export const datasource = createDatasourceService()
+// export const datasource = createDatasourceService()
 
 // export const functional = createFunctionalService()
 

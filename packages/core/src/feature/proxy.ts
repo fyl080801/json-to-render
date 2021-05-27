@@ -7,8 +7,8 @@ import {
   isObject,
   createToken,
   InjectMany,
-} from '@json2render/utils'
-import { ProxyHandler, ProxyBase, ProxyContext, ProxyFlags } from './types'
+} from '../utils'
+import { ProxyHandler, ProxyBase, ProxyContext, ProxyFlags } from '../types'
 
 export const proxyToken = createToken<ProxyBase>('proxy')
 

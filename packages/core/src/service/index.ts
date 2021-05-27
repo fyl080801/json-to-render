@@ -1,12 +1,5 @@
-// import { ServiceBuilderFactory } from '../types'
 import { Container, Constructable, Token, ServiceOptions } from 'typedi'
 import { v4 } from 'uuid'
-
-// export const createServiceBuilder: ServiceBuilderFactory = (services) => {
-//   return (builder) => {
-//     builder(services)
-//   }
-// }
 
 export const createServiceContainer = () => {
   const stored: ServiceOptions[] = []
