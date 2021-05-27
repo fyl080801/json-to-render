@@ -1,56 +1,86 @@
-import { Container, Constructable, Token, ServiceOptions } from 'typedi'
+import {
+  Container,
+  Constructable,
+  Token,
+  ServiceOptions,
+  ContainerInstance,
+} from 'typedi'
 import { v4 } from 'uuid'
+import {
+  ProxyService,
+  proxyServiceToken,
+  functionalToken,
+  FunctionalService,
+  datasourceServiceToken,
+  DatasourceService,
+} from '../feature'
+import { assignArray } from '../utils'
+import { servicesToken } from './token'
 
-export const createServiceContainer = () => {
-  const stored: ServiceOptions[] = []
+const createServices = (
+  container: ContainerInstance,
+  tokenMap: {
+    [key: string]: unknown
+  }
+) => {
+  return new Proxy(
+    {},
+    {
+      get(target, p, receiver) {
+        if (typeof p === 'string') {
+          const token = tokenMap[p]
 
-  const build = (id?: string) => {
-    const container = Container.of(id || v4())
-
-    stored.forEach((item) => container.set(item))
-
-    const provider = {
-      addService<T>(
-        token: Token<T> | Constructable<T>,
-        type?: Constructable<T> | null
-      ) {
-        if (!type) {
-          container.set({
-            id: token,
-            multiple: true,
-            type: token as Constructable<T>,
-          })
-        } else {
-          container.set({ id: token, multiple: true, type })
+          if (token) {
+            return container.get(p)
+          }
         }
-        return provider
-      },
-      addValue<T>(token: Token<T>, value: T | null) {
-        container.set({
-          id: token,
-          multiple: false,
-          value: value,
-        })
-        return provider
-      },
-      resolve<T>(token: Token<T> | Constructable<T>) {
-        return container.get<T>(token)
-      },
-      resolveAll<T>(token: Token<T>) {
-        return container.getMany<T>(token)
+
+        return Reflect.get(target, p, receiver)
       },
     }
+  )
+}
 
-    return provider
+const getProvider = (container: ContainerInstance) => {
+  const instance = {
+    addService<T>(token: Token<T> | Constructable<T>, type?: Constructable<T>) {
+      if (!type) {
+        container.set({
+          id: token,
+          multiple: true,
+          type: token as Constructable<T>,
+        })
+      } else {
+        container.set({ id: token, multiple: true, type })
+      }
+      return instance
+    },
+    addValue<T>(token: Token<T> | string, value: T) {
+      container.set({
+        id: token,
+        multiple: true,
+        value: value,
+      })
+      return instance
+    },
+    resolve<T>(token: Token<T> | Constructable<T> | string) {
+      return container.get<T>(token)
+    },
+    resolveAll<T>(token: Token<T> | string) {
+      return container.getMany<T>(token)
+    },
   }
+  return instance
+}
+
+export const createServiceContainer = (tokenMap?: {
+  [key: string]: unknown
+}) => {
+  const stored: ServiceOptions[] = []
 
   const instance = {
-    addService<T>(
-      token: Token<T> | Constructable<T>,
-      type?: Constructable<T> | null
-    ) {
+    addService<T>(token: Token<T> | Constructable<T>, type?: Constructable<T>) {
       if (!type) {
-        // 直接类型
         stored.push({
           id: token,
           multiple: true,
@@ -61,8 +91,48 @@ export const createServiceContainer = () => {
       }
       return instance
     },
-    build,
+    addValue<T>(token: Token<T> | string, value: T) {
+      stored.push({
+        id: token,
+        multiple: true,
+        value: value,
+      })
+      return instance
+    },
+    build(id?: string) {
+      const container = Container.of(id || v4())
+
+      assignArray(
+        [
+          {
+            id: servicesToken,
+            multiple: false,
+            value: createServices(container, tokenMap || {}),
+          },
+          {
+            id: proxyServiceToken,
+            multiple: false,
+            type: ProxyService,
+          },
+          {
+            id: functionalToken,
+            multiple: false,
+            type: FunctionalService,
+          },
+          {
+            id: datasourceServiceToken,
+            multiple: false,
+            type: DatasourceService,
+          },
+        ],
+        stored
+      ).forEach((item) => container.set(item))
+
+      return getProvider(container)
+    },
   }
 
   return instance
 }
+
+export { servicesToken }

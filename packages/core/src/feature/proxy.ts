@@ -7,20 +7,27 @@ import {
   isObject,
   createToken,
   InjectMany,
+  Inject,
 } from '../utils'
-import { ProxyHandler, ProxyBase, ProxyContext, ProxyFlags } from '../types'
+import { ProxyHandler, ProxyMatcher, ProxyContext, ProxyFlags } from '../types'
+import { servicesToken } from '../service/token'
 
-export const proxyToken = createToken<ProxyBase>('proxy')
+export const proxyToken = createToken<ProxyMatcher>('proxy')
+
+export const proxyServiceToken = createToken<ProxyService>('proxyService')
 
 export const proxyContextToken = createToken<ProxyContext>('proxyContext')
 
 export class ProxyService {
-  constructor(@InjectMany(proxyToken) private readonly proxies: ProxyBase[]) {}
+  constructor(
+    @InjectMany(proxyToken) private readonly proxies: ProxyMatcher[],
+    @Inject(servicesToken) private readonly services: { [key: string]: unknown }
+  ) {}
 
   private getHandler() {
     return (value: any) => {
       for (const index in this.proxies) {
-        const handler: ProxyHandler = this.proxies[index].invoke(value)
+        const handler: ProxyHandler = this.proxies[index](value)
         if (handler) {
           return handler
         }
@@ -28,8 +35,8 @@ export class ProxyService {
     }
   }
 
-  private createProxy(originTarget: unknown, context: ProxyContext) {
-    const getter = (target: any, p: any, receiver: any): any => {
+  private createProxy(origin: unknown, context: ProxyContext) {
+    const get = (target: any, p: any, receiver: any): any => {
       if (p === ProxyFlags.PROXY_DEFINE) {
         return target
       }
@@ -43,14 +50,14 @@ export class ProxyService {
       const handler: ProxyHandler | undefined = this.getHandler()(value)
 
       return this.inject(
-        handler && isFunction(handler) ? handler(context) : value,
+        handler && isFunction(handler)
+          ? handler(context, this.services)
+          : value,
         context
       )
     }
 
-    return new Proxy(originTarget, {
-      get: getter,
-    })
+    return new Proxy(origin, { get })
   }
 
   inject(target: unknown, context: ProxyContext) {

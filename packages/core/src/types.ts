@@ -10,25 +10,42 @@ export interface ProxyTarget {
   [ProxyFlags.NOT_PROXY]?: boolean
 }
 
-export interface ProxyBase {
-  invoke(value: unknown): ProxyHandler
-}
-
 export interface ProxyContext {
   model: unknown
   scope: unknown
-  refs: { [key: string]: unknown }
   [key: string]: unknown
 }
 
+export interface ProxyMatcher {
+  (value: unknown): ProxyHandler
+}
+
 export interface ProxyHandler {
-  (context: unknown): unknown
+  (context: unknown, services: { [key: string]: unknown }): unknown
 }
 
 // functional
-export interface FunctionalBase {
+export interface FunctionalMeta {
   name: string
   invoke(...args: unknown[]): unknown
+}
+
+// datasource
+export interface DatasourceMeta {
+  type: string
+  build: DatasourceBuilder
+}
+
+export interface DatasourceBuilder {
+  (
+    props: { [key: string]: unknown },
+    services: { [key: string]: unknown }
+  ): unknown
+}
+
+export interface DatasourceOptions {
+  type: string
+  props: { [key: string]: unknown }
 }
 
 // hook
