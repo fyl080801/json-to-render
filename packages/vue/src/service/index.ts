@@ -3,9 +3,11 @@
 import {
   createServiceContainer,
   functionalToken,
-  ProxyBase,
   proxyToken,
-  FunctionalBase,
+  ProxyMatcher,
+  FunctionalMeta,
+  datasourceToken,
+  DatasourceMeta,
 } from '@json2render/core'
 import { ServiceBuilder } from '../types'
 // import {
@@ -33,12 +35,16 @@ import { ServiceBuilder } from '../types'
 
 export const containerBuilder = createServiceContainer()
 
-export const proxySetup = (type: new () => ProxyBase) => {
+export const proxySetup = (type: new () => ProxyMatcher) => {
   containerBuilder.addService(proxyToken, type)
 }
 
-export const functionalSetup = (type: new () => FunctionalBase) => {
+export const functionalSetup = (type: new () => FunctionalMeta) => {
   containerBuilder.addService(functionalToken, type)
+}
+
+export const datasourceSetup = (type: new () => DatasourceMeta) => {
+  containerBuilder.addService(datasourceToken, type)
 }
 
 export const globalServiceBuilder = (
@@ -47,6 +53,7 @@ export const globalServiceBuilder = (
   setup({
     proxy: proxySetup,
     functional: functionalSetup,
+    datasource: datasourceSetup,
   })
 }
 
