@@ -1,5 +1,3 @@
-// import { createHookService } from './hooks'
-// import { createDatasourceService } from './datasource'
 import {
   createServiceContainer,
   functionalToken,
@@ -9,7 +7,7 @@ import {
   datasourceToken,
   DatasourceMeta,
 } from '@json2render/core'
-import { ServiceBuilder } from '../types'
+import { Setup } from '../types'
 // import {
 //   createServiceBuilder,
 //   createFunctionalService,
@@ -47,10 +45,8 @@ export const datasourceSetup = (type: new () => DatasourceMeta) => {
   containerBuilder.addService(datasourceToken, type)
 }
 
-export const globalServiceBuilder = (
-  setup: (setups: ServiceBuilder) => void
-) => {
-  setup({
+export const globalSetup: Setup = (handler) => {
+  handler({
     proxy: proxySetup,
     functional: functionalSetup,
     datasource: datasourceSetup,

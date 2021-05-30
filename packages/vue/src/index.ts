@@ -1,5 +1,5 @@
 import jRender from './components/jRender'
-import { globalServiceBuilder } from './service'
+import { globalSetup } from './service'
 import { JRenderPlugin } from './types'
 
 export * from './types'
@@ -9,7 +9,7 @@ const plugin: JRenderPlugin = {
   install: (app: any) => {
     app.component(jRender.name, jRender)
   },
-  use: globalServiceBuilder,
+  use: globalSetup,
 }
 
 export default plugin

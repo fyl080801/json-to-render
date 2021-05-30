@@ -7,4 +7,12 @@ export interface ServiceBuilder {
   datasource: (type: new () => DatasourceMeta) => void
 }
 
-export declare type JRenderPlugin = Plugin & { use: any }
+export interface SetupHandler {
+  (setups: ServiceBuilder): void
+}
+
+export interface Setup {
+  (handler: SetupHandler): void
+}
+
+export declare type JRenderPlugin = Plugin & { use: Setup }
