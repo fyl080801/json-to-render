@@ -1,10 +1,21 @@
-import { ProxyMatcher, FunctionalMeta, DatasourceMeta } from '@json2render/core'
+import {
+  ProxyMatcher,
+  FunctionalMeta,
+  DatasourceMeta,
+  FunctionHook,
+} from '@json2render/core'
 import { Plugin } from 'vue'
+
+export interface HookService {
+  process: (value: any, extra: FunctionHook[]) => void
+}
 
 export interface ServiceBuilder {
   proxy: (type: new () => ProxyMatcher) => void
   functional: (type: new () => FunctionalMeta) => void
   datasource: (type: new () => DatasourceMeta) => void
+  prerender: (type: new () => FunctionHook) => void
+  render: (type: new () => FunctionHook) => void
 }
 
 export interface SetupHandler {

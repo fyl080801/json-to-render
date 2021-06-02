@@ -1,1 +1,1 @@
-export const innerDataNames = ['model', 'scope', 'arguments', 'refs']
+export const innerDataNames = ['model', 'scope', 'arguments']

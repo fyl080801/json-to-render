@@ -6,7 +6,7 @@ import {
   ProxyContext,
 } from '../types'
 import { assignObject, createToken, Inject, InjectMany } from '../utils'
-import { ProxyService, proxyServiceToken } from './proxy'
+import { proxyContextToken, ProxyService, proxyServiceToken } from './proxy'
 
 export const datasourceToken = createToken<DatasourceMeta>('datasource')
 
@@ -17,6 +17,7 @@ export class DatasourceService {
   constructor(
     @Inject(proxyServiceToken) private readonly proxyService: ProxyService,
     @InjectMany(datasourceToken) private readonly datasources: DatasourceMeta[],
+    @Inject(proxyContextToken) private readonly context: ProxyContext,
     @Inject(servicesToken) private readonly services: { [key: string]: unknown }
   ) {}
 
@@ -27,10 +28,14 @@ export class DatasourceService {
     }, {} as { [key: string]: DatasourceBuilder })
   }
 
-  build(options: DatasourceOptions, context: ProxyContext) {
+  release(key: string) {
+    delete this.context[key]
+  }
+
+  build(key: string, options: DatasourceOptions) {
     const { type, props } = this.proxyService.inject(
       assignObject(options),
-      context
+      this.context
     )
 
     const maped = this.getMap()
@@ -38,7 +43,7 @@ export class DatasourceService {
     const build = maped[type]
 
     if (build) {
-      context[type] = build(props, this.services)
+      this.context[key] = build(props, this.services)
     }
   }
 }

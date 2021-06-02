@@ -73,9 +73,7 @@ const getProvider = (container: ContainerInstance) => {
   return instance
 }
 
-export const createServiceContainer = (tokenMap?: {
-  [key: string]: unknown
-}) => {
+export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
   const stored: ServiceOptions[] = []
 
   const instance = {

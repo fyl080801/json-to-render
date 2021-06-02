@@ -6,32 +6,15 @@ import {
   FunctionalMeta,
   datasourceToken,
   DatasourceMeta,
+  FunctionHook,
+  proxyServiceToken,
 } from '@json2render/core'
 import { Setup } from '../types'
-// import {
-//   createServiceBuilder,
-//   createFunctionalService,
-// } from '@json2render/core'
+import { prerenderToken, renderToken } from '../feature/hook'
 
-// export const proxy = createProxyService()
-
-// export const prerender = createHookService()
-
-// export const render = createHookService()
-
-// export const datasource = createDatasourceService()
-
-// export const functional = createFunctionalService()
-
-// export const globalServiceBuilder = createServiceBuilder({
-//   proxy: proxy.setup,
-//   prerender: prerender.setup,
-//   render: render.setup,
-//   datasource: datasource.setup,
-//   functional: functional.setup,
-// })
-
-export const containerBuilder = createServiceContainer()
+export const containerBuilder = createServiceContainer({
+  proxy: proxyServiceToken,
+})
 
 export const proxySetup = (type: new () => ProxyMatcher) => {
   containerBuilder.addService(proxyToken, type)
@@ -45,13 +28,20 @@ export const datasourceSetup = (type: new () => DatasourceMeta) => {
   containerBuilder.addService(datasourceToken, type)
 }
 
+export const prerenderSetup = (type: new () => FunctionHook) => {
+  containerBuilder.addService(prerenderToken, type)
+}
+
+export const renderSetup = (type: new () => FunctionHook) => {
+  containerBuilder.addService(renderToken, type)
+}
+
 export const globalSetup: Setup = (handler) => {
   handler({
     proxy: proxySetup,
     functional: functionalSetup,
     datasource: datasourceSetup,
+    prerender: prerenderSetup,
+    render: renderSetup,
   })
 }
-
-// containerBuilder.addService(ProxyService)
-// containerBuilder.addService(FunctionalService)

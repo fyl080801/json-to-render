@@ -21,7 +21,7 @@ export interface ProxyMatcher {
 }
 
 export interface ProxyHandler {
-  (context: unknown, services: { [key: string]: unknown }): unknown
+  (context: unknown, services: Record<string, unknown>): unknown
 }
 
 // functional
@@ -37,15 +37,12 @@ export interface DatasourceMeta {
 }
 
 export interface DatasourceBuilder {
-  (
-    props: { [key: string]: unknown },
-    services: { [key: string]: unknown }
-  ): unknown
+  (props: Record<string, unknown>, services: Record<string, unknown>): unknown
 }
 
 export interface DatasourceOptions {
   type: string
-  props: { [key: string]: unknown }
+  props: Record<string, unknown>
 }
 
 // hook
