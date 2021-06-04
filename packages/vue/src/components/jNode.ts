@@ -41,26 +41,31 @@ export default defineComponent({
           proxy.inject(value, injectedContext),
           injectedContext
         )([
-          () => (field: any, next: any) => {
-            if (!isArray(field.children)) {
+          {
+            invoke: () => (field: any, next: any) => {
+              if (!isArray(field.children)) {
+                next(field)
+                return
+              }
+
+              const children =
+                field.children?.filter((child: any) => child) ?? []
+
+              if (children.length <= 0) {
+                next(field)
+                return
+              }
+
+              field.children = resolveChildren(children)
+
               next(field)
-              return
-            }
-
-            const children = field.children?.filter((child: any) => child) ?? []
-
-            if (children.length <= 0) {
-              next(field)
-              return
-            }
-
-            field.children = resolveChildren(children)
-
-            next(field)
+            },
           },
-          () => (field: any, next: any) => {
-            nodeField.value = proxy.inject(field, injectedContext)
-            next(nodeField.value)
+          {
+            invoke: () => (field: any, next: any) => {
+              nodeField.value = proxy.inject(field, injectedContext)
+              next(nodeField.value)
+            },
           },
         ])
       },
@@ -71,18 +76,24 @@ export default defineComponent({
       // 是否需要每次渲染都转换成真实对象?
       let renderField = assignObject(nodeField.value)
 
-      render.process(renderField, [
-        () => (field: any, next: any) => {
-          renderField = field
-          next(renderField)
+      render.process(
+        renderField,
+        injectedContext
+      )([
+        {
+          invoke: () => (field: any, next: any) => {
+            renderField = field
+            next(renderField)
+          },
         },
       ])
 
       const component =
         renderField &&
         renderField.component &&
-        (components[renderField.component] ||
-          resolveRenderComponent(renderField.component))
+        resolveRenderComponent(renderField.component)
+      // (components[renderField.component] ||
+      //   resolveRenderComponent(renderField.component))
 
       const rendered =
         component &&

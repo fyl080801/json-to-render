@@ -6,8 +6,8 @@ import {
   isArray,
   isObject,
   createToken,
-  InjectMany,
-  Inject,
+  ContainerInstance,
+  InjectContainer,
 } from '../utils'
 import { ProxyHandler, ProxyMatcher, ProxyContext, ProxyFlags } from '../types'
 import { servicesToken } from '../service/token'
@@ -19,10 +19,13 @@ export const proxyServiceToken = createToken<ProxyService>('proxyService')
 export const proxyContextToken = createToken<ProxyContext>('proxyContext')
 
 export class ProxyService {
-  constructor(
-    @InjectMany(proxyToken) private readonly proxies: ProxyMatcher[],
-    @Inject(servicesToken) private readonly services: { [key: string]: unknown }
-  ) {}
+  private proxies: ProxyMatcher[] = []
+  private services: Record<string, unknown> = {}
+
+  constructor(@InjectContainer() container: ContainerInstance) {
+    this.proxies = container.getMany(proxyToken)
+    this.services = container.get(servicesToken) as Record<string, unknown>
+  }
 
   private getHandler() {
     return (value: any) => {

@@ -24,11 +24,10 @@ export default defineComponent({
     // }, 1000)
 
     const onSetup = ({ datasource }: any) => {
-      datasource('rawdata', ({ define }: any) => {
-        const { data } = define()
-
-        return data
-      })
+      // datasource('rawdata', ({ define }: any) => {
+      //   const { data } = define()
+      //   return data
+      // })
     }
 
     watch(

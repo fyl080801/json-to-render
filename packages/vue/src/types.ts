@@ -11,11 +11,11 @@ export interface HookService {
 }
 
 export interface ServiceBuilder {
-  proxy: (type: new () => ProxyMatcher) => void
-  functional: (type: new () => FunctionalMeta) => void
-  datasource: (type: new () => DatasourceMeta) => void
-  prerender: (type: new () => FunctionHook) => void
-  render: (type: new () => FunctionHook) => void
+  proxy: (type: ProxyMatcher) => void
+  functional: (type: FunctionalMeta) => void
+  datasource: (type: DatasourceMeta) => void
+  prerender: (type: FunctionHook) => void
+  render: (type: FunctionHook) => void
 }
 
 export interface SetupHandler {

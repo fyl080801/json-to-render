@@ -1,12 +1,19 @@
-import { createToken, InjectMany } from '../utils'
+import { createToken, InjectContainer, ContainerInstance } from '../utils'
 import { FunctionalMeta } from '../types'
 
 export const functionalToken = createToken<FunctionalMeta>('functional')
 
+export const functionalServiceToken =
+  createToken<FunctionalService>('functionalService')
+
 export class FunctionalService {
+  private functionals: FunctionalMeta[] = []
+
   constructor(
-    @InjectMany(functionalToken) private readonly functionals: FunctionalMeta[]
-  ) {}
+    @InjectContainer() private readonly container: ContainerInstance
+  ) {
+    this.functionals = container.getMany(functionalToken)
+  }
 
   getMap() {
     return this.functionals.reduce((pre, cur) => {

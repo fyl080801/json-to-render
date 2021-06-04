@@ -9,11 +9,6 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-// import { assignObject, isFunction, isArray } from '@json2render/utils'
-// import { createProxyService } from '../service/proxy'
-// import { createDatasourceService } from '../service/datasource'
-// import { createHookService } from '../service/hooks'
-// import { createComponentService } from '../service/component'
 import {
   containerBuilder,
   proxySetup,
@@ -33,7 +28,12 @@ import {
   isArray,
   isFunction,
 } from '@json2render/core'
-import { PrerenderService, prerenderServiceToken } from '../feature'
+import {
+  PrerenderService,
+  prerenderServiceToken,
+  RenderService,
+  renderServiceToken,
+} from '../feature'
 
 export default defineComponent({
   name: 'vJrender',
@@ -60,8 +60,8 @@ export default defineComponent({
     //#region 初始化服务相关
     const container = containerBuilder
       .build()
-      .addService<PrerenderService>(prerenderServiceToken)
-      .addService<RenderService>(renderServiceToken)
+      .addService<PrerenderService>(prerenderServiceToken, PrerenderService)
+      .addService<RenderService>(renderServiceToken, RenderService)
       .addValue<ProxyContext>(proxyContextToken, context)
 
     const datasourceService = container.resolve(datasourceServiceToken)

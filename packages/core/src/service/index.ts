@@ -9,7 +9,7 @@ import { v4 } from 'uuid'
 import {
   ProxyService,
   proxyServiceToken,
-  functionalToken,
+  functionalServiceToken,
   FunctionalService,
   datasourceServiceToken,
   DatasourceService,
@@ -43,16 +43,12 @@ const createServices = (
 
 const getProvider = (container: ContainerInstance) => {
   const instance = {
-    addService<T>(token: Token<T> | Constructable<T>, type?: Constructable<T>) {
-      if (!type) {
-        container.set({
-          id: token,
-          multiple: true,
-          type: token as Constructable<T>,
-        })
-      } else {
-        container.set({ id: token, multiple: true, type })
-      }
+    addService<T>(token: Token<T> | Constructable<T>, type: Constructable<T>) {
+      container.set({
+        id: token,
+        multiple: false,
+        type,
+      })
       return instance
     },
     addValue<T>(token: Token<T> | string, value: T) {
@@ -77,16 +73,12 @@ export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
   const stored: ServiceOptions[] = []
 
   const instance = {
-    addService<T>(token: Token<T> | Constructable<T>, type?: Constructable<T>) {
-      if (!type) {
-        stored.push({
-          id: token,
-          multiple: true,
-          type: token as Constructable<T>,
-        })
-      } else {
-        stored.push({ id: token, multiple: true, type })
-      }
+    addService<T>(token: Token<T> | Constructable<T>, type: Constructable<T>) {
+      stored.push({
+        id: token,
+        multiple: false,
+        type,
+      })
       return instance
     },
     addValue<T>(token: Token<T> | string, value: T) {
@@ -113,7 +105,7 @@ export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
             type: ProxyService,
           },
           {
-            id: functionalToken,
+            id: functionalServiceToken,
             multiple: false,
             type: FunctionalService,
           },

@@ -16,24 +16,24 @@ export const containerBuilder = createServiceContainer({
   proxy: proxyServiceToken,
 })
 
-export const proxySetup = (type: new () => ProxyMatcher) => {
-  containerBuilder.addService(proxyToken, type)
+export const proxySetup = (type: ProxyMatcher) => {
+  containerBuilder.addValue(proxyToken, type)
 }
 
-export const functionalSetup = (type: new () => FunctionalMeta) => {
-  containerBuilder.addService(functionalToken, type)
+export const functionalSetup = (type: FunctionalMeta) => {
+  containerBuilder.addValue(functionalToken, type)
 }
 
-export const datasourceSetup = (type: new () => DatasourceMeta) => {
-  containerBuilder.addService(datasourceToken, type)
+export const datasourceSetup = (type: DatasourceMeta) => {
+  containerBuilder.addValue(datasourceToken, type)
 }
 
-export const prerenderSetup = (type: new () => FunctionHook) => {
-  containerBuilder.addService(prerenderToken, type)
+export const prerenderSetup = (type: FunctionHook) => {
+  containerBuilder.addValue(prerenderToken, type)
 }
 
-export const renderSetup = (type: new () => FunctionHook) => {
-  containerBuilder.addService(renderToken, type)
+export const renderSetup = (type: FunctionHook) => {
+  containerBuilder.addValue(renderToken, type)
 }
 
 export const globalSetup: Setup = (handler) => {
