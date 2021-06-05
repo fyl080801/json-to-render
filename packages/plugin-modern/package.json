@@ -31,7 +31,7 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/utils": "^0.2.2"
+    "@json2render/core": "^0.2.3"
   },
   "gitHead": "6b7755b42a7f2c4e549d815da91bb3727594ef03"
 }

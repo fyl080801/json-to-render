@@ -1,6 +1,6 @@
-import { FunctionHook } from '@json2render/utils'
+import { HookInvoker } from '@json2render/core'
 
-const hook: FunctionHook = () => (field, next) => {
+export default (): HookInvoker => (field, next) => {
   const textProp = Reflect.getOwnPropertyDescriptor(field, 'text')
 
   if (!textProp) {
@@ -13,5 +13,3 @@ const hook: FunctionHook = () => (field, next) => {
 
   next(field)
 }
-
-export default hook

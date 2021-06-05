@@ -30,7 +30,10 @@ export class ProxyService {
   private getHandler() {
     return (value: any) => {
       for (const index in this.proxies) {
-        const handler: ProxyHandler = this.proxies[index](value)
+        const handler: ProxyHandler | undefined = this.proxies[index](
+          value,
+          this.services
+        )
         if (handler) {
           return handler
         }
@@ -53,9 +56,7 @@ export class ProxyService {
       const handler: ProxyHandler | undefined = this.getHandler()(value)
 
       return this.inject(
-        handler && isFunction(handler)
-          ? handler(context, this.services)
-          : value,
+        handler && isFunction(handler) ? handler(context) : value,
         context
       )
     }

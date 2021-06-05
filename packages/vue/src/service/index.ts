@@ -3,45 +3,55 @@ import {
   functionalToken,
   proxyToken,
   ProxyMatcher,
-  FunctionalMeta,
   datasourceToken,
-  DatasourceMeta,
-  FunctionHook,
-  proxyServiceToken,
+  DatasourceBuilder,
+  Hook,
+  Functional,
 } from '@json2render/core'
 import { Setup } from '../types'
 import { prerenderToken, renderToken } from '../feature/hook'
 
-export const containerBuilder = createServiceContainer({
-  proxy: proxyServiceToken,
-})
+export const containerBuilder = createServiceContainer()
 
-export const proxySetup = (type: ProxyMatcher) => {
-  containerBuilder.addValue(proxyToken, type)
-}
+export const createSetupCollection = (container: any) => {
+  const proxySetup = (value: ProxyMatcher) => {
+    container.addValue(proxyToken, value)
+  }
 
-export const functionalSetup = (type: FunctionalMeta) => {
-  containerBuilder.addValue(functionalToken, type)
-}
+  const functionalSetup = (name: string, value: Functional) => {
+    container.addValue(functionalToken, {
+      name,
+      invoke: value,
+    })
+  }
 
-export const datasourceSetup = (type: DatasourceMeta) => {
-  containerBuilder.addValue(datasourceToken, type)
-}
+  const datasourceSetup = (name: string, value: DatasourceBuilder) => {
+    container.addValue(datasourceToken, {
+      type: name,
+      build: value,
+    })
+  }
 
-export const prerenderSetup = (type: FunctionHook) => {
-  containerBuilder.addValue(prerenderToken, type)
-}
+  const prerenderSetup = (value: Hook, index?: number) => {
+    container.addValue(prerenderToken, { index: index || 0, invoke: value })
+  }
 
-export const renderSetup = (type: FunctionHook) => {
-  containerBuilder.addValue(renderToken, type)
-}
+  const renderSetup = (value: Hook, index?: number) => {
+    container.addValue(renderToken, {
+      index: index || 0,
+      invoke: value,
+    })
+  }
 
-export const globalSetup: Setup = (handler) => {
-  handler({
+  return {
     proxy: proxySetup,
     functional: functionalSetup,
     datasource: datasourceSetup,
     prerender: prerenderSetup,
     render: renderSetup,
-  })
+  }
+}
+
+export const globalSetup: Setup = (handler) => {
+  handler(createSetupCollection(containerBuilder))
 }

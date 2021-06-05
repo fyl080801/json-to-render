@@ -1,6 +1,6 @@
-import { assignObject, FunctionHook } from '@json2render/utils'
+import { assignObject, HookInvoker } from '@json2render/core'
 
-const hook: FunctionHook = () => {
+export default (): HookInvoker => {
   return (field, next) => {
     if (field.model === undefined) {
       next(field)
@@ -31,5 +31,3 @@ const hook: FunctionHook = () => {
     next(field)
   }
 }
-
-export default hook

@@ -1,7 +1,6 @@
-import { FunctionHook } from '@json2render/utils'
+import { HookInvoker } from '@json2render/core'
 
-const hook: FunctionHook =
-  ({ injectProxy, context }) =>
+export default ({ proxy, context }: any): HookInvoker =>
   (field, next) => {
     if (!field.col) {
       next(field)
@@ -13,7 +12,7 @@ const hook: FunctionHook =
     delete field.col
 
     next(
-      injectProxy(
+      proxy.inject(
         {
           component: 'el-col',
           props: typeof colProps === 'number' ? { span: colProps } : colProps,
@@ -23,5 +22,3 @@ const hook: FunctionHook =
       )
     )
   }
-
-export default hook

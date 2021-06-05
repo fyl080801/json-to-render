@@ -1,6 +1,6 @@
-import { FunctionHook } from '@json2render/utils'
+import { HookInvoker } from '@json2render/core'
 
-const hook: FunctionHook = ({ injectProxy, context }) => {
+export default ({ proxy, context }: any): HookInvoker => {
   return (field, next) => {
     if (!field.form) {
       next(field)
@@ -12,7 +12,7 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
     delete field.form
 
     next(
-      injectProxy(
+      proxy.inject(
         {
           component: 'el-form-item',
           props:
@@ -24,5 +24,3 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
     )
   }
 }
-
-export default hook

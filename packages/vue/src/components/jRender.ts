@@ -9,14 +9,7 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import {
-  containerBuilder,
-  proxySetup,
-  functionalSetup,
-  datasourceSetup,
-  prerenderSetup,
-  renderSetup,
-} from '../service'
+import { containerBuilder, createSetupCollection } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
 import JNode from './jNode'
@@ -70,13 +63,7 @@ export default defineComponent({
 
     createStore(container)
 
-    ctx.emit('setup', {
-      proxy: proxySetup,
-      functional: functionalSetup,
-      datasource: datasourceSetup,
-      prerender: prerenderSetup,
-      render: renderSetup,
-    })
+    ctx.emit('setup', createSetupCollection(container))
     //#endregion
 
     //#region 相关监听

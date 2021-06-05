@@ -2,29 +2,29 @@ import {
   assignArray,
   assignObject,
   createToken,
-  FunctionHook,
-  Inject,
+  HookMeta,
+  InjectContainer,
   pipeline,
   servicesToken,
 } from '@json2render/core'
 import { ContainerInstance } from 'typedi'
 
-export const prerenderToken = createToken<FunctionHook>('prerender')
+export const prerenderToken = createToken<HookMeta>('prerender')
 
 export const prerenderServiceToken =
-  createToken<FunctionHook>('prerenderService')
+  createToken<PrerenderService>('prerenderService')
 
-export const renderToken = createToken<FunctionHook>('render')
+export const renderToken = createToken<HookMeta>('render')
 
-export const renderServiceToken = createToken<FunctionHook>('renderService')
+export const renderServiceToken = createToken<RenderService>('renderService')
 
 export class PrerenderService {
   constructor(
-    @Inject(prerenderToken) private readonly container: ContainerInstance
+    @InjectContainer() private readonly container: ContainerInstance
   ) {}
 
   process(value: any, context: Record<string, unknown>) {
-    return (extra: FunctionHook[]) => {
+    return (extra: HookMeta[]) => {
       pipeline(
         assignArray(
           this.container
@@ -39,16 +39,16 @@ export class PrerenderService {
 }
 
 export class RenderService {
-  private sorted: FunctionHook[] = []
+  private sorted: HookMeta[] = []
 
-  constructor(@Inject(renderToken) container: ContainerInstance) {
+  constructor(@InjectContainer() container: ContainerInstance) {
     this.sorted = container
       .getMany(renderToken)
       .sort((a, b) => a.index - b.index)
   }
 
   process(value: any, context: Record<string, unknown>) {
-    return (extra: FunctionHook[]) => {
+    return (extra: HookMeta[]) => {
       pipeline(
         assignArray(this.sorted, extra || []),
         assignObject({ context })

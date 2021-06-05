@@ -17,17 +17,21 @@ export interface ProxyContext {
 }
 
 export interface ProxyMatcher {
-  (value: unknown): ProxyHandler
+  (value: unknown, services: Record<string, any>): ProxyHandler | undefined
 }
 
 export interface ProxyHandler {
-  (context: unknown, services: Record<string, unknown>): unknown
+  (context: Record<string, unknown>): unknown
 }
 
 // functional
+export interface Functional {
+  (...args: unknown[]): unknown
+}
+
 export interface FunctionalMeta {
   name: string
-  invoke(...args: unknown[]): unknown
+  invoke: Functional
 }
 
 // datasource
@@ -50,12 +54,20 @@ export interface FunctionNext {
   (scope: any): void
 }
 
-export interface FunctionHook {
+export interface HookInvoker {
+  (scope: any, next: FunctionNext): void
+}
+
+export interface Hook {
+  (services: unknown): HookInvoker
+}
+
+export interface HookMeta {
   index: number
-  invoke(services: unknown): (scope: any, next: FunctionNext) => void
+  invoke: Hook
 }
 
 export declare type FunctionPipeLine = (
-  hooks: FunctionHook[],
+  hooks: HookMeta[],
   services: unknown
 ) => FunctionNext

@@ -1,19 +1,19 @@
-import { assignArray } from '@json2render/utils'
-import { ProxyHandlerResolver } from '@json2render/core'
+import { assignArray, ProxyMatcher, ProxyHandler } from '@json2render/core'
 
-const expression: ProxyHandlerResolver<string> = (value, { functional }) => {
-  const func = (context: any) => {
+const expression: ProxyMatcher = (value: any, { functional }) => {
+  const func: ProxyHandler = (context) => {
     try {
       const expr = value.slice(value.indexOf(':') + 1, value.length)
-      const functionals = functional()
       const contextKeys = Object.keys(context)
+      const functionals = functional.getMap()
+      const functionalKeys = Object.keys(functionals)
 
       return new Function(
-        ...assignArray(contextKeys, functionals.names, [`return ${expr}`])
+        ...assignArray(contextKeys, functionalKeys, [`return ${expr}`])
       )(
         ...assignArray(
           contextKeys.map((key) => context[key]),
-          functionals.executers
+          functionalKeys.map((key) => functionals[key])
         )
       )
     } catch {
@@ -21,9 +21,9 @@ const expression: ProxyHandlerResolver<string> = (value, { functional }) => {
     }
   }
 
-  return typeof value === 'string' && value.indexOf('$:') === 0
-    ? func
-    : undefined
+  if (typeof value === 'string' && value.indexOf('$:') === 0) {
+    return func
+  }
 }
 
 export default expression

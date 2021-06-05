@@ -14,7 +14,7 @@ import {
   datasourceServiceToken,
   DatasourceService,
 } from '../feature'
-import { assignArray } from '../utils'
+import { assignArray, assignObject } from '../utils'
 import { servicesToken } from './token'
 
 const createServices = (
@@ -28,10 +28,10 @@ const createServices = (
     {
       get(target, p, receiver) {
         if (typeof p === 'string') {
-          const token = tokenMap[p]
+          const token: any = tokenMap[p]
 
           if (token) {
-            return container.get(p)
+            return container.get(token)
           }
         }
 
@@ -72,6 +72,11 @@ const getProvider = (container: ContainerInstance) => {
 export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
   const stored: ServiceOptions[] = []
 
+  const tokens = assignObject(
+    { functional: functionalServiceToken, proxy: proxyServiceToken },
+    tokenMap
+  )
+
   const instance = {
     addService<T>(token: Token<T> | Constructable<T>, type: Constructable<T>) {
       stored.push({
@@ -97,7 +102,7 @@ export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
           {
             id: servicesToken,
             multiple: false,
-            value: createServices(container, tokenMap || {}),
+            value: createServices(container, tokens),
           },
           {
             id: proxyServiceToken,

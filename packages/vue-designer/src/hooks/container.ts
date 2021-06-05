@@ -1,6 +1,6 @@
-import { FunctionHook } from '@json2render/utils'
+import { HookInvoker } from '@json2render/core'
 
-const hook: FunctionHook = () => {
+export default (): HookInvoker => {
   return (field, next) => {
     if (!field.location) {
       next(field)
@@ -18,5 +18,3 @@ const hook: FunctionHook = () => {
     next(containered)
   }
 }
-
-export default hook

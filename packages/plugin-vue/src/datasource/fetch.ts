@@ -1,22 +1,22 @@
 import { cloneDeep } from '@json2render/utils'
 import { reactive } from 'vue'
 
-export default ({ define }: any) => {
-  const { auto = false, defaultData = [] } = define()
+export default (props: any) => {
+  // const { auto = false, defaultData = [] } = props
 
   const instance = reactive({
-    data: cloneDeep(defaultData),
+    data: cloneDeep(props.defaultData || []),
     loading: false,
     request: async () => {
-      const { url, dataType = 'json', props } = define()
-
       instance.loading = true
 
       try {
-        const response: any = await fetch(url, props)
+        const response: any = await fetch(props.url, props)
 
         const result =
-          dataType === 'json' ? await response.json() : await response.text()
+          props.dataType === 'json'
+            ? await response.json()
+            : await response.text()
 
         instance.data = result
       } finally {
@@ -25,7 +25,7 @@ export default ({ define }: any) => {
     },
   })
 
-  if (auto) {
+  if (props.auto) {
     instance.request()
   }
 

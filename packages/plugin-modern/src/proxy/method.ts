@@ -1,22 +1,27 @@
-import { assignArray, deepSet } from '@json2render/utils'
-import { ProxyHandlerResolver } from '@json2render/core'
+import {
+  assignArray,
+  deepSet,
+  ProxyMatcher,
+  ProxyHandler,
+} from '@json2render/core'
 
-const method: ProxyHandlerResolver<string> = (value, { functional }) => {
-  const execute = (context: any) => {
+const method: ProxyMatcher = (value: any, { functional }) => {
+  const execute: ProxyHandler = (context) => {
     return (...args: any) => {
       try {
         const expr = value.slice(value.indexOf(':') + 1, value.length)
         const expProp = value.slice(1, value.indexOf(':'))
         const contextkeys = Object.keys(context)
-        const functionals = functional()
+        const functionals = functional.getMap()
+        const functionalKeys = Object.keys(functionals)
         const inputs = assignArray(
           contextkeys.map((key) => context[key]),
-          functionals.executers,
+          functionalKeys.map((key) => functionals[key]),
           [args]
         )
 
         const result = new Function(
-          ...assignArray(contextkeys, functionals.names, [
+          ...assignArray(contextkeys, functionalKeys, [
             'arguments',
             `return ${expr}`,
           ])
@@ -37,9 +42,9 @@ const method: ProxyHandlerResolver<string> = (value, { functional }) => {
     }
   }
 
-  return typeof value === 'string' && /^(@[\s\S]*:)/g.test(value)
-    ? execute
-    : undefined
+  if (typeof value === 'string' && /^(@[\s\S]*:)/g.test(value)) {
+    return execute
+  }
 }
 
 export default method

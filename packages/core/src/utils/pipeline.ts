@@ -1,4 +1,4 @@
-import { FunctionHook, FunctionNext, FunctionPipeLine } from '../types'
+import { HookMeta, FunctionNext, FunctionPipeLine } from '../types'
 
 const pipeline: FunctionPipeLine = (hooks, services) => {
   return (scope: any) => {
@@ -24,7 +24,7 @@ const pipeline: FunctionPipeLine = (hooks, services) => {
       // 方法执行当前索引是否超过函数数组索引
       // 如果超过了则当前函数是空
       // 否则指针移到当前索引位置，得到当前需要执行的函数
-      const current: FunctionHook | null = i >= hooks.length ? null : hooks[i]
+      const current: HookMeta | null = i >= hooks.length ? null : hooks[i]
 
       // 当前函数是空的，说明最后一个索引的函数已经执行完毕
       if (!current) {

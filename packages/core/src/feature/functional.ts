@@ -9,9 +9,7 @@ export const functionalServiceToken =
 export class FunctionalService {
   private functionals: FunctionalMeta[] = []
 
-  constructor(
-    @InjectContainer() private readonly container: ContainerInstance
-  ) {
+  constructor(@InjectContainer() container: ContainerInstance) {
     this.functionals = container.getMany(functionalToken)
   }
 
