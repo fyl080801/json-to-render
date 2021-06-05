@@ -13,7 +13,11 @@ import {
   FunctionalService,
   datasourceServiceToken,
   DatasourceService,
+  proxyToken,
+  functionalToken,
+  datasourceToken,
 } from '../feature'
+import { DatasourceBuilder, Functional, ProxyMatcher } from '../types'
 import { assignArray, assignObject } from '../utils'
 import { servicesToken } from './token'
 
@@ -128,6 +132,32 @@ export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
   }
 
   return instance
+}
+
+export const createCoreSetup = (container: any) => {
+  const proxySetup = (value: ProxyMatcher) => {
+    container.addValue(proxyToken, value)
+  }
+
+  const functionalSetup = (name: string, value: Functional) => {
+    container.addValue(functionalToken, {
+      name,
+      invoke: value,
+    })
+  }
+
+  const datasourceSetup = (name: string, value: DatasourceBuilder) => {
+    container.addValue(datasourceToken, {
+      type: name,
+      build: value,
+    })
+  }
+
+  return {
+    proxy: proxySetup,
+    functional: functionalSetup,
+    datasource: datasourceSetup,
+  }
 }
 
 export { servicesToken }

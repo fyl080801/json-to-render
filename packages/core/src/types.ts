@@ -49,25 +49,16 @@ export interface DatasourceOptions {
   props: Record<string, unknown>
 }
 
-// hook
-export interface FunctionNext {
-  (scope: any): void
+export interface ServiceBuilder {
+  proxy: (value: ProxyMatcher) => void
+  functional: (name: string, value: Functional) => void
+  datasource: (name: string, value: DatasourceBuilder) => void
 }
 
-export interface HookInvoker {
-  (scope: any, next: FunctionNext): void
+export interface SetupHandler {
+  (setups: ServiceBuilder): void
 }
 
-export interface Hook {
-  (services: unknown): HookInvoker
+export interface Setup {
+  (handler: SetupHandler): void
 }
-
-export interface HookMeta {
-  index: number
-  invoke: Hook
-}
-
-export declare type FunctionPipeLine = (
-  hooks: HookMeta[],
-  services: unknown
-) => FunctionNext

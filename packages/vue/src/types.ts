@@ -1,30 +1,31 @@
-import {
-  ProxyMatcher,
-  DatasourceBuilder,
-  Hook,
-  HookMeta,
-  Functional,
-} from '@json2render/core'
+import { Setup } from '@json2render/core'
 import { Plugin } from 'vue'
+
+// hook
+export interface HookNext {
+  (scope: any): void
+}
+
+export interface HookInvoker {
+  (scope: any, next: HookNext): void
+}
+
+export interface Hook {
+  (services: unknown): HookInvoker
+}
+
+export interface HookMeta {
+  index: number
+  invoke: Hook
+}
+
+export declare type FunctionPipeLine = (
+  hooks: HookMeta[],
+  services: unknown
+) => HookNext
 
 export interface HookService {
   process: (value: any, extra: HookMeta[]) => void
-}
-
-export interface ServiceBuilder {
-  proxy: (value: ProxyMatcher) => void
-  functional: (name: string, value: Functional) => void
-  datasource: (name: string, value: DatasourceBuilder) => void
-  prerender: (value: Hook, index?: number) => void
-  render: (value: Hook, index?: number) => void
-}
-
-export interface SetupHandler {
-  (setups: ServiceBuilder): void
-}
-
-export interface Setup {
-  (handler: SetupHandler): void
 }
 
 export declare type JRenderPlugin = Plugin & { use: Setup }

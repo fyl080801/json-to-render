@@ -1,7 +1,3 @@
-import pipeline from './pipeline'
-
-export { pipeline }
-
 export { isOriginTag } from './domTags'
 
 export {
@@ -17,5 +13,3 @@ export {
 } from './helpers'
 
 export * from './dependencyInjection'
-
-export * from '../types'

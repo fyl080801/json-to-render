@@ -1,6 +1,5 @@
 import computed from './proxy/computed'
 import method from './proxy/method'
-import condition from './render/condition'
 
 import add from './functional/add'
 import division from './functional/division'
@@ -16,9 +15,7 @@ import reduce from './functional/reduce'
 import subtraction from './functional/subtraction'
 import textFunctional from './functional/text'
 
-export default ({ render, proxy, functional }: any) => {
-  render(condition)
-
+export default ({ proxy, functional }: any) => {
   proxy(computed)
   proxy(method)
 

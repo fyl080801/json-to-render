@@ -1,4 +1,4 @@
-import { HookMeta, FunctionNext, FunctionPipeLine } from '../types'
+import { HookMeta, HookNext, FunctionPipeLine } from '../types'
 
 const pipeline: FunctionPipeLine = (hooks, services) => {
   return (scope: any) => {
@@ -15,7 +15,7 @@ const pipeline: FunctionPipeLine = (hooks, services) => {
       index = i
 
       // 下个方法委托，返回索引遍历的递归委托执行结果
-      const next: FunctionNext = (nextScope: any) => {
+      const next: HookNext = (nextScope: any) => {
         currentScope = nextScope
         // 执行时索引加 1
         return dispatch(i + 1)

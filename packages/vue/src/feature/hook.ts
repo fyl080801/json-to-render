@@ -2,12 +2,12 @@ import {
   assignArray,
   assignObject,
   createToken,
-  HookMeta,
+  ContainerInstance,
   InjectContainer,
-  pipeline,
   servicesToken,
 } from '@json2render/core'
-import { ContainerInstance } from 'typedi'
+import { HookMeta } from '../types'
+import pipeline from '../utils/pipeline'
 
 export const prerenderToken = createToken<HookMeta>('prerender')
 

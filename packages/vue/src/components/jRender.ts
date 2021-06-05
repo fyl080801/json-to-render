@@ -9,7 +9,7 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { containerBuilder, createSetupCollection } from '../service'
+import { containerBuilder, createSetup } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
 import JNode from './jNode'
@@ -63,7 +63,7 @@ export default defineComponent({
 
     createStore(container)
 
-    ctx.emit('setup', createSetupCollection(container))
+    ctx.emit('setup', createSetup(container))
     //#endregion
 
     //#region 相关监听
