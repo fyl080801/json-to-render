@@ -19,36 +19,32 @@ export const renderToken = createToken<HookMeta>('render')
 export const renderServiceToken = createToken<RenderService>('renderService')
 
 export class PrerenderService {
-  constructor(
-    @InjectContainer() private readonly container: ContainerInstance
-  ) {}
+  private hooks: HookMeta[] = []
+  private services: Record<string, unknown>
 
-  private get hooks() {
-    return this.container
+  constructor(@InjectContainer() container: ContainerInstance) {
+    this.hooks = container
       .getMany(prerenderToken)
       .sort((a, b) => a.index - b.index)
+    this.services = container.get(servicesToken)
   }
 
   process(value: any, context: Record<string, unknown>) {
     return (extra: HookMeta[]) => {
       pipeline(
         assignArray(this.hooks, extra || []),
-        assignObject(this.container.get(servicesToken), { context })
+        assignObject(this.services, { context })
       )(value)
     }
   }
 }
 
 export class RenderService {
-  private sorted: HookMeta[] = []
+  private hooks: HookMeta[] = []
 
-  constructor(
-    @InjectContainer() private readonly container: ContainerInstance
-  ) {}
-
-  private get hooks() {
-    return this.container
-      .getMany(prerenderToken)
+  constructor(@InjectContainer() container: ContainerInstance) {
+    this.hooks = container
+      .getMany(renderToken)
       .sort((a, b) => a.index - b.index)
   }
 

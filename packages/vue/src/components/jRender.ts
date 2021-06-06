@@ -57,13 +57,9 @@ export default defineComponent({
       .addService<RenderService>(renderServiceToken, RenderService)
       .addValue<ProxyContext>(proxyContextToken, context)
 
-    const datasourceService = container.resolve(datasourceServiceToken)
-
-    const proxyService = container.resolve(proxyServiceToken)
+    ctx.emit('setup', createSetup(container))
 
     createStore(container)
-
-    ctx.emit('setup', createSetup(container))
     //#endregion
 
     //#region 相关监听
@@ -97,6 +93,8 @@ export default defineComponent({
     watch(
       () => props.datasource,
       (value, origin) => {
+        const datasourceService = container.resolve(datasourceServiceToken)
+
         Object.keys(origin || {})
           .filter((item) => !innerDataNames.includes(item))
           .forEach((key) => {
@@ -126,7 +124,9 @@ export default defineComponent({
         }
 
         watchs.value = value.map((item) => {
-          const injected = proxyService.inject(item, context)
+          const proxy = container.resolve(proxyServiceToken)
+
+          const injected = proxy.inject(item, context)
 
           const watcher = isFunction(injected.watch)
             ? injected.watch
