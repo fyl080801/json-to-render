@@ -16,7 +16,7 @@ export default defineComponent({
         {
           component: 'input',
           props: {
-            onInput: '@model.text:arguments[0].target.value',
+            onInput: '@raw.zzz:arguments[0].target.value',
           },
         },
       ],

@@ -16,3 +16,9 @@
 //       setup: createComponentSetup(store),
 //     }
 //   }
+
+export class ComponentService {
+  render(scope: Record<string, unknown>) {
+    //
+  }
+}

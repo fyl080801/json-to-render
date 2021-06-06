@@ -23,15 +23,10 @@ export default defineComponent({
     const container: any = getState()
 
     const nodeField = ref<any>({})
-
     const prerender = container.resolve(prerenderServiceToken)
-
     const render = container.resolve(renderServiceToken)
-
     const proxy = container.resolve(proxyServiceToken)
-
     const context = container.resolve(proxyContextToken)
-
     const injectedContext = assignObject(context, {
       scope: props.scope,
     })
