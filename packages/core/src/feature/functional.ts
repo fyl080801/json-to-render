@@ -7,10 +7,12 @@ export const functionalServiceToken =
   createToken<FunctionalService>('functionalService')
 
 export class FunctionalService {
-  private functionals: FunctionalMeta[] = []
+  constructor(
+    @InjectContainer() private readonly container: ContainerInstance
+  ) {}
 
-  constructor(@InjectContainer() container: ContainerInstance) {
-    this.functionals = container.getMany(functionalToken)
+  private get functionals() {
+    return this.container.getMany(functionalToken)
   }
 
   getMap() {

@@ -30,7 +30,9 @@ export default defineComponent({
 
     const proxy = container.resolve(proxyServiceToken)
 
-    const injectedContext = assignObject(container.resolve(proxyContextToken), {
+    const context = container.resolve(proxyContextToken)
+
+    const injectedContext = assignObject(context, {
       scope: props.scope,
     })
 
@@ -103,10 +105,10 @@ export default defineComponent({
           getRenderer(props.scope)(renderField.children)
         )
 
-      // if (rendered?.ref) {
-      //   const { r, i }: any = rendered.ref
-      //   context.refs[r] = i.refs[r]
-      // }
+      if (rendered?.ref) {
+        const { r, i }: any = rendered.ref
+        context.refs[r] = i.refs[r]
+      }
 
       return rendered
     }

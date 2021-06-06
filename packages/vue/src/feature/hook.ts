@@ -23,15 +23,16 @@ export class PrerenderService {
     @InjectContainer() private readonly container: ContainerInstance
   ) {}
 
+  private get hooks() {
+    return this.container
+      .getMany(prerenderToken)
+      .sort((a, b) => a.index - b.index)
+  }
+
   process(value: any, context: Record<string, unknown>) {
     return (extra: HookMeta[]) => {
       pipeline(
-        assignArray(
-          this.container
-            .getMany(prerenderToken)
-            .sort((a, b) => a.index - b.index),
-          extra || []
-        ),
+        assignArray(this.hooks, extra || []),
         assignObject(this.container.get(servicesToken), { context })
       )(value)
     }
@@ -41,16 +42,20 @@ export class PrerenderService {
 export class RenderService {
   private sorted: HookMeta[] = []
 
-  constructor(@InjectContainer() container: ContainerInstance) {
-    this.sorted = container
-      .getMany(renderToken)
+  constructor(
+    @InjectContainer() private readonly container: ContainerInstance
+  ) {}
+
+  private get hooks() {
+    return this.container
+      .getMany(prerenderToken)
       .sort((a, b) => a.index - b.index)
   }
 
   process(value: any, context: Record<string, unknown>) {
     return (extra: HookMeta[]) => {
       pipeline(
-        assignArray(this.sorted, extra || []),
+        assignArray(this.hooks, extra || []),
         assignObject({ context })
       )(value)
     }

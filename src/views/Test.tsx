@@ -7,7 +7,7 @@ export default defineComponent({
       fields: [
         {
           component: 'p',
-          props: { innerText: { $type: 'computed', $result: 'model.text' } },
+          props: { innerText: '$:raw.zzz' },
         },
         {
           component: 'p',
@@ -20,9 +20,22 @@ export default defineComponent({
           },
         },
       ],
-      datasource: {},
+      datasource: {
+        raw: {
+          type: 'rawdata',
+          props: {
+            data: { zzz: 'zzz' },
+          },
+        },
+      },
       listeners: [],
     })
+
+    const onSetup = ({ datasource }: any) => {
+      datasource('rawdata', (props: any) => {
+        return props.data
+      })
+    }
 
     return () => (
       <div>
@@ -31,6 +44,7 @@ export default defineComponent({
           fields={active.value.fields}
           datasource={active.value.datasource}
           listeners={active.value.listeners}
+          onSetup={onSetup}
           class="j-form"
         ></v-jrender>
       </div>

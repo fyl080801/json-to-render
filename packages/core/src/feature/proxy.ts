@@ -19,12 +19,16 @@ export const proxyServiceToken = createToken<ProxyService>('proxyService')
 export const proxyContextToken = createToken<ProxyContext>('proxyContext')
 
 export class ProxyService {
-  private proxies: ProxyMatcher[] = []
   private services: Record<string, unknown> = {}
 
-  constructor(@InjectContainer() container: ContainerInstance) {
-    this.proxies = container.getMany(proxyToken)
+  constructor(
+    @InjectContainer() private readonly container: ContainerInstance
+  ) {
     this.services = container.get(servicesToken) as Record<string, unknown>
+  }
+
+  private get proxies() {
+    return this.container.getMany(proxyToken)
   }
 
   private getHandler() {

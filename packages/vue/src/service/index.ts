@@ -2,9 +2,10 @@ import {
   assignObject,
   createServiceContainer,
   createCoreSetup,
+  Setup,
 } from '@json2render/core'
-import { Setup, Hook } from '../types'
 import { prerenderToken, renderToken } from '../feature/hook'
+import { Hook } from '../types'
 
 export const containerBuilder = createServiceContainer()
 

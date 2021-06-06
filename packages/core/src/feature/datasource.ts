@@ -1,17 +1,12 @@
 import { servicesToken } from '../service/token'
-import {
-  DatasourceBuilder,
-  DatasourceMeta,
-  DatasourceOptions,
-  ProxyContext,
-} from '../types'
+import { DatasourceBuilder, DatasourceMeta, DatasourceOptions } from '../types'
 import {
   assignObject,
   ContainerInstance,
   createToken,
   InjectContainer,
 } from '../utils'
-import { proxyContextToken, ProxyService, proxyServiceToken } from './proxy'
+import { proxyContextToken, proxyServiceToken } from './proxy'
 
 export const datasourceToken = createToken<DatasourceMeta>('datasource')
 
@@ -19,16 +14,24 @@ export const datasourceServiceToken =
   createToken<DatasourceService>('datasourceService')
 
 export class DatasourceService {
-  private readonly proxyService: ProxyService
-  private readonly datasources: DatasourceMeta[]
-  private readonly context: ProxyContext
   private readonly services: Record<string, unknown>
 
-  constructor(@InjectContainer() container: ContainerInstance) {
-    this.proxyService = container.get(proxyServiceToken)
-    this.datasources = container.getMany(datasourceToken)
-    this.context = container.get(proxyContextToken)
+  constructor(
+    @InjectContainer() private readonly container: ContainerInstance
+  ) {
     this.services = container.get(servicesToken)
+  }
+
+  private get context() {
+    return this.container.get(proxyContextToken)
+  }
+
+  private get datasources() {
+    return this.container.getMany(datasourceToken)
+  }
+
+  private get proxy() {
+    return this.container.get(proxyServiceToken)
   }
 
   private getMap() {
@@ -43,7 +46,7 @@ export class DatasourceService {
   }
 
   build(key: string, options: DatasourceOptions) {
-    const { type, props } = this.proxyService.inject(
+    const { type, props } = this.proxy.inject(
       assignObject(options),
       this.context
     )
