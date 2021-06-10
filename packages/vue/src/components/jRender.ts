@@ -22,6 +22,8 @@ import {
   isFunction,
 } from '@json2render/core'
 import {
+  ComponentService,
+  componentServiceToken,
   PrerenderService,
   prerenderServiceToken,
   RenderService,
@@ -55,6 +57,7 @@ export default defineComponent({
       .build()
       .addService<PrerenderService>(prerenderServiceToken, PrerenderService)
       .addService<RenderService>(renderServiceToken, RenderService)
+      .addService<ComponentService>(componentServiceToken, ComponentService)
       .addValue<ProxyContext>(proxyContextToken, context)
 
     ctx.emit('setup', createSetup(container))
