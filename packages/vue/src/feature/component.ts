@@ -1,5 +1,6 @@
 import { assignObject, createToken, isArray, isObject } from '@json2render/core'
 import { h, resolveComponent } from 'vue'
+import { resolveRenderComponent } from '../utils/render'
 
 export const componentServiceToken =
   createToken<ComponentService>('componentService')
@@ -12,7 +13,7 @@ export class ComponentService {
         ? h(
             resolveComponent(child.component),
             child.props,
-            this.renderComponents(child.children, scope)
+            this.renderMany(child.children, scope)
           )
         : h(resolveComponent('vJnode'), {
             field: child,
@@ -21,7 +22,7 @@ export class ComponentService {
     })
   }
 
-  renderComponents(
+  renderMany(
     components: Array<unknown> | Record<string, Array<unknown>>,
     scope: Record<string, unknown>
   ) {
@@ -44,5 +45,14 @@ export class ComponentService {
           {} as Record<string, any>
         )
       : null
+  }
+
+  renderNode(field: any, scope: Record<string, unknown>) {
+    const node =
+      field && field.component && resolveRenderComponent(field.component)
+    // (components[renderField.component] ||
+    //   resolveRenderComponent(renderField.component))
+
+    return node && h(node, field.props, this.renderMany(field.children, scope))
   }
 }

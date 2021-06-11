@@ -1,9 +1,5 @@
-import { defineComponent, h, watch, ref } from 'vue'
-import {
-  getRenderer,
-  resolveRenderComponent,
-  resolveChildren,
-} from '../utils/render'
+import { defineComponent, watch, ref } from 'vue'
+import { resolveChildren } from '../utils/render'
 import {
   isArray,
   assignObject,
@@ -11,7 +7,11 @@ import {
   proxyServiceToken,
 } from '@json2render/core'
 import { getState } from '../store'
-import { prerenderServiceToken, renderServiceToken } from '../feature'
+import {
+  componentServiceToken,
+  prerenderServiceToken,
+  renderServiceToken,
+} from '../feature'
 
 export default defineComponent({
   name: 'vJnode',
@@ -27,6 +27,7 @@ export default defineComponent({
     const render = container.resolve(renderServiceToken)
     const proxy = container.resolve(proxyServiceToken)
     const context = container.resolve(proxyContextToken)
+    const component = container.resolve(componentServiceToken)
     const injectedContext = assignObject(context, {
       scope: props.scope,
     })
@@ -85,20 +86,7 @@ export default defineComponent({
         },
       ])
 
-      const component =
-        renderField &&
-        renderField.component &&
-        resolveRenderComponent(renderField.component)
-      // (components[renderField.component] ||
-      //   resolveRenderComponent(renderField.component))
-
-      const rendered =
-        component &&
-        h(
-          component,
-          renderField.props,
-          getRenderer(props.scope)(renderField.children)
-        )
+      const rendered = component.renderNode(renderField, props.scope)
 
       if (rendered?.ref) {
         const { r, i }: any = rendered.ref
