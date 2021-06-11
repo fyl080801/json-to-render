@@ -1,6 +1,13 @@
 import { Setup } from '@json2render/core'
 import { Plugin } from 'vue'
 
+// component
+export interface ComponentMeta {
+  name: string
+  define?: any
+  provider?: string
+}
+
 // hook
 export interface HookNext {
   (scope: any): void

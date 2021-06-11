@@ -4,8 +4,9 @@ import {
   createCoreSetup,
   Setup,
 } from '@json2render/core'
+import { componentToken } from '../feature'
 import { prerenderToken, renderToken } from '../feature/hook'
-import { Hook } from '../types'
+import { ComponentMeta, Hook } from '../types'
 
 export const containerBuilder = createServiceContainer()
 
@@ -21,9 +22,23 @@ export const createSetup = (container: any) => {
     })
   }
 
+  const componentSetup = (name: string, options?: any) => {
+    const meta: ComponentMeta = {
+      name,
+      provider: options?.provider,
+    }
+
+    container.addValue(componentToken, meta)
+
+    return (define: any) => {
+      meta.define = define
+    }
+  }
+
   return assignObject(createCoreSetup(container), {
     prerender: prerenderSetup,
     render: renderSetup,
+    component: componentSetup,
   })
 }
 

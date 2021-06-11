@@ -1,24 +1,50 @@
-import { assignObject, createToken, isArray, isObject } from '@json2render/core'
+import {
+  assignObject,
+  ContainerInstance,
+  createToken,
+  InjectContainer,
+  isArray,
+  isObject,
+} from '@json2render/core'
 import { h, resolveComponent } from 'vue'
+import { ComponentMeta } from '../types'
 import { resolveRenderComponent } from '../utils/render'
 
 export const componentServiceToken =
   createToken<ComponentService>('componentService')
 
+export const componentToken = createToken<ComponentMeta>('component')
+
 export class ComponentService {
+  private store: Record<string, ComponentMeta>
+
+  private providers: Record<string, any> = {
+    direct: (field: any, scope: any) => {
+      return h(
+        resolveComponent(field.component),
+        field.props,
+        this.renderMany(field.children, scope)
+      )
+    },
+    default: (field: any, scope: any) => {
+      return h(resolveComponent('vJnode'), {
+        field,
+        scope,
+      })
+    },
+  }
+
+  constructor(@InjectContainer() container: ContainerInstance) {
+    this.store = container.getMany(componentToken).reduce((pre, cur) => {
+      pre[cur.name] = cur
+      return pre
+    }, {} as Record<string, ComponentMeta>)
+  }
+
   render(components: Array<any>, scope: Record<string, unknown>): any {
     return components.map((child) => {
-      // 之后根据provider来渲染
-      return child.options && child.options.direct
-        ? h(
-            resolveComponent(child.component),
-            child.props,
-            this.renderMany(child.children, scope)
-          )
-        : h(resolveComponent('vJnode'), {
-            field: child,
-            scope,
-          })
+      const meta = this.store[child.component] || { provider: 'default' }
+      return this.providers[meta.provider || 'default'](child, scope)
     })
   }
 
@@ -49,9 +75,11 @@ export class ComponentService {
 
   renderNode(field: any, scope: Record<string, unknown>) {
     const node =
-      field && field.component && resolveRenderComponent(field.component)
-    // (components[renderField.component] ||
-    //   resolveRenderComponent(renderField.component))
+      field &&
+      field.component &&
+      resolveRenderComponent(field.component) &&
+      (this.store[field.component]?.define ||
+        resolveRenderComponent(field.component))
 
     return node && h(node, field.props, this.renderMany(field.children, scope))
   }
