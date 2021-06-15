@@ -1,20 +1,20 @@
-import { assignArray } from '@json2render/utils'
-import { ProxyHandlerResolver } from '@json2render/core'
+import { assignArray, ProxyHandler, ProxyMatcher } from '@json2render/core'
 
-const template: ProxyHandlerResolver<string> = (value, { functional }) => {
-  const func = (context: any) => {
+const template: ProxyMatcher = (value: any, { functional }) => {
+  const func: ProxyHandler = (context) => {
     try {
       const expr = value.slice(value.indexOf(':') + 1, value.length)
       const contextKeys = Object.keys(context)
-      const functionals = functional()
+      const functionals = functional.getMap()
+      const functionalKeys = Object.keys(functionals)
       const exprStr = '`' + expr + '`'
 
       return new Function(
-        ...assignArray(contextKeys, functionals.names, [`return ${exprStr}`])
+        ...assignArray(contextKeys, functionalKeys, [`return ${exprStr}`])
       )(
         ...assignArray(
           contextKeys.map((key) => context[key]),
-          functionals.executers
+          functionalKeys.map((key) => functionals[key])
         )
       )
     } catch {
@@ -22,7 +22,9 @@ const template: ProxyHandlerResolver<string> = (value, { functional }) => {
     }
   }
 
-  return typeof value === 'string' && /^([#]:)/g.test(value) ? func : undefined
+  if (typeof value === 'string' && /^([#]:)/g.test(value)) {
+    return func
+  }
 }
 
 export default template

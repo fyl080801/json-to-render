@@ -1,6 +1,6 @@
-import { FunctionHook } from '@json2render/utils'
+import { HookInvoker } from '@json2render/vue'
 
-const hook: FunctionHook = () => (field, next) => {
+export default (): HookInvoker => (field, next) => {
   if (!field.row) {
     next(field)
     return
@@ -20,5 +20,3 @@ const hook: FunctionHook = () => (field, next) => {
 
   next(field)
 }
-
-export default hook

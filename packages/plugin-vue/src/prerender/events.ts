@@ -1,7 +1,7 @@
-import { getProxyDefine } from '@json2render/core'
-import { FunctionHook, isArray } from '@json2render/utils'
+import { getProxyDefine, isArray } from '@json2render/core'
+import { HookInvoker } from '@json2render/vue'
 
-const hook: FunctionHook = ({ injectProxy, context }) => {
+export default (services: any): HookInvoker => {
   return (field, next) => {
     if (field.events == undefined) {
       next(field)
@@ -26,7 +26,7 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
           ...args: any
         ) => {
           events[key].forEach((evt: any) => {
-            injectProxy(evt, context)?.handler(...args)
+            services.proxy.inject(evt, services.context)?.handler(...args)
           })
         }
         return props
@@ -36,5 +36,3 @@ const hook: FunctionHook = ({ injectProxy, context }) => {
     next(field)
   }
 }
-
-export default hook

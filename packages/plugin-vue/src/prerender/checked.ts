@@ -1,6 +1,7 @@
-import { assignObject, FunctionHook } from '@json2render/utils'
+import { assignObject } from '@json2render/core'
+import { HookInvoker } from '@json2render/vue'
 
-const hook: FunctionHook = () => {
+export default (): HookInvoker => {
   return (field, next) => {
     if (field.checked == undefined) {
       next(field)
@@ -31,5 +32,3 @@ const hook: FunctionHook = () => {
     next(field)
   }
 }
-
-export default hook

@@ -1,25 +1,47 @@
-import { createProxyService } from './proxy'
-import { createHookService } from './hooks'
-import { createDatasourceService } from './datasource'
 import {
-  createServiceBuilder,
-  createFunctionalService,
+  assignObject,
+  createServiceContainer,
+  createCoreSetup,
+  Setup,
 } from '@json2render/core'
+import { componentToken } from '../feature'
+import { prerenderToken, renderToken } from '../feature/hook'
+import { ComponentMeta, Hook } from '../types'
 
-export const proxy = createProxyService()
+export const containerBuilder = createServiceContainer()
 
-export const prerender = createHookService()
+export const createSetup = (container: any) => {
+  const prerenderSetup = (value: Hook, index?: number) => {
+    container.addValue(prerenderToken, { index: index || 0, invoke: value })
+  }
 
-export const render = createHookService()
+  const renderSetup = (value: Hook, index?: number) => {
+    container.addValue(renderToken, {
+      index: index || 0,
+      invoke: value,
+    })
+  }
 
-export const datasource = createDatasourceService()
+  const componentSetup = (name: string, options?: any) => {
+    const meta: ComponentMeta = {
+      name,
+      provider: options?.provider,
+    }
 
-export const functional = createFunctionalService()
+    container.addValue(componentToken, meta)
 
-export const globalServiceBuilder = createServiceBuilder({
-  proxy: proxy.setup,
-  prerender: prerender.setup,
-  render: render.setup,
-  datasource: datasource.setup,
-  functional: functional.setup,
-})
+    return (define: any) => {
+      meta.define = define
+    }
+  }
+
+  return assignObject(createCoreSetup(container), {
+    prerender: prerenderSetup,
+    render: renderSetup,
+    component: componentSetup,
+  })
+}
+
+export const globalSetup: Setup = (handler) => {
+  handler(createSetup(containerBuilder))
+}

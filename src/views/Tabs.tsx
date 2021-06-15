@@ -15,7 +15,6 @@ export default defineComponent({
         children: [
           {
             component: 'el-tab-pane',
-            options: { direct: true },
             props: { label: 'aaa', name: 'first' },
             children: [
               { component: 'p', text: '$:model.text' },
@@ -24,7 +23,6 @@ export default defineComponent({
           },
           {
             component: 'el-tab-pane',
-            options: { direct: true },
             props: { label: 'bbb', name: 'second' },
             children: [{ component: 'p', text: 'bbb' }],
           },
@@ -32,9 +30,18 @@ export default defineComponent({
       },
     ])
 
+    const onSetup = ({ component }: any) => {
+      component('el-tab-pane', { provider: 'direct' })
+    }
+
     return () => (
       <div>
-        <v-jrender v-model={data} fields={fields} class="j-form"></v-jrender>
+        <v-jrender
+          v-model={data}
+          fields={fields}
+          class="j-form"
+          onSetup={onSetup}
+        />
       </div>
     )
   },

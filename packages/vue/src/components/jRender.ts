@@ -9,16 +9,26 @@ import {
   onBeforeUnmount,
   reactive,
 } from 'vue'
-import { createFunctionalService, createProxyInjector } from '@json2render/core'
-import { assignObject, isFunction, isArray } from '@json2render/utils'
-import { createProxyService } from '../service/proxy'
-import { createDatasourceService } from '../service/datasource'
-import { createHookService } from '../service/hooks'
-import { createComponentService } from '../service/component'
-import { proxy, prerender, render, datasource, functional } from '../service'
+import { containerBuilder, createSetup } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
 import JNode from './jNode'
+import {
+  ProxyContext,
+  proxyContextToken,
+  datasourceServiceToken,
+  proxyServiceToken,
+  isArray,
+  isFunction,
+} from '@json2render/core'
+import {
+  ComponentService,
+  componentServiceToken,
+  PrerenderService,
+  prerenderServiceToken,
+  RenderService,
+  renderServiceToken,
+} from '../feature'
 
 export default defineComponent({
   name: 'vJrender',
@@ -32,42 +42,27 @@ export default defineComponent({
   },
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
-    const context: { [key: string]: any } = reactive({
+    const context: ProxyContext = reactive({
       model: toRaw(props.modelValue),
+      scope: {},
       refs: {},
     })
+
     const root = reactive({ field: {}, scope: {} })
+
     const updating = ref(false) // 为了更新 fields 时从根节点刷新
 
     //#region 初始化服务相关
-    const proxyService = createProxyService(proxy.store)
-    const prerenderService = createHookService(prerender.store)
-    const renderService = createHookService(render.store)
-    const componentService = createComponentService()
-    const datasourceService = createDatasourceService(datasource.store)
-    const functionalService = createFunctionalService(functional.store)
-    const injectProxy = createProxyInjector(proxyService.store, {
-      functional: functionalService.resolve,
-    })
+    const container = containerBuilder
+      .build()
+      .addService<PrerenderService>(prerenderServiceToken, PrerenderService)
+      .addService<RenderService>(renderServiceToken, RenderService)
+      .addService<ComponentService>(componentServiceToken, ComponentService)
+      .addValue<ProxyContext>(proxyContextToken, context)
 
-    // 共享给节点的服务
-    const services = {
-      prerender: prerenderService.processHook,
-      render: renderService.processHook,
-      components: componentService.store,
-      context,
-    }
+    ctx.emit('setup', createSetup(container))
 
-    createStore(assignObject(services, { injectProxy }))
-
-    ctx.emit('setup', {
-      proxy: proxyService.setup,
-      prerender: prerenderService.setup,
-      render: renderService.setup,
-      component: componentService.setup,
-      datasource: datasourceService.setup,
-      functional: functionalService.setup,
-    })
+    createStore(container)
     //#endregion
 
     //#region 相关监听
@@ -101,19 +96,18 @@ export default defineComponent({
     watch(
       () => props.datasource,
       (value, origin) => {
+        const datasourceService = container.resolve(datasourceServiceToken)
+
         Object.keys(origin || {})
           .filter((item) => !innerDataNames.includes(item))
           .forEach((key) => {
-            delete context[key]
+            datasourceService.release(key)
           })
 
         Object.keys(value || {})
           .filter((item) => !innerDataNames.includes(item))
           .forEach((key) => {
-            context[key] = datasourceService.resolve(value[key], {
-              injectProxy,
-              context,
-            })
+            datasourceService.build(key, value[key])
           })
       },
       { deep: false, immediate: true }
@@ -133,7 +127,9 @@ export default defineComponent({
         }
 
         watchs.value = value.map((item) => {
-          const injected = injectProxy(item, context)
+          const proxy = container.resolve(proxyServiceToken)
+
+          const injected = proxy.inject(item, context)
 
           const watcher = isFunction(injected.watch)
             ? injected.watch

@@ -1,11 +1,17 @@
-import { defineComponent, h, watch, ref } from 'vue'
+import { defineComponent, watch, ref } from 'vue'
+import { resolveChildren } from '../utils/render'
 import {
-  getRenderer,
-  resolveRenderComponent,
-  resolveChildren,
-} from '../utils/render'
-import { isArray, assignObject } from '@json2render/utils'
+  isArray,
+  assignObject,
+  proxyContextToken,
+  proxyServiceToken,
+} from '@json2render/core'
 import { getState } from '../store'
+import {
+  componentServiceToken,
+  prerenderServiceToken,
+  renderServiceToken,
+} from '../feature'
 
 export default defineComponent({
   name: 'vJnode',
@@ -14,19 +20,27 @@ export default defineComponent({
     scope: { type: Object, required: true },
   },
   setup: (props) => {
-    const { prerender, render, injectProxy, components, context }: any =
-      getState()
+    const container: any = getState()
 
     const nodeField = ref<any>({})
-
-    const injectedContext = assignObject(context, { scope: props.scope })
+    const prerender = container.resolve(prerenderServiceToken)
+    const render = container.resolve(renderServiceToken)
+    const proxy = container.resolve(proxyServiceToken)
+    const context = container.resolve(proxyContextToken)
+    const component = container.resolve(componentServiceToken)
+    const injectedContext = assignObject(context, {
+      scope: props.scope,
+    })
 
     watch(
       () => props.field,
       (value) => {
-        prerender(
-          [
-            () => (field: any, next: any) => {
+        prerender.process(
+          proxy.inject(value, injectedContext),
+          injectedContext
+        )([
+          {
+            invoke: () => (field: any, next: any) => {
               if (!isArray(field.children)) {
                 next(field)
                 return
@@ -44,16 +58,14 @@ export default defineComponent({
 
               next(field)
             },
-            () => (field: any, next: any) => {
-              nodeField.value = injectProxy(field, injectedContext)
+          },
+          {
+            invoke: () => (field: any, next: any) => {
+              nodeField.value = proxy.inject(field, injectedContext)
               next(nodeField.value)
             },
-          ],
-          {
-            injectProxy,
-            context: injectedContext,
-          }
-        )(injectProxy(value, injectedContext))
+          },
+        ])
       },
       { deep: false, immediate: true }
     )
@@ -62,32 +74,19 @@ export default defineComponent({
       // 是否需要每次渲染都转换成真实对象?
       let renderField = assignObject(nodeField.value)
 
-      render(
-        [
-          () => (field: any, next: any) => {
+      render.process(
+        renderField,
+        injectedContext
+      )([
+        {
+          invoke: () => (field: any, next: any) => {
             renderField = field
             next(renderField)
           },
-        ],
-        {
-          injectProxy,
-          context: injectedContext,
-        }
-      )(renderField)
+        },
+      ])
 
-      const component =
-        renderField &&
-        renderField.component &&
-        (components[renderField.component] ||
-          resolveRenderComponent(renderField.component))
-
-      const rendered =
-        component &&
-        h(
-          component,
-          renderField.props,
-          getRenderer(props.scope)(renderField.children)
-        )
+      const rendered = component.renderNode(renderField, props.scope)
 
       if (rendered?.ref) {
         const { r, i }: any = rendered.ref

@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "@json2render/core": "^0.2.3",
-    "@json2render/utils": "^0.2.2"
+    "@json2render/vue": "^0.3.4"
   }
 }

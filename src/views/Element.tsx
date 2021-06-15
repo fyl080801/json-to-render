@@ -89,27 +89,28 @@ export default defineComponent({
     const onSetup = ({ prerender, datasource }: any) => {
       // 在组件外部套一个 el-form-item
       prerender(
-        ({ injectProxy, context }: any) => (field: any, next: any) => {
-          if (!field.formProps) {
-            next(field)
-            return
-          }
+        ({ proxy, context }: any) =>
+          (field: any, next: any) => {
+            if (!field.formProps) {
+              next(field)
+              return
+            }
 
-          const formProps = field.formProps
+            const formProps = field.formProps
 
-          delete field.formProps
+            delete field.formProps
 
-          next(
-            injectProxy(
-              {
-                component: 'el-form-item',
-                props: formProps,
-                children: [field],
-              },
-              context
+            next(
+              proxy.inject(
+                {
+                  component: 'el-form-item',
+                  props: formProps,
+                  children: [field],
+                },
+                context
+              )
             )
-          )
-        },
+          },
         2
       )
 
@@ -137,34 +138,33 @@ export default defineComponent({
 
       // 在组件外部套一个 el-col
       prerender(
-        ({ injectProxy, context }: any) => (field: any, next: any) => {
-          if (!field.colProps) {
-            next(field)
-            return
-          }
+        ({ proxy, context }: any) =>
+          (field: any, next: any) => {
+            if (!field.colProps) {
+              next(field)
+              return
+            }
 
-          const colProps = field.colProps.__jr_proxyDefine
+            const colProps = field.colProps.__jr_proxyDefine
 
-          delete field.colProps
+            delete field.colProps
 
-          next(
-            injectProxy(
-              {
-                component: 'el-col',
-                props: colProps,
-                children: [field],
-              },
-              context
+            next(
+              proxy.inject(
+                {
+                  component: 'el-col',
+                  props: colProps,
+                  children: [field],
+                },
+                context
+              )
             )
-          )
-        },
+          },
         1
       )
 
-      datasource('rawdata', ({ define }: any) => {
-        const { data } = define()
-
-        return data
+      datasource('rawdata', (options: any) => {
+        return options.data
       })
     }
 

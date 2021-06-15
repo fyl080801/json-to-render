@@ -1,25 +1,18 @@
-import { assignArray } from '@json2render/utils'
-import { ProxyHandlerResolver } from '@json2render/core'
-import { ComputedTransform } from '../types'
+import { assignArray, ProxyHandler, ProxyMatcher } from '@json2render/core'
 
-const computed: ProxyHandlerResolver<ComputedTransform> = (
-  value,
-  { functional }
-) => {
-  const func = (context: any) => {
+const computed: ProxyMatcher = (value: any, { functional }) => {
+  const func: ProxyHandler = (context) => {
     try {
       const contextKeys = Object.keys(context)
-
-      const functionals = functional()
+      const functionals = functional.getMap()
+      const functionalKeys = Object.keys(functionals)
 
       return new Function(
-        ...assignArray(contextKeys, functionals.names, [
-          `return ${value.$result}`,
-        ])
+        ...assignArray(contextKeys, functionalKeys, [`return ${value.$result}`])
       )(
         ...assignArray(
           contextKeys.map((key) => context[key]),
-          functionals.executers
+          functionalKeys.map((key) => functionals[key])
         )
       )
     } catch {
@@ -27,12 +20,14 @@ const computed: ProxyHandlerResolver<ComputedTransform> = (
     }
   }
 
-  return typeof value === 'object' &&
+  if (
+    typeof value === 'object' &&
     value &&
     value.$type === 'computed' &&
     value.$result
-    ? func
-    : undefined
+  ) {
+    return func
+  }
 }
 
 export default computed

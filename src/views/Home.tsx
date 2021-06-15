@@ -24,10 +24,8 @@ export default defineComponent({
     // }, 1000)
 
     const onSetup = ({ datasource }: any) => {
-      datasource('rawdata', ({ define }: any) => {
-        const { data } = define()
-
-        return data
+      datasource('rawdata', (options: any) => {
+        return options.data
       })
     }
 
@@ -84,7 +82,7 @@ export default defineComponent({
           </ul>
         </div>
         <div class="flex-1 border-l">
-          <json-editor modelValue={code.value}></json-editor>
+          <json-editor modelValue={code.value} />
         </div>
         <div class="flex-1 border-l overflow-auto">
           <div class=" px-5 py-3">
@@ -95,7 +93,7 @@ export default defineComponent({
               listeners={active.value.listeners}
               class="j-form"
               onSetup={onSetup}
-            ></v-jrender>
+            />
           </div>
         </div>
       </div>
