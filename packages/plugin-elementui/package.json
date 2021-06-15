@@ -31,6 +31,7 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/core": "^0.2.3"
+    "@json2render/core": "^0.2.3",
+    "@json2render/vue": "^0.3.4"
   }
 }

@@ -1,4 +1,5 @@
-import { assignObject, HookInvoker } from '@json2render/core'
+import { assignObject } from '@json2render/core'
+import { HookInvoker } from '@json2render/vue'
 
 export default (): HookInvoker => {
   return (field, next) => {

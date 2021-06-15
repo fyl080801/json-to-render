@@ -1,5 +1,5 @@
 import { resolveComponent } from 'vue'
-import { isOriginTag } from '@json2render/utils'
+import { isOriginTag } from '@json2render/core'
 
 export const resolveChildren = (children: any[]) => {
   return children

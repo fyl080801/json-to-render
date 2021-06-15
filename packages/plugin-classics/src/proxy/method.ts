@@ -1,4 +1,4 @@
-import { assignArray, deepSet } from '@json2render/utils'
+import { assignArray, deepSet } from '@json2render/core'
 import { getProxyDefine, ProxyMatcher, ProxyHandler } from '@json2render/core'
 
 const method: ProxyMatcher = (value: any, { functional, proxy }) => {

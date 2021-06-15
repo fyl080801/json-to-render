@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue'
 import yaml from 'js-yaml'
-import { assignArray, deepSet } from '@json2render/utils'
+import { assignArray, deepSet } from '@json2render/core'
 import pluginElementUI from '@json2render/plugin-elementui'
 
 export default defineComponent({

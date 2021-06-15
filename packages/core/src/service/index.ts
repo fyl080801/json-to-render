@@ -73,13 +73,15 @@ const getProvider = (container: ContainerInstance) => {
   return instance
 }
 
+export const baseTokenMaps = {
+  functional: functionalServiceToken,
+  proxy: proxyServiceToken,
+}
+
 export const createServiceContainer = (tokenMap?: Record<string, unknown>) => {
   const stored: ServiceOptions[] = []
 
-  const tokens = assignObject(
-    { functional: functionalServiceToken, proxy: proxyServiceToken },
-    tokenMap
-  )
+  const tokens = assignObject(baseTokenMaps, tokenMap)
 
   const instance = {
     addService<T>(token: Token<T> | Constructable<T>, type: Constructable<T>) {

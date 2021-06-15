@@ -1,4 +1,4 @@
-import { HookInvoker } from '@json2render/core'
+import { HookInvoker } from '@json2render/vue'
 
 export default ({ proxy, context }: any): HookInvoker =>
   (field, next) => {

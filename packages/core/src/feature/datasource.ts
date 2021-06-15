@@ -43,17 +43,17 @@ export class DatasourceService {
   }
 
   build(key: string, options: DatasourceOptions) {
-    const { type, props } = this.proxyService.inject(
+    const injected = this.proxyService.inject(
       assignObject(options),
       this.context
     )
 
     const maped = this.getMap()
 
-    const build = maped[type]
+    const build = maped[injected.type]
 
     if (build) {
-      this.context[key] = build(props, this.services)
+      this.context[key] = build(injected, this.services)
     }
   }
 }

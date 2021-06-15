@@ -30,11 +30,21 @@ export class PrerenderService {
   }
 
   process(value: any, context: Record<string, unknown>) {
+    const innerServices = new Proxy(
+      { context },
+      {
+        get: (target, p, receiver) => {
+          if (p === 'context') {
+            return Reflect.get(target, p, receiver)
+          } else {
+            return this.services[p as string]
+          }
+        },
+      }
+    )
+
     return (extra: HookMeta[]) => {
-      pipeline(
-        assignArray(this.hooks, extra || []),
-        assignObject(this.services, { context })
-      )(value)
+      pipeline(assignArray(this.hooks, extra || []), innerServices)(value)
     }
   }
 }

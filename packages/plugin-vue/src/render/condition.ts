@@ -1,4 +1,5 @@
-import { getProxyDefine, HookInvoker } from '@json2render/core'
+import { getProxyDefine } from '@json2render/core'
+import { HookInvoker } from '@json2render/vue'
 
 export default (): HookInvoker => (field, next) => {
   const defined = getProxyDefine(field.condition)
