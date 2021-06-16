@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/fyl080801/json-to-render/compare/@json2render/core@0.2.3...@json2render/core@1.0.0) (2021-06-16)
+
+
+### Bug Fixes
+
+* datasource ([f5bfd8b](https://github.com/fyl080801/json-to-render/commit/f5bfd8bc78e3a1bae785357fb5ca09b13ae64094))
+
+
+### Features
+
+* di ([3ca6165](https://github.com/fyl080801/json-to-render/commit/3ca61657565134cd38d6da6e040e941b68a538dc))
+* di ([77ce3d9](https://github.com/fyl080801/json-to-render/commit/77ce3d9f63659c72470065c94362e97558cf3c90))
+* di ([4d048d3](https://github.com/fyl080801/json-to-render/commit/4d048d354c4930ad6e4aa3e57a1a03f59362bcc0))
+* di 实现直接拿过来 ([4efbfe9](https://github.com/fyl080801/json-to-render/commit/4efbfe98750a20169e84a9af38c27e2da6513e6b))
+* 完成di迁移 ([2dd3725](https://github.com/fyl080801/json-to-render/commit/2dd372528cbc5d87852946b00f56f8b984464cdf))
+
+
+
+
+
 ## [0.2.3](https://github.com/fyl080801/json-to-render/compare/@json2render/core@0.2.3-alpha.5...@json2render/core@0.2.3) (2021-02-20)
 
 **Note:** Version bump only for package @json2render/core
