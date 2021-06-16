@@ -5,12 +5,7 @@ import {
   DatasourceOptions,
   ProxyContext,
 } from '../types'
-import {
-  assignObject,
-  ContainerInstance,
-  createToken,
-  InjectContainer,
-} from '../utils'
+import { assignObject, ContainerInstance, createToken } from '../utils'
 import { proxyContextToken, ProxyService, proxyServiceToken } from './proxy'
 
 export const datasourceToken = createToken<DatasourceMeta>('datasource')
@@ -24,7 +19,7 @@ export class DatasourceService {
   private readonly context: ProxyContext
   private readonly services: Record<string, unknown>
 
-  constructor(@InjectContainer() container: ContainerInstance) {
+  constructor(container: ContainerInstance) {
     this.proxyService = container.get(proxyServiceToken)
     this.datasources = container.getMany(datasourceToken)
     this.context = container.get(proxyContextToken)

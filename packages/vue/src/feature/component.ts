@@ -2,7 +2,6 @@ import {
   assignObject,
   ContainerInstance,
   createToken,
-  InjectContainer,
   isArray,
   isObject,
 } from '@json2render/core'
@@ -34,7 +33,7 @@ export class ComponentService {
     },
   }
 
-  constructor(@InjectContainer() container: ContainerInstance) {
+  constructor(container: ContainerInstance) {
     this.store = container.getMany(componentToken).reduce((pre, cur) => {
       pre[cur.name] = cur
       return pre

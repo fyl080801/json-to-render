@@ -1,3 +1,3 @@
 export default (data: any[] = [], value: any) => {
-  return data.includes(value)
+  return data.indexOf(value) >= 0
 }

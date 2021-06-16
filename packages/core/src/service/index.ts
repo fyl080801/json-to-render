@@ -4,7 +4,7 @@ import {
   Token,
   ServiceOptions,
   ContainerInstance,
-} from 'typedi'
+} from '../di'
 import { v4 } from 'uuid'
 import {
   ProxyService,

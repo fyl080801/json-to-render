@@ -7,7 +7,6 @@ import {
   isObject,
   createToken,
   ContainerInstance,
-  InjectContainer,
 } from '../utils'
 import { ProxyHandler, ProxyMatcher, ProxyContext, ProxyFlags } from '../types'
 import { servicesToken } from '../service/token'
@@ -22,7 +21,7 @@ export class ProxyService {
   private proxies: ProxyMatcher[] = []
   private services: Record<string, unknown> = {}
 
-  constructor(@InjectContainer() container: ContainerInstance) {
+  constructor(container: ContainerInstance) {
     this.proxies = container.getMany(proxyToken)
     this.services = container.get(servicesToken) as Record<string, unknown>
   }

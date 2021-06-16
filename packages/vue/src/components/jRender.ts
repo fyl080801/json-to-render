@@ -99,13 +99,13 @@ export default defineComponent({
         const datasourceService = container.resolve(datasourceServiceToken)
 
         Object.keys(origin || {})
-          .filter((item) => !innerDataNames.includes(item))
+          .filter((item) => !(innerDataNames.indexOf(item) >= 0))
           .forEach((key) => {
             datasourceService.release(key)
           })
 
         Object.keys(value || {})
-          .filter((item) => !innerDataNames.includes(item))
+          .filter((item) => !(innerDataNames.indexOf(item) >= 0))
           .forEach((key) => {
             datasourceService.build(key, value[key])
           })

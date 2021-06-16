@@ -1,10 +1,8 @@
 import 'reflect-metadata'
-import { Inject, InjectMany, Token, ContainerInstance } from 'typedi'
+import { Token, ContainerInstance } from '../di'
 
 export const createToken = <T>(key?: string) => {
   return new Token<T>(key)
 }
 
-export const InjectContainer = () => Inject(() => ContainerInstance)
-
-export { Inject, InjectMany, ContainerInstance }
+export { ContainerInstance }

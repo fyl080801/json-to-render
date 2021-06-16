@@ -7,7 +7,7 @@ const {
   terser,
   vuePlugin,
   sizes,
-  scss,
+  // scss,
   postcss,
 } = require('./rollup.plugins')
 const { helperGlobal } = require('./runtime.helper')
@@ -28,8 +28,11 @@ const defaultPlugins = [
     exclude: ['node_modules/**'],
     babelHelpers: 'runtime',
     presets: ['@babel/typescript'],
-    plugins: ['@babel/transform-runtime', '@vue/babel-plugin-jsx'],
-    exclude: /node_modules/,
+    plugins: [
+      '@babel/transform-runtime',
+      '@vue/babel-plugin-jsx',
+      ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ],
   }),
   typescript({
     tsconfig: path.resolve('../../', 'tsconfig.json'),
@@ -43,9 +46,6 @@ const defaultPlugins = [
   terser(),
   vuePlugin(),
   sizes(),
-  // scss({
-  //   output: 'dist/style.css',
-  // }),
   postcss({
     plugins: [require('tailwindcss'), require('autoprefixer')],
   }),

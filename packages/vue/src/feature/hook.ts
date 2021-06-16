@@ -3,7 +3,6 @@ import {
   assignObject,
   createToken,
   ContainerInstance,
-  InjectContainer,
   servicesToken,
 } from '@json2render/core'
 import { HookMeta } from '../types'
@@ -22,7 +21,7 @@ export class PrerenderService {
   private hooks: HookMeta[] = []
   private services: Record<string, unknown>
 
-  constructor(@InjectContainer() container: ContainerInstance) {
+  constructor(container: ContainerInstance) {
     this.hooks = container
       .getMany(prerenderToken)
       .sort((a, b) => a.index - b.index)
@@ -52,7 +51,7 @@ export class PrerenderService {
 export class RenderService {
   private hooks: HookMeta[] = []
 
-  constructor(@InjectContainer() container: ContainerInstance) {
+  constructor(container: ContainerInstance) {
     this.hooks = container
       .getMany(renderToken)
       .sort((a, b) => a.index - b.index)
