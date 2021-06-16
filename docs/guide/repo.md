@@ -12,7 +12,7 @@
 
 @json2render/plugin-vue - 支持 vue 专有特性
 
-@plugin-elementui - 针对 element-ui 组件库扩展的配置方式
+@json2render/plugin-elementui - 针对 element-ui 组件库扩展的配置方式
 
 ## 框架支持
 
