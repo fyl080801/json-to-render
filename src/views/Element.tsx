@@ -1,9 +1,10 @@
 import { defineComponent, reactive } from 'vue'
+import elementPlugin from '@json2render/plugin-elementui'
 
 export default defineComponent({
   setup() {
     const data = reactive({
-      checks: [],
+      // checks: [],
     })
 
     const datasource = reactive({
@@ -34,7 +35,7 @@ export default defineComponent({
     const fields = reactive([
       {
         component: 'el-form',
-        rowProps: {
+        row: {
           gutter: 20,
         },
         props: {
@@ -44,22 +45,22 @@ export default defineComponent({
           {
             component: 'el-input',
             model: 'model.text',
-            colProps: { span: 24 },
-            formProps: { label: 'text1' },
+            col: { span: 24 },
+            form: { label: 'text1' },
           },
           {
             component: 'el-select',
             model: 'model.selected',
-            colProps: { span: 12 },
-            formProps: { label: 'selected' },
+            col: { span: 12 },
+            form: { label: 'selected' },
             children:
               '$:raw.options.map(item=>({component:"el-option", props:{label:item.label, value:item.key}}))',
           },
           {
             component: 'el-checkbox-group',
             model: 'model.checks',
-            colProps: { span: 12 },
-            formProps: {
+            col: { span: 12 },
+            form: {
               label: 'checks',
             },
             children:
@@ -68,15 +69,15 @@ export default defineComponent({
           {
             component: 'el-slider',
             model: 'model.num',
-            colProps: { span: 24 },
-            formProps: { label: 'silder' },
+            col: { span: 24 },
+            form: { label: 'silder' },
             props: { min: 1, max: 24 },
           },
           {
             component: 'el-input',
             model: 'model.text',
-            colProps: { span: '$:model.num' },
-            formProps: { label: 'silder' },
+            col: { span: '$:model.num' },
+            form: { label: 'silder' },
           },
         ],
       },
@@ -86,84 +87,10 @@ export default defineComponent({
       },
     ])
 
-    const onSetup = ({ prerender, datasource }: any) => {
-      // 在组件外部套一个 el-form-item
-      prerender(
-        ({ proxy, context }: any) =>
-          (field: any, next: any) => {
-            if (!field.formProps) {
-              next(field)
-              return
-            }
+    const onSetup = (services: any) => {
+      elementPlugin(services)
 
-            const formProps = field.formProps
-
-            delete field.formProps
-
-            next(
-              proxy.inject(
-                {
-                  component: 'el-form-item',
-                  props: formProps,
-                  children: [field],
-                },
-                context
-              )
-            )
-          },
-        2
-      )
-
-      // 在组件内部套一个 el-row
-      prerender(() => (field: any, next: any) => {
-        if (!field.rowProps) {
-          next(field)
-          return
-        }
-
-        const rowProps = field.rowProps
-
-        delete field.rowProps
-
-        field.children = [
-          {
-            component: 'el-row',
-            props: rowProps,
-            children: field.children,
-          },
-        ]
-
-        next(field)
-      })
-
-      // 在组件外部套一个 el-col
-      prerender(
-        ({ proxy, context }: any) =>
-          (field: any, next: any) => {
-            if (!field.colProps) {
-              next(field)
-              return
-            }
-
-            const colProps = field.colProps.__jr_proxyDefine
-
-            delete field.colProps
-
-            next(
-              proxy.inject(
-                {
-                  component: 'el-col',
-                  props: colProps,
-                  children: [field],
-                },
-                context
-              )
-            )
-          },
-        1
-      )
-
-      datasource('rawdata', (options: any) => {
+      services.datasource('rawdata', (options: any) => {
         return options.data
       })
     }
