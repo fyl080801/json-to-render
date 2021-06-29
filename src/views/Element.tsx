@@ -3,9 +3,7 @@ import elementPlugin from '@json2render/plugin-elementui'
 
 export default defineComponent({
   setup() {
-    const data = reactive({
-      // checks: [],
-    })
+    const data = reactive({})
 
     const datasource = reactive({
       raw: {
@@ -53,8 +51,11 @@ export default defineComponent({
             model: 'model.selected',
             col: { span: 12 },
             form: { label: 'selected' },
-            children:
-              '$:raw.options.map(item=>({component:"el-option", props:{label:item.label, value:item.key}}))',
+            options: {
+              component: 'el-option',
+              valueProp: 'key',
+              items: '$:raw.options',
+            },
           },
           {
             component: 'el-checkbox-group',
@@ -63,8 +64,10 @@ export default defineComponent({
             form: {
               label: 'checks',
             },
-            children:
-              '$:raw.options.map(item=>({component:"el-checkbox", props:{label:item.label}}))',
+            options: {
+              component: 'el-checkbox',
+              items: '$:raw.options',
+            },
           },
           {
             component: 'el-slider',

@@ -1,13 +1,13 @@
 import formProps from './prerender/formProps'
 import rowProps from './prerender/rowProps'
 import colProps from './prerender/colProps'
-import childProps from './prerender/childProps'
-import checkboxGroup from './prerender/checkboxGroup'
+import options from './prerender/options'
+import vmodel from './prerender/vmodel'
 
 export default ({ prerender }: any) => {
   prerender(formProps, 2)
   prerender(rowProps)
   prerender(colProps, 1)
-  prerender(childProps)
-  prerender(checkboxGroup)
+  prerender(options)
+  prerender(vmodel)
 }
