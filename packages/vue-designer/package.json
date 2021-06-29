@@ -1,6 +1,6 @@
 {
   "name": "@json2render/vue-designer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "> TODO: description",
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "https://github.com/fyl080801/json-to-render/tree/main/packages/vue-designer#readme",
@@ -28,8 +28,8 @@
     "dist": "yarn clean && cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
-    "@json2render/core": "^1.0.0",
-    "@json2render/vue": "^1.0.0"
+    "@json2render/core": "^1.0.1",
+    "@json2render/vue": "^1.0.1"
   },
   "bugs": {
     "url": "https://github.com/fyl080801/json-to-render/issues"
