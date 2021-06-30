@@ -3,7 +3,7 @@ import { deepGet, deepSet } from '@json2render/core'
 
 const elements: Record<string, unknown> = {
   'el-checkbox-group': [],
-  'el-select': [],
+  'el-select': null,
 }
 
 export default ({ context }: any): HookInvoker =>
