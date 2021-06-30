@@ -64,6 +64,8 @@ export default defineComponent({
             form: {
               label: 'checks',
             },
+            // children:
+            //   '$:raw.options.map(item=>({component:"el-checkbox", props:{label:item.label}}))',
             options: {
               component: 'el-checkbox',
               items: '$:raw.options',
@@ -94,7 +96,7 @@ export default defineComponent({
       elementPlugin(services)
 
       services.datasource('rawdata', (options: any) => {
-        return options.data
+        return reactive(options.data)
       })
     }
 
@@ -108,6 +110,10 @@ export default defineComponent({
           class="j-form"
           onSetup={onSetup}
         ></v-jrender>
+        {/* <el-button onClick={() => {
+          datasource.raw.data.options.push({ key: datasource.raw.data.options.length + 1, label: 'aaa' })
+          debugger
+        }}>add</el-button> */}
       </div>
     )
   },
