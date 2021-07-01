@@ -5,7 +5,8 @@ export default (options: any) => {
   const { props } = options
 
   const instance = reactive({
-    data: cloneDeep(options.defaultData || []),
+    data:
+      options.defaultData !== undefined ? cloneDeep(options.defaultData) : [],
     loading: false,
     request: async () => {
       instance.loading = true
