@@ -36,10 +36,10 @@ export default defineComponent({
     ]
 
     const onSetup = ({ component, prerender }: any) => {
-      component('toolbox', Toolbox)
-      component('propertybox', PropertyBox)
-      component(Container.name, Container)
-      component('designer', Designer)
+      component('toolbox')(Toolbox)
+      component('propertybox')(PropertyBox)
+      component(Container.name)(Container)
+      component('designer')(Designer)
 
       prerender(containerHook)
     }
@@ -67,7 +67,7 @@ export default defineComponent({
         class="v-jdesigner w-full h-full grid"
         fields={layout}
         onSetup={onSetup}
-      ></jrender>
+      />
     )
   },
 })

@@ -1,4 +1,4 @@
-import { debounce } from '../utils/helpers'
+// import { debounce } from '../utils/helpers'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 
 export default defineComponent({
@@ -11,6 +11,7 @@ export default defineComponent({
       'relation',
       'listeners',
       'nest',
+      'templateload',
       'full',
     ])
     const active = ref({ fields: [], datasource: {}, listeners: [], model: {} })
