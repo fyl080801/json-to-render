@@ -52,31 +52,31 @@ export class ComponentService {
     scope: Record<string, unknown>
   ) {
     if (!components) {
-      return null
+      return
     }
 
-    return isArray(components)
-      ? this.render(components as Array<unknown>, scope)
-      : isObject(components)
-      ? Object.keys(components as Record<string, Array<unknown>>).reduce(
-          (pre, key) => {
-            pre[key] = (scope: any) =>
-              this.render(
-                (components as Record<string, Array<unknown>>)[key],
-                assignObject(scope, Object.keys(scope || {}))
-              )
-            return pre
-          },
-          {} as Record<string, any>
-        )
-      : null
+    if (isArray(components)) {
+      return this.render(components as Array<unknown>, scope)
+    }
+
+    if (isObject(components)) {
+      return Object.keys(components as Record<string, Array<unknown>>).reduce(
+        (pre, key) => {
+          pre[key] = (scope: any) =>
+            this.render(
+              (components as Record<string, Array<unknown>>)[key],
+              assignObject(scope, Object.keys(scope || {}))
+            )
+          return pre
+        },
+        {} as Record<string, any>
+      )
+    }
   }
 
   renderNode(field: any, scope: Record<string, unknown>) {
     const node =
-      field &&
-      field.component &&
-      resolveRenderComponent(field.component) &&
+      field?.component &&
       (this.store[field.component]?.define ||
         resolveRenderComponent(field.component))
 

@@ -14,16 +14,23 @@ export default (): HookInvoker => (field, next) => {
   const valueProp = options.valueProp || 'value'
   const textProp = options.textProp || 'text'
 
-  field.children = options.items.map((item: any) => ({
-    component: options.component,
-    props: {
-      label: item[labelProp],
-      value: item[valueProp],
-    },
-    children: item[textProp]
-      ? [{ component: 'span', props: { innerText: item[textProp] } }]
-      : undefined,
-  }))
+  field.children = options.items.map((item: any) => {
+    const child: any = {
+      component: options.component,
+      props: {
+        label: item[labelProp],
+        value: item[valueProp],
+      },
+    }
+
+    if (item[textProp]) {
+      child.children = [
+        { component: 'span', props: { innerText: item[textProp] } },
+      ]
+    }
+
+    return child
+  })
 
   next(field)
 }
