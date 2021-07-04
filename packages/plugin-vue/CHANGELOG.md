@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-vue@1.0.1...@json2render/plugin-vue@1.1.0) (2021-07-04)
+
+
+### Features
+
+* fetch默认数据 ([04f1d13](https://github.com/fyl080801/json-to-render/commit/04f1d1364d86b5858048d49e747f48c6f7422937))
+
+
+
+
+
 ## [1.0.1](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-vue@1.0.0...@json2render/plugin-vue@1.0.1) (2021-06-29)
 
 **Note:** Version bump only for package @json2render/plugin-vue

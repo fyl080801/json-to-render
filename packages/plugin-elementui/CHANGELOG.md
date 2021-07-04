@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-elementui@1.1.0...@json2render/plugin-elementui@1.2.0) (2021-07-04)
+
+
+### Bug Fixes
+
+* 依赖问题 ([b683150](https://github.com/fyl080801/json-to-render/commit/b683150dd5b72b141bf35ac7bf4dba59e1a33941))
+
+
+### Features
+
+* element-ui 的 options属性可以响应数据变化 ([539f986](https://github.com/fyl080801/json-to-render/commit/539f986e0b633c6bb18eb00ffd6e68dc3ab5fbc7))
+* 节点渲染实现 ([dd473ea](https://github.com/fyl080801/json-to-render/commit/dd473ea22447e677f9f74d3bb07bb68de054c87d))
+
+
+
+
+
 # [1.1.0](https://github.com/fyl080801/json-to-render/compare/@json2render/plugin-elementui@1.0.0...@json2render/plugin-elementui@1.1.0) (2021-06-29)
 
 
