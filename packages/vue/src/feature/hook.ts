@@ -4,9 +4,13 @@ import {
   createToken,
   ContainerInstance,
   servicesToken,
+  isArray,
 } from '@json2render/core'
+import { Slots } from '@vue/runtime-core'
 import { HookMeta } from '../types'
+import { nonArrayFunction } from '../utils/helper'
 import pipeline from '../utils/pipeline'
+import { resolveChildren } from '../utils/render'
 
 export const prerenderToken = createToken<HookMeta>('prerender')
 
@@ -42,7 +46,7 @@ export class PrerenderService {
       }
     )
 
-    return (extra: HookMeta[]) => {
+    return (...extra: HookMeta[]) => {
       pipeline(assignArray(this.hooks, extra || []), innerServices)(value)
     }
   }
@@ -58,7 +62,7 @@ export class RenderService {
   }
 
   process(value: any, context: Record<string, unknown>) {
-    return (extra: HookMeta[]) => {
+    return (...extra: HookMeta[]) => {
       pipeline(
         assignArray(this.hooks, extra || []),
         assignObject({ context })
@@ -66,3 +70,71 @@ export class RenderService {
     }
   }
 }
+
+export const childrenPrerender = () => (field: any, next: any) => {
+  if (!isArray(field.children)) {
+    next(field)
+    return
+  }
+
+  const children = field.children?.filter((child: any) => child) ?? []
+
+  if (children.length <= 0) {
+    next(field)
+    return
+  }
+
+  field.children = resolveChildren(children)
+
+  next(field)
+}
+
+export const injectPrerender =
+  (nodeField: any) =>
+  ({ proxy, context }: any) =>
+  (field: any, next: any) => {
+    nodeField.value = proxy.inject(field, context)
+    next(nodeField.value)
+  }
+
+export const slotsPrerender =
+  (slots: Slots) =>
+  ({ context }: any) =>
+  (field: any, next: any) => {
+    if (!field.children) {
+      next(field)
+      return
+    }
+    console.log(slots)
+
+    for (const key in field.children) {
+      const slotIncludes = []
+
+      for (let i = 0; i < field.children[key].length; i++) {
+        const current = field.children[key][i]
+
+        if (current.component === 'slot') {
+          if (!current.props?.name && slots.default) {
+            const slotNodes = slots.default(context)
+            slotNodes.forEach((n) => slotIncludes.push(n))
+          } else if (
+            current.props?.name &&
+            typeof slots[current.props?.name] === 'function'
+          ) {
+            const slotNodes = (slots[current.props?.name] || nonArrayFunction)(
+              context
+            )
+            slotNodes.forEach((n) => slotIncludes.push(n))
+          } else {
+            slotIncludes.push(field.children[key][i])
+          }
+        } else {
+          slotIncludes.push(field.children[key][i])
+        }
+      }
+
+      field.children[key] = slotIncludes
+    }
+
+    next(field)
+  }

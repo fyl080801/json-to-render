@@ -1,16 +1,18 @@
 import { defineComponent, watch, ref } from 'vue'
-import { resolveChildren } from '../utils/render'
 import {
-  isArray,
   assignObject,
   proxyContextToken,
   proxyServiceToken,
 } from '@json2render/core'
 import { getState } from '../store'
 import {
+  childrenPrerender,
   componentServiceToken,
+  injectPrerender,
   prerenderServiceToken,
   renderServiceToken,
+  slotsPrerender,
+  slotsToken,
 } from '../feature'
 
 export default defineComponent({
@@ -31,6 +33,7 @@ export default defineComponent({
     const injectedContext = assignObject(context, {
       scope: props.scope,
     })
+    const slots = container.resolve(slotsToken)
 
     watch(
       () => props.field,
@@ -38,53 +41,29 @@ export default defineComponent({
         prerender.process(
           proxy.inject(value, injectedContext),
           injectedContext
-        )([
-          {
-            invoke: () => (field: any, next: any) => {
-              if (!isArray(field.children)) {
-                next(field)
-                return
-              }
-
-              const children =
-                field.children?.filter((child: any) => child) ?? []
-
-              if (children.length <= 0) {
-                next(field)
-                return
-              }
-
-              field.children = resolveChildren(children)
-
-              next(field)
-            },
-          },
-          {
-            invoke: () => (field: any, next: any) => {
-              nodeField.value = proxy.inject(field, injectedContext)
-              next(nodeField.value)
-            },
-          },
-        ])
+        )(
+          ...[
+            childrenPrerender,
+            slotsPrerender(slots),
+            injectPrerender(nodeField),
+          ].map((invoke) => ({ invoke }))
+        )
       },
       { deep: false, immediate: true }
     )
 
     return () => {
-      // 是否需要每次渲染都转换成真实对象?
       let renderField = assignObject(nodeField.value)
 
       render.process(
         renderField,
         injectedContext
-      )([
-        {
-          invoke: () => (field: any, next: any) => {
-            renderField = field
-            next(renderField)
-          },
+      )({
+        invoke: () => (field: any, next: any) => {
+          renderField = field
+          next(renderField)
         },
-      ])
+      })
 
       const rendered = component.renderNode(renderField, props.scope)
 

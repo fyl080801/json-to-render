@@ -8,6 +8,7 @@ import {
   nextTick,
   onBeforeUnmount,
   reactive,
+  Slots,
 } from 'vue'
 import { containerBuilder, createSetup } from '../service'
 import { createStore } from '../store'
@@ -28,6 +29,7 @@ import {
   prerenderServiceToken,
   RenderService,
   renderServiceToken,
+  slotsToken,
 } from '../feature'
 
 export default defineComponent({
@@ -59,6 +61,7 @@ export default defineComponent({
       .addService<RenderService>(renderServiceToken, RenderService)
       .addService<ComponentService>(componentServiceToken, ComponentService)
       .addValue<ProxyContext>(proxyContextToken, context)
+      .addValue<Slots>(slotsToken, ctx.slots)
 
     ctx.emit('setup', createSetup(container))
 

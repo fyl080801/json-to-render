@@ -16,19 +16,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/element',
     name: 'Element',
-    component: () =>
-      import(/* webpackChunkName: "element" */ '../views/Element'),
+    component: () => import('../views/Element.vue'),
   },
   {
     path: '/tabs',
     name: 'Tabs',
-    component: () => import(/* webpackChunkName: "tabs" */ '../views/Tabs'),
+    component: () => import('../views/Tabs'),
   },
   {
     path: '/designer',
     name: 'Designer',
-    component: () =>
-      import(/* webpackChunkName: "designer" */ '../views/Designer'),
+    component: () => import('../views/Designer'),
   },
   {
     path: '/yaml',

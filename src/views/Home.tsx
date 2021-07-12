@@ -12,6 +12,7 @@ export default defineComponent({
       'listeners',
       'nest',
       'templateload',
+      'slots',
       'full',
     ])
     const active = ref({ fields: [], datasource: {}, listeners: [], model: {} })

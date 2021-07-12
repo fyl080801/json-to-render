@@ -5,7 +5,7 @@ import {
   isArray,
   isObject,
 } from '@json2render/core'
-import { h, resolveComponent } from 'vue'
+import { h, resolveComponent, isVNode } from 'vue'
 import { ComponentMeta } from '../types'
 import { resolveRenderComponent } from '../utils/render'
 
@@ -42,8 +42,12 @@ export class ComponentService {
 
   render(components: Array<any>, scope: Record<string, unknown>): any {
     return components.map((child) => {
-      const meta = this.store[child.component] || { provider: 'default' }
-      return this.providers[meta.provider || 'default'](child, scope)
+      if (isVNode(child)) {
+        return child
+      } else {
+        const meta = this.store[child.component] || { provider: 'default' }
+        return this.providers[meta.provider || 'default'](child, scope)
+      }
     })
   }
 
