@@ -11,6 +11,6 @@
       ]
     },
     { "component": "p", "text": "正文" },
-    { "component": "slot" }
+    { "component": "slot", "props": { "attrValue": "aaaaa" } }
   ]
 }
