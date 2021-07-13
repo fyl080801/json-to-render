@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@1.1.0...@json2render/vue@1.2.0) (2021-07-13)
+
+
+### Features
+
+* slot节点name属性放外层，scope传props ([09831e2](https://github.com/fyl080801/json-to-render/commit/09831e2b1c337706b19335b1590035d822760afe))
+* vue渲染方式支持slot ([d0c84a5](https://github.com/fyl080801/json-to-render/commit/d0c84a5bdbcf7d105d4fff2c949ecb268cbbaffb))
+
+
+
+
+
 # [1.1.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@1.0.1...@json2render/vue@1.1.0) (2021-07-04)
 
 

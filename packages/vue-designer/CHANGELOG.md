@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/fyl080801/json-to-render/compare/@json2render/vue-designer@1.0.2...@json2render/vue-designer@1.0.3) (2021-07-13)
+
+**Note:** Version bump only for package @json2render/vue-designer
+
+
+
+
+
 ## [1.0.2](https://github.com/fyl080801/json-to-render/compare/@json2render/vue-designer@1.0.1...@json2render/vue-designer@1.0.2) (2021-07-04)
 
 **Note:** Version bump only for package @json2render/vue-designer

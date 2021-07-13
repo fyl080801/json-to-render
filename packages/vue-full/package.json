@@ -1,6 +1,6 @@
 {
   "name": "@json2render/vue-full",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "> TODO: description",
   "author": "fyl080801 <fyl080801@hotmail.com>",
   "homepage": "https://github.com/fyl080801/json-to-render#readme",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@json2render/plugin-classics": "^1.0.2",
     "@json2render/plugin-modern": "^1.0.2",
-    "@json2render/plugin-vue": "^1.1.0",
-    "@json2render/vue": "^1.1.0"
+    "@json2render/plugin-vue": "^1.1.1",
+    "@json2render/vue": "^1.2.0"
   },
   "gitHead": "6b7755b42a7f2c4e549d815da91bb3727594ef03"
 }
