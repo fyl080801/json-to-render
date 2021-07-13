@@ -7,7 +7,7 @@
       },
       "children": [
         { "component": "span", "text": "标题: " },
-        { "component": "slot", "props": { "name": "header" } }
+        { "component": "slot", "name": "header" }
       ]
     },
     { "component": "p", "text": "正文" },

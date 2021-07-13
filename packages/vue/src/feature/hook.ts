@@ -98,14 +98,11 @@ export const injectPrerender =
   }
 
 export const slotsPrerender =
-  (slots: Slots) =>
-  ({ context }: any) =>
-  (field: any, next: any) => {
+  (slots: Slots) => () => (field: any, next: any) => {
     if (!field.children) {
       next(field)
       return
     }
-    console.log(slots)
 
     for (const key in field.children) {
       const slotIncludes = []
@@ -114,15 +111,10 @@ export const slotsPrerender =
         const current = field.children[key][i]
 
         if (current.component === 'slot') {
-          if (!current.props?.name && slots.default) {
-            const slotNodes = slots.default(context)
-            slotNodes.forEach((n) => slotIncludes.push(n))
-          } else if (
-            current.props?.name &&
-            typeof slots[current.props?.name] === 'function'
-          ) {
-            const slotNodes = (slots[current.props?.name] || nonArrayFunction)(
-              context
+          const slotName = current.name || 'default'
+          if (typeof slots[slotName] === 'function') {
+            const slotNodes = (slots[slotName] || nonArrayFunction)(
+              current.props || {}
             )
             slotNodes.forEach((n) => slotIncludes.push(n))
           } else {
