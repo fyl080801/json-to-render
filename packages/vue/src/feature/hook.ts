@@ -117,8 +117,6 @@ export const slotsPrerender =
               current.props || {}
             )
             slotNodes.forEach((n) => slotIncludes.push(n))
-          } else {
-            slotIncludes.push(field.children[key][i])
           }
         } else {
           slotIncludes.push(field.children[key][i])
