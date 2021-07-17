@@ -10,6 +10,6 @@ install:
   - yarn install
 
 script:
-  - yarn dist
+  - yarn build
   - chmod u+x ./scripts/deploy.sh
   - bash ./scripts/deploy.sh
