@@ -1,6 +1,6 @@
 {
   "name": "@json2render/vue-designer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "> TODO: description",
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "https://github.com/fyl080801/json-to-render/tree/main/packages/vue-designer#readme",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@json2render/core": "^1.0.2",
-    "@json2render/vue": "^1.2.0"
+    "@json2render/vue": "^1.2.1"
   },
   "bugs": {
     "url": "https://github.com/fyl080801/json-to-render/issues"

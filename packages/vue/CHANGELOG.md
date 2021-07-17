@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@1.2.0...@json2render/vue@1.2.1) (2021-07-17)
+
+
+### Bug Fixes
+
+* slot 不直接render ([5ff4ea2](https://github.com/fyl080801/json-to-render/commit/5ff4ea2cd26c6c7005e277a9d307900c5478e375))
+
+
+
+
+
 # [1.2.0](https://github.com/fyl080801/json-to-render/compare/@json2render/vue@1.1.0...@json2render/vue@1.2.0) (2021-07-13)
 
 
