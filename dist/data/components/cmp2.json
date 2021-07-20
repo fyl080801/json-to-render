@@ -1,0 +1,7 @@
+{
+  "modelValue": {},
+  "fields": [
+    { "component": "el-input", "model": "model.text" },
+    { "component": "p", "text": "#:输入了: ${model.text||''}" }
+  ]
+}

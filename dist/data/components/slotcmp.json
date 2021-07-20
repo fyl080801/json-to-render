@@ -1,0 +1,16 @@
+{
+  "fields": [
+    {
+      "component": "h1",
+      "props": {
+        "style": { "fontSize": "40pt" }
+      },
+      "children": [
+        { "component": "span", "text": "标题: " },
+        { "component": "slot", "name": "header" }
+      ]
+    },
+    { "component": "p", "text": "正文" },
+    { "component": "slot", "props": { "attrValue": "aaaaa" } }
+  ]
+}
