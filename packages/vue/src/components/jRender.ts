@@ -25,6 +25,10 @@ import {
 import {
   ComponentService,
   componentServiceToken,
+  componentToken,
+  createComponentService,
+  // ComponentService,
+  // componentServiceToken,
   PrerenderService,
   prerenderServiceToken,
   RenderService,
@@ -59,11 +63,15 @@ export default defineComponent({
       .build()
       .addService<PrerenderService>(prerenderServiceToken, PrerenderService)
       .addService<RenderService>(renderServiceToken, RenderService)
-      .addService<ComponentService>(componentServiceToken, ComponentService)
       .addValue<ProxyContext>(proxyContextToken, context)
       .addValue<Slots>(slotsToken, ctx.slots)
 
     ctx.emit('setup', createSetup(container))
+
+    container.addValue<ComponentService>(
+      componentServiceToken,
+      createComponentService(container.resolveAll(componentToken))
+    )
 
     createStore(container)
     //#endregion

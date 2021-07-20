@@ -1,89 +1,93 @@
-import {
-  assignObject,
-  ContainerInstance,
-  createToken,
-  isArray,
-  isObject,
-} from '@json2render/core'
-import { h, resolveComponent, isVNode } from 'vue'
+import { createToken, isArray, isObject } from '@json2render/core'
+import { h, isVNode, resolveComponent } from 'vue'
 import { ComponentMeta } from '../types'
 import { resolveRenderComponent } from '../utils/render'
+
+export interface ComponentService {
+  (props: any): any
+}
 
 export const componentServiceToken =
   createToken<ComponentService>('componentService')
 
 export const componentToken = createToken<ComponentMeta>('component')
 
-export class ComponentService {
-  private store: Record<string, ComponentMeta>
+export const createComponentService = (components: Array<any>) => {
+  const componentMap = components.reduce((pre: any, cur: any) => {
+    pre[cur.name] = cur
+    return pre
+  }, {})
 
-  private providers: Record<string, any> = {
-    direct: (field: any, scope: any) => {
-      return h(
-        resolveComponent(field.component),
-        field.props,
-        this.renderMany(field.children, scope)
-      )
-    },
-    default: (field: any, scope: any) => {
-      return h(resolveComponent('vJnode'), {
-        field,
-        scope,
-      })
-    },
-  }
+  return (props: any) => {
+    const providers: Record<string, any> = {
+      direct: (field: any) => {
+        return h(
+          resolveComponent(field.component) as any,
+          field.props,
+          renderNodes(field.children)
+        )
+      },
+      default: (field: any, scope: any) => {
+        return h(resolveComponent('vJnode'), {
+          field,
+          scope,
+        })
+      },
+    }
 
-  constructor(container: ContainerInstance) {
-    this.store = container.getMany(componentToken).reduce((pre, cur) => {
-      pre[cur.name] = cur
-      return pre
-    }, {} as Record<string, ComponentMeta>)
-  }
-
-  render(components: Array<any>, scope: Record<string, unknown>): any {
-    return components.map((child) => {
-      if (isVNode(child)) {
-        return child
-      } else {
-        const meta = this.store[child.component] || { provider: 'default' }
-        return this.providers[meta.provider || 'default'](child, scope)
+    const renderNodes = (
+      nodes: Array<unknown> | Record<string, Array<unknown>>
+    ) => {
+      if (!nodes) {
+        return
       }
-    })
-  }
 
-  renderMany(
-    components: Array<unknown> | Record<string, Array<unknown>>,
-    scope: Record<string, unknown>
-  ) {
-    if (!components) {
-      return
+      if (isArray(nodes)) {
+        return {
+          default: (scope: any) => handleRender(nodes as Array<any>, scope),
+        }
+      }
+
+      if (isObject(nodes)) {
+        return Object.keys(nodes as Record<string, Array<unknown>>).reduce(
+          (target, key) => {
+            target[key] = (scope: any) =>
+              handleRender(
+                (nodes as Record<string, Array<unknown>>)[key],
+                scope
+              )
+            return target
+          },
+          {} as Record<string, any>
+        )
+      }
     }
 
-    if (isArray(components)) {
-      return this.render(components as Array<unknown>, scope)
+    const handleRender = (nodes: Array<any>, scope: any) => {
+      return nodes.map((child) => {
+        if (isVNode(child)) {
+          return child
+        } else {
+          const meta = componentMap[child.component] || {
+            provider: 'default',
+          }
+          return providers[meta.provider || 'default'](
+            child,
+            Object.assign(scope || {}, props.scope)
+          )
+        }
+      })
     }
 
-    if (isObject(components)) {
-      return Object.keys(components as Record<string, Array<unknown>>).reduce(
-        (pre, key) => {
-          pre[key] = (scope: any) =>
-            this.render(
-              (components as Record<string, Array<unknown>>)[key],
-              assignObject(scope, Object.keys(scope || {}))
-            )
-          return pre
-        },
-        {} as Record<string, any>
-      )
+    return {
+      render: (field: any) => {
+        const node =
+          field?.component &&
+          (componentMap[field.component]?.define ||
+            resolveRenderComponent(field.component))
+
+        return node && h(node, field.props, renderNodes(field.children))
+      },
     }
-  }
-
-  renderNode(field: any, scope: Record<string, unknown>) {
-    const node =
-      field?.component &&
-      (this.store[field.component]?.define ||
-        resolveRenderComponent(field.component))
-
-    return node && h(node, field.props, this.renderMany(field.children, scope))
   }
 }

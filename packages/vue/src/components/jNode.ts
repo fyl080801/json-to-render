@@ -23,16 +23,15 @@ export default defineComponent({
   },
   setup: (props) => {
     const container: any = getState()
-
     const nodeField = ref<any>({})
     const prerender = container.resolve(prerenderServiceToken)
     const render = container.resolve(renderServiceToken)
     const proxy = container.resolve(proxyServiceToken)
     const context = container.resolve(proxyContextToken)
-    const component = container.resolve(componentServiceToken)
     const injectedContext = assignObject(context, {
       scope: props.scope,
     })
+    const component = container.resolve(componentServiceToken)
     const slots = container.resolve(slotsToken)
 
     watch(
@@ -65,7 +64,7 @@ export default defineComponent({
         },
       })
 
-      const rendered = component.renderNode(renderField, props.scope)
+      const rendered = component(props).render(renderField)
 
       if (rendered?.ref) {
         const { r, i }: any = rendered.ref

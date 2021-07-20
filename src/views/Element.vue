@@ -2,7 +2,9 @@
 import { reactive } from 'vue'
 import elementPlugin from '@json2render/plugin-elementui'
 
-const data = reactive({})
+const data = reactive({
+  checks: [],
+})
 
 const datasource = reactive({
   raw: {
@@ -73,10 +75,14 @@ const fields = reactive([
         form: {
           label: 'checks',
         },
-        options: {
-          component: 'el-checkbox',
-          items: '$:raw.options',
-        },
+        // props: {
+        //   value: '$:model.checks',
+        // },
+        children: [{ component: 'el-checkbox', props: { value: 1 } }],
+        // options: {
+        //   component: 'el-checkbox',
+        //   items: '$:raw.options',
+        // },
       },
       {
         component: 'el-select',
@@ -120,6 +126,8 @@ const onSetup = (services: any) => {
   services.datasource('rawdata', (options: any) => {
     return options.data
   })
+
+  services.component('el-checkbox', { provider: 'direct' })
 }
 </script>
 

@@ -36,17 +36,21 @@ export default defineComponent({
         return props.data
       })
     }
+    const data = ref([])
 
     return () => (
       <div>
-        <v-jrender
+        {/* <v-jrender
           v-model={active.value.model}
           fields={active.value.fields}
           datasource={active.value.datasource}
           listeners={active.value.listeners}
           onSetup={onSetup}
           class="j-form"
-        ></v-jrender>
+        ></v-jrender> */}
+        <el-checkbox-group v-model={data.value}>
+          <el-checkbox></el-checkbox>
+        </el-checkbox-group>
       </div>
     )
   },
