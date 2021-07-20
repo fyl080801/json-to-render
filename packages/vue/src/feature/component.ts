@@ -71,7 +71,7 @@ export class ComponentService {
     }
 
     if (isArray(components)) {
-      return this.render(components as Array<unknown>, scope)
+      return { default: () => this.render(components as Array<unknown>, scope) }
     }
 
     if (isObject(components)) {
