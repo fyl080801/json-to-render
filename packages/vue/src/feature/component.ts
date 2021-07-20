@@ -3,6 +3,7 @@ import {
   ContainerInstance,
   createToken,
   isArray,
+  isFunction,
   isObject,
 } from '@json2render/core'
 import { h, resolveComponent, isVNode } from 'vue'
@@ -41,7 +42,17 @@ export class ComponentService {
   }
 
   render(components: Array<any>, scope: Record<string, unknown>): any {
-    return components.map((child) => {
+    const renders: Array<any> = []
+    components.forEach((item) => {
+      if (isFunction(item)) {
+        item(item.props).forEach((i: any) => {
+          renders.push(i)
+        })
+      } else {
+        renders.push(item)
+      }
+    })
+    return renders.map((child) => {
       if (isVNode(child)) {
         return child
       } else {

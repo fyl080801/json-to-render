@@ -113,10 +113,9 @@ export const slotsPrerender =
         if (current.component === 'slot') {
           const slotName = current.name || 'default'
           if (typeof slots[slotName] === 'function') {
-            const slotNodes = (slots[slotName] || nonArrayFunction)(
-              current.props || {}
+            slotIncludes.push(() =>
+              (slots[slotName] || nonArrayFunction)(current.props)
             )
-            slotNodes.forEach((n) => slotIncludes.push(n))
           }
         } else {
           slotIncludes.push(field.children[key][i])
