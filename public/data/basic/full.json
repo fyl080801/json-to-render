@@ -104,34 +104,34 @@
                 },
                 { "component": "p", "text": "$:GET(model, 'obj.selected')" }
               ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "多选" },
+              "children": [
+                {
+                  "component": "el-checkbox-group",
+                  "model": "model.selects",
+                  "children": [
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 1 },
+                      "children": [{ "component": "span", "text": "选项1" }]
+                    },
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 2 },
+                      "children": [{ "component": "span", "text": "选项2" }]
+                    },
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 3 },
+                      "children": [{ "component": "span", "text": "选项3" }]
+                    }
+                  ]
+                }
+              ]
             }
-            // {
-            //   "component": "el-form-item",
-            //   "props": { "label": "多选" },
-            //   "children": [
-            //     {
-            //       "component": "el-checkbox-group",
-            //       "model": "model.selects",
-            //       "children": [
-            //         {
-            //           "component": "el-checkbox",
-            //           "props": { "label": 1 },
-            //           "children": [{ "component": "span", "text": "选项1" }]
-            //         },
-            //         {
-            //           "component": "el-checkbox",
-            //           "props": { "label": 2 },
-            //           "children": [{ "component": "span", "text": "选项2" }]
-            //         },
-            //         {
-            //           "component": "el-checkbox",
-            //           "props": { "label": 3 },
-            //           "children": [{ "component": "span", "text": "选项3" }]
-            //         }
-            //       ]
-            //     }
-            //   ]
-            // }
           ]
         },
         {
@@ -173,66 +173,66 @@
       "component": "el-select",
       "model": "model.select2",
       "children": "$:[1,2,3].map(item=>({ component: 'el-option', props: { value: item, label: `select ${item}` } }))"
+    },
+    {
+      "component": "el-table",
+      "props": {
+        "ref": "tb",
+        "data": "$:remotedata.data"
+      },
+      "children": [
+        {
+          "component": "el-table-column",
+          "props": { "label": "col1", "prop": "name" }
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "col2" },
+          "children": [
+            {
+              "component": "el-input",
+              "model": "#:remotedata.data[${scope.$index}].name"
+            }
+          ]
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "col3" },
+          "children": [
+            {
+              "component": "el-input",
+              "events": [
+                {
+                  "name": "update:modelValue",
+                  "handler": "@remotedata.data[${scope.$index}].name:arguments[0]"
+                }
+              ],
+              "props": {
+                "modelValue": "$:remotedata.data[scope.$index].name"
+              }
+            }
+          ]
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "操作" },
+          "children": [
+            {
+              "component": "el-button",
+              "text": "明细",
+              "events": [
+                {
+                  "name": "click",
+                  "handler": "@:alert(JSON.stringify(remotedata.data[scope.$index]))"
+                }
+              ],
+              "props": {
+                "type": "text"
+              }
+            }
+          ]
+        }
+      ]
     }
-    // {
-    //   "component": "el-table",
-    //   "props": {
-    //     "ref": "tb",
-    //     "data": "$:remotedata.data"
-    //   },
-    //   "children": [
-    //     {
-    //       "component": "el-table-column",
-    //       "props": { "label": "col1", "prop": "name" }
-    //     },
-    //     {
-    //       "component": "el-table-column",
-    //       "props": { "label": "col2" },
-    //       "children": [
-    //         {
-    //           "component": "el-input",
-    //           "model": "#:remotedata.data[${scope.$index}].name"
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       "component": "el-table-column",
-    //       "props": { "label": "col3" },
-    //       "children": [
-    //         {
-    //           "component": "el-input",
-    //           "events": [
-    //             {
-    //               "name": "update:modelValue",
-    //               "handler": "@remotedata.data[${scope.$index}].name:arguments[0]"
-    //             }
-    //           ],
-    //           "props": {
-    //             "modelValue": "$:remotedata.data[scope.$index].name"
-    //           }
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       "component": "el-table-column",
-    //       "props": { "label": "操作" },
-    //       "children": [
-    //         {
-    //           "component": "el-button",
-    //           "text": "明细",
-    //           "events": [
-    //             {
-    //               "name": "click",
-    //               "handler": "@:alert(JSON.stringify(remotedata.data[scope.$index]))"
-    //             }
-    //           ],
-    //           "props": {
-    //             "type": "text"
-    //           }
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // }
   ]
 }
