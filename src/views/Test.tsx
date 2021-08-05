@@ -1,23 +1,22 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
 
 export default defineComponent({
   setup() {
+    const model = reactive({ checks: [] })
+
     const active = ref({
-      model: { text: 'xxx' },
+      model: { text: 'xxx', arr: ['aaa', 'bbb'] },
       fields: [
         {
-          component: 'p',
-          props: { innerText: '$:raw.zzz' },
-        },
-        {
-          component: 'p',
-          props: { innerText: '$:model.text' },
-        },
-        {
-          component: 'input',
+          component: 'el-checkbox-group',
+          model: 'model.arr',
           props: {
-            onInput: '@raw.zzz:arguments[0].target.value',
+            // modelValue: model.checks,
+            // 'onUpdate:modelValue': (value: never[]) => {
+            //   model.checks = value
+            // },
           },
+          children: [{ component: 'el-checkbox', props: { label: 'option1' } }],
         },
       ],
       datasource: {
@@ -32,8 +31,8 @@ export default defineComponent({
     })
 
     const onSetup = ({ datasource }: any) => {
-      datasource('rawdata', (props: any) => {
-        return props.data
+      datasource('rawdata', (options: any) => {
+        return options.props.data
       })
     }
 

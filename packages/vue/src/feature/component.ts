@@ -21,7 +21,7 @@ export class ComponentService {
   private providers: Record<string, any> = {
     direct: (field: any, scope: any) => {
       return h(
-        resolveComponent(field.component),
+        resolveComponent(field.component) as any,
         field.props,
         this.renderMany(field.children, scope)
       )

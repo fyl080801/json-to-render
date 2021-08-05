@@ -1,8 +1,8 @@
 import {
-  assignObject,
+  // assignObject,
   isFunction,
-  assignArray,
-  forEachTarget,
+  // assignArray,
+  // forEachTarget,
   isArray,
   isObject,
   createToken,
@@ -51,13 +51,15 @@ export class ProxyService {
       }
 
       const value = Reflect.get(target, p, receiver)
-
       const handler: ProxyHandler | undefined = this.getHandler()(value)
+      const result = handler && isFunction(handler) ? handler(context) : value
 
-      return this.inject(
-        handler && isFunction(handler) ? handler(context) : value,
-        context
-      )
+      return this.inject(result, context)
+
+      // return this.inject(
+      //   handler && isFunction(handler) ? handler(context) : value,
+      //   context
+      // )
     }
 
     return new Proxy(origin, { get })
@@ -88,7 +90,10 @@ export const isRejectProxy = (target: unknown) => {
 
 export const isAllowedProxy = (target: unknown) => {
   return (
-    !!target && !isRejectProxy(target) && (isObject(target) || isArray(target))
+    !!target &&
+    !isRejectProxy(target) &&
+    !isFunction(target) &&
+    (isObject(target) || isArray(target))
   )
 }
 
@@ -101,15 +106,17 @@ export const getProxyDefine = (target: any) => {
     return target
   }
 
-  const assign = isArray(target) ? assignArray : assignObject
+  const result = isProxy(target) ? target[ProxyFlags.PROXY_DEFINE] : target
 
-  const result = assign(
-    isProxy(target) ? target[ProxyFlags.PROXY_DEFINE] : target
-  )
+  // const assign = isArray(target) ? assignArray : assignObject
 
-  forEachTarget(result, (value: any, prop: any) => {
-    result[prop] = getProxyDefine(value)
-  })
+  // const result = assign(
+  //   isProxy(target) ? target[ProxyFlags.PROXY_DEFINE] : target
+  // )
+
+  // forEachTarget(result, (value: any, prop: any) => {
+  //   result[prop] = getProxyDefine(value)
+  // })
 
   return result
 }

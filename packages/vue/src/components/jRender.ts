@@ -4,7 +4,6 @@ import {
   ref,
   resolveComponent,
   watch,
-  toRaw,
   nextTick,
   onBeforeUnmount,
   reactive,
@@ -21,6 +20,8 @@ import {
   proxyServiceToken,
   isArray,
   isFunction,
+  assignObject,
+  assignArray,
 } from '@json2render/core'
 import {
   ComponentService,
@@ -45,7 +46,7 @@ export default defineComponent({
   emits: ['setup', 'update:modelValue'],
   setup: (props, ctx) => {
     const context: ProxyContext = reactive({
-      model: toRaw(props.modelValue),
+      model: assignObject(props.modelValue),
       scope: {},
       refs: {},
     })
@@ -76,7 +77,7 @@ export default defineComponent({
 
         root.field = {
           component: props.component,
-          children: toRaw(value || []),
+          children: assignArray(value || []),
         }
 
         root.scope = {}
@@ -91,7 +92,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (value) => {
-        context.model = toRaw(value || {})
+        context.model = assignObject(value || {})
       },
       { deep: false, immediate: false }
     )

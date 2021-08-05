@@ -8,7 +8,7 @@ import { getState } from '../store'
 import {
   childrenPrerender,
   componentServiceToken,
-  injectPrerender,
+  // injectPrerender,
   prerenderServiceToken,
   renderServiceToken,
   slotsPrerender,
@@ -24,7 +24,7 @@ export default defineComponent({
   setup: (props) => {
     const container: any = getState()
 
-    const nodeField = ref<any>({})
+    const nodeField = ref<any>(assignObject(props.field))
     const prerender = container.resolve(prerenderServiceToken)
     const render = container.resolve(renderServiceToken)
     const proxy = container.resolve(proxyServiceToken)
@@ -38,32 +38,33 @@ export default defineComponent({
     watch(
       () => props.field,
       (value) => {
+        let watchField = assignObject(value)
+
         prerender.process(
-          proxy.inject(value, injectedContext),
+          watchField,
           injectedContext
         )(
           ...[
             childrenPrerender,
             slotsPrerender(slots),
-            injectPrerender(nodeField),
-          ].map((invoke) => ({ invoke }))
+            () => (field: any, next: Function) => {
+              watchField = field
+              next(watchField)
+            },
+          ].map((invoke) => ({
+            invoke,
+          }))
         )
+
+        nodeField.value = proxy.inject(watchField, injectedContext)
       },
       { deep: false, immediate: true }
     )
 
     return () => {
-      let renderField = assignObject(nodeField.value)
+      const renderField = assignObject(nodeField.value)
 
-      render.process(
-        renderField,
-        injectedContext
-      )({
-        invoke: () => (field: any, next: any) => {
-          renderField = field
-          next(renderField)
-        },
-      })
+      render.process(renderField, injectedContext)()
 
       const rendered = component.renderNode(renderField, props.scope)
 
