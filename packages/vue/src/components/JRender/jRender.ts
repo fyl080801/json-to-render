@@ -12,7 +12,7 @@ import {
 import { containerBuilder, createSetup } from '../service'
 import { createStore } from '../store'
 import { innerDataNames } from '../utils/enums'
-import JNode from './jNode'
+import JNode from './VJNode'
 import {
   ProxyContext,
   proxyContextToken,

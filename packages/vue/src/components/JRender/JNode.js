@@ -9,52 +9,50 @@ import {
   resolveDynamicComponent,
   nextTick,
 } from 'vue'
-import { getState } from '../store'
-// import { injectProxy } from './proxy'
-import {
-  cloneDeep,
-  assignArray,
-  proxyServiceToken,
-  proxyContextToken,
-} from '@json2render/core'
+import { injectProxy } from './proxy'
+import { deepClone, assignArray } from '@/utils/helpers'
 import { useJRender } from './mixins'
-// import { useRenderStore } from '@/store'
-// import { useCustomComponent } from '../DesignElement/mixins'
+import { useRenderStore } from '@/store'
+import { useCustomComponent } from '../DesignElement/mixins'
 
 export default defineComponent({
   name: 'JNode',
   props: { field: Object },
   setup: (props) => {
-    // const { getBeforeRenders, getComponent } = useRenderStore()
+    const { getBeforeRenders, getComponent } = useRenderStore()
     const {
       slots,
       components, // 这个render单独注册的组件
-      // context,
+      context,
       beforeRenderHandlers,
-    } = useJRender() as any
+    } = useJRender()
 
-    const container: any = getState()
+    const customFields = useCustomComponent()
 
-    const proxy = container.resolve(proxyServiceToken)
-    const context = container.resolve(proxyContextToken)
+    const customFieldIds = computed(() => {
+      return customFields.map((item) => item.nodeId)
+    })
 
     const updating = ref(false)
 
-    // const injector = proxy.inject(context)
+    const injector = injectProxy(context)
 
     const nodeField = ref()
 
     const nodeChildren = computed(() => {
       const slotChildren = nodeField.value?.children?.reduce(
-        (target: any, child: any) => {
+        (target, child) => {
           const slotName = child.slot || 'default'
           target[slotName] ||= []
 
-          if (child.component === 'slot') {
+          if (
+            child.component === 'slot' &&
+            customFieldIds.value.includes(child.nodeId)
+          ) {
             const scoped = (slots[child.name || 'default'] || new Function())(
               child.props || {}
             )
-            scoped?.forEach((s: any) => {
+            scoped?.forEach((s) => {
               target[slotName].push(s)
             })
           } else {
@@ -72,7 +70,7 @@ export default defineComponent({
     const nodeSlots = computed(() => {
       return Array.from(
         new Set(
-          nodeField.value?.children?.map((item: any) => item.slot || 'default')
+          nodeField.value?.children?.map((item) => item.slot || 'default')
         )
       )
     })
@@ -97,15 +95,15 @@ export default defineComponent({
         children: undefined,
       }),
       (value) => {
-        const node = { ...cloneDeep(value), children: props.field?.children }
+        let node = { ...deepClone(value), children: props.field.children }
 
-        // assignArray(beforeRenderHandlers, getBeforeRenders()).forEach(
-        //   (handler) => {
-        //     node = handler(node)
-        //   }
-        // )
+        assignArray(beforeRenderHandlers, getBeforeRenders()).forEach(
+          (handler) => {
+            node = handler(node)
+          }
+        )
 
-        nodeField.value = proxy.inject(node, context)
+        nodeField.value = injector(node)
       },
       { deep: true, immediate: true }
     )
@@ -117,17 +115,17 @@ export default defineComponent({
 
       const renderField =
         toRaw(
-          components.get(nodeField.value?.component)
-          // || getComponent(nodeField.value?.component)
+          components.get(nodeField.value?.component) ||
+            getComponent(nodeField.value?.component)
         ) || nodeField.value?.component
 
       const renderChildren = Object.keys(nodeChildren.value).reduce(
-        (target: any, key) => {
+        (target, key) => {
           target[key] = () =>
-            nodeChildren.value[key].map((item: any) => {
+            nodeChildren.value[key].map((item) => {
               return typeof item === 'string' || isVNode(item)
                 ? item
-                : h(resolveDynamicComponent('JNode') as any, {
+                : h(resolveDynamicComponent('JNode'), {
                     field: item,
                     key: item.nodeId,
                   })
@@ -140,7 +138,7 @@ export default defineComponent({
       return (
         renderField &&
         h(
-          resolveDynamicComponent(renderField) as any,
+          resolveDynamicComponent(renderField),
           nodeField.value.props,
           renderChildren
         )

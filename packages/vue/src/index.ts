@@ -1,13 +1,13 @@
-import jRender from './components/jRender'
+import JRender from './components/JRender.vue'
 import { globalSetup } from './service'
 import { JRenderPlugin } from './types'
 
 export * from './types'
 
 const plugin: JRenderPlugin = {
-  ...jRender,
+  ...JRender,
   install: (app: any) => {
-    app.component(jRender.name, jRender)
+    app.component('jrender', JRender)
   },
   use: globalSetup,
 }

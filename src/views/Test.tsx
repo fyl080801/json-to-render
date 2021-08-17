@@ -9,9 +9,10 @@ export default defineComponent({
       fields: [
         {
           component: 'el-checkbox-group',
-          model: 'model.arr',
+          // model: 'model.arr',
           props: {
-            // modelValue: model.checks,
+            modelValue: '$:model.arr',
+            'onUpdate:modelValue': '@model.arr:arguments[0]',
             // 'onUpdate:modelValue': (value: never[]) => {
             //   model.checks = value
             // },
@@ -31,21 +32,21 @@ export default defineComponent({
     })
 
     const onSetup = ({ datasource }: any) => {
-      datasource('rawdata', (options: any) => {
-        return options.props.data
-      })
+      // datasource('rawdata', (options: any) => {
+      //   return options.props.data
+      // })
     }
 
     return () => (
       <div>
-        <v-jrender
+        <jrender
           v-model={active.value.model}
           fields={active.value.fields}
           datasource={active.value.datasource}
           listeners={active.value.listeners}
           onSetup={onSetup}
           class="j-form"
-        ></v-jrender>
+        ></jrender>
       </div>
     )
   },
