@@ -1,11 +1,11 @@
 import { defineConfig } from "vite";
-import { plugins } from "./vite.plugin";
+// import { plugins } from "./vite.plugin";
 
 const config = defineConfig({
   build: {
     minify: true,
   },
-  plugins,
+  // plugins,
 
   // rollupOptions: {
   //   // 确保外部化处理那些你不想打包进库的依赖

@@ -11,7 +11,7 @@ useGlobalRender(({ useProvider, onBeforeRender }) => {
     next(field);
   });
 
-  onBeforeRender(({ props }) => {
+  onBeforeRender(() => {
     let i = null;
     let timer = null;
 
