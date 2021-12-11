@@ -5,18 +5,29 @@
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/vue3.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.umd.js",
+      "import": "./dist/index.es.js"
+    }
+  },
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "clean": "rimraf dist",
+    "dist": "vite build"
+  },
+  "dependencies": {
+    "@json2render/core": "^1.0.0",
+    "mobx": "^6.3.8"
   }
 }
