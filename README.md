@@ -1,155 +1,130 @@
-# Json to Render
+# 说明
 
-[![Build Status](https://travis-ci.com/fyl080801/json-to-render.svg?branch=master)](https://travis-ci.com/fyl080801/json-to-render)
+只是一个实验性项目，由于某些原因 vue2 的需求还需要用
 
-将 json 数据渲染成界面的 vue 组件库，是根据 [vjform 动态表单](https://github.com/fyl080801/vjform)、[jformer 动态表单](https://github.com/fyl080801/jformer) 以及[vjdesign 设计器](https://github.com/fyl080801/vjdesign) 相关项目开发的 vue3 版本
+## 表达式
 
-详细参考[说明文档](https://fyl080801.github.io/json-to-render/)
+通过 `$:<path>` 将值绑定到属性上
 
-## 特性
-
-- 将 json 数据渲染成界面
-- 支持 vue3
-- 支持任何 html 组件和 vue 项目中引用的组件进行渲染，支持组件任何属性
-- 支持将 json 数据特殊对象转换成数据关联关系实现联动
-- 支持二次开发 json 属性解析方式、数据交互来源与渲染逻辑
-
-## 示例项目
-
-此项目安装依赖
-
-```bash
-npm install
+```json
+{
+  "text": "$:model.text"
+}
 ```
 
-```bash
-npm run dev
+支持函数表达式
+
+```json
+{
+  "events": {
+    "click": "$:()=>{ alert('clicked') }"
+  }
+}
 ```
 
-或
+## 渲染前处理
 
-```bash
-yarn install
+通过定义渲染前处理实现改变将要渲染的节点功能
 
+例如：原始定义如下
+
+```json
+{
+  "component": "el-input",
+  "formItem": { "label": "input" },
+  "props": { "value": "$:model.obj.text", "placeholder": "input value" },
+  "events": { "input": "$:(e)=>SET(model, 'obj.text', e)" }
+}
 ```
 
-```bash
-yarn run dev
-```
-
-## 快速上手
-
-使用 npm 安装
-
-```bash
-npm i @json2render/vue-full
-```
-
-实现一个简单示例
-
-main.js
+定义一个处理 formItem 的方法
 
 ```javascript
-import { createApp } from 'vue'
-import App from './App.vue'
-import JRender from '@json2render/vue-full'
-
-createApp(App).use(JRender).mount('#app')
-```
-
-App.vue
-
-```vue
-<template>
-  <div>
-    <v-jrender v-model="model" :fields="fields" />
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      model: { text1: 'Hello world!!' },
-      fields: [
-        { component: 'p', text: '$:model.text1' },
-        { component: 'input', value: 'model.text1' },
-      ],
+const onSetup = ({ onBeforeRender }) => {
+  onBeforeRender(() => (field, next) => {
+    if (!field.formItem) {
+      next(field);
+      return;
     }
-  },
-})
-</script>
+
+    const formItem = field.formItem;
+
+    delete field.formItem;
+
+    return { component: "el-form-item", props: formItem, children: [field] };
+  });
+};
 ```
 
-## 示例
-
-示例 1: [简单示例](http://jsrun.net/2PaKp)
-
-示例 2: [Element 组件](http://jsrun.net/8PaKp)
-
-## 说明
-
-### 渲染组件
-
-一般的定义形式如下
+输出结果
 
 ```html
-<v-jrender
-  v-model="model"
-  :fields="fields"
-  :datasource="datasource"
-  :listeners="listeners"
-  @setup="onsetup"
-/>
+<el-form-item label="input">
+  <el-input :value="model.obj.text" @input="(e)=>SET(model, 'obj.text', e)" />
+</el-form-item>
 ```
 
-- v-model: 数据
-- fields: 组件集合
-- datasource: 自定义数据源集合
-- listeners: 监听集合
-- setup: setup 事件
+## 功能函数
 
-### 组件定义
+可在表达式中使用功能函数
 
-组件定义包括 `component` `props` `children` 三个基本属性
+```yaml
+- component: el-checkbox
+  formItem:
+    label: checked
+  props:
+    value: $:GET(model, 'checked') # GET 深度获取值
+  events:
+    input: $:(e)=>SET(model, 'checked', e) # 深度设置值
+```
 
-- component: 组件类型名，只要 html 标签或是项目中引用的组件都可以作为类型名
-- props: 组件的属性，vue3.0 中组件属性、html 属性、事件的定义可以直接定义到一个对象里
-- children: 组件嵌套的下级组件集合
+可使用 addFunction 添加自定义功能函数
 
-### 组件属性代理
+```javascript
+import { nextTick } from "vue-demi";
 
-组件定义会被转换成代理对象，组件属性值如果是符合特定的表达式则在运行时会被转换成真实逻辑
+useRootRender(({ addFunction }: any) => {
+  addFunction("NEXTTICK", (cb: any) => {
+    nextTick(cb);
+  });
+});
+```
 
-### 渲染钩子
+支持设置监听，实现数据发生变化后触发操作
 
-在组件被渲染之前会触发传渲染钩子行为，可在渲染之前改变组件的属性，有两个钩子执行的时机
+```yaml
+listeners:
+  - watch: $:GET(model, 'arr', []).length
+    actions:
+      - handler: |
+          $:() => {
+            SET(model, 'checked', false); 
+            NEXTTICK(() => { SET(model, 'checked', true) }); 
+          }
+```
 
-- prerender: 相当于组件 setup 阶段，如果组件定义不被改变则只会执行一次
-- render: 相当于每次渲染之前都会被执行
+## 提交规范
 
-### 数据源
+feat: 增加订单详情 closes xxxx (closes 非必需)
 
-数据源就是数据的来源，可在组件属性表达式里使用的数据，默认支持 `model` `scope` `arguments` `refs` 这几种数据来源
+fix: 修复 xx 情况下 xx 问题 closes xxxx (closes 非必需)
 
-- model: 通过 v-model 传递过来的数据
-- scope: 当前组件渲染时候由父级数据传递过来的当前数据成员，相当于 scoped-slot
-- arguments: 如果当前属性表达式是一个函数，则 arguments 就是函数接收的参数数组
-- refs: 如果在组件的 props 里设置 ref 属性，则可以通过 refs 获取组件的实例
+docs: 修改 md 文件
 
-除了以上几种数据源外，还支持自定义数据源
+style: 修改订单列表样式
 
-### 扩展行为
+refactor: 重构 utils.js 下部分方法
 
-支持扩展组件属性代理行为、渲染钩子、数据源，实现自定义渲染规则
+chore: 增加 xxx 插件/xxxxloader
 
-## 相关链接
+revert: 回退当前版本 667ec 到 sssee2
 
-[说明文档](https://fyl080801.github.io/json-to-render/) 完善中...
+perf: 优化了 xxx，提高了渲染速度
 
-## 关于
+test：增加测试
 
-- 基于 vue2.0 的 vjdesign 设计器定义的配置是否能在这里使用
+improvement: 改进
 
-因为基于 vue2.0 的组件如果不做特殊适配基本上不能在 vue3.0 使用因此不能兼容，但是如果组件库 vue2.0 的属性和 vue3.0 的属性一致，则可以使用自定义渲染钩子将组件属性转换成适用于 vue3.0 的定义实现兼容
+build: 打包
+
+ci: 持续集成

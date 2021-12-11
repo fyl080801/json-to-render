@@ -1,5 +1,5 @@
 {
-  "name": "@json2render/core",
+  "name": "@json2render/vue2",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
@@ -27,6 +27,8 @@
     "dist": "vite build"
   },
   "dependencies": {
-    "mobx": "^6.3.8"
+    "@json2render/core": "^1.0.0",
+    "mobx": "^6.3.8",
+    "mobx-vue": "^2.1.0"
   }
 }

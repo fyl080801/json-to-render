@@ -1,11 +1,11 @@
-# `@json2render/core`
+# `@json2render/vue2`
 
 > TODO: description
 
 ## Usage
 
 ```
-const core = require('@json2render/core');
+const vue2 = require('@json2render/vue2');
 
 // TODO: DEMONSTRATE API
 ```
