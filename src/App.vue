@@ -8,6 +8,7 @@ useGlobalRender(({ useProvider, onBeforeRender }) => {
 
   onBeforeRender(() => (field, next) => {
     field.class = ["j2r"];
+
     next(field);
   });
 
@@ -45,7 +46,11 @@ const render = createRender({
       component: "div",
       children: [
         { component: "p", rel: 5, domProps: { innerText: "aaaaa" } },
-        { component: "p", domProps: { innerText: "$:model.text" } },
+        {
+          component: "p",
+          if: "$:model.text.length!==5",
+          domProps: { innerText: "$:model.text" },
+        },
       ],
     },
     {

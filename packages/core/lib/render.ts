@@ -1,5 +1,5 @@
 import { createServiceProvider, globalServiceProvider, mergeServices } from "./service";
-import { isArray, isDom, isFunction } from "./helper";
+import { isArray, isDom, isFunction, noop } from "./helper";
 import { injectProxy, getProxyDefine } from "./proxy";
 import { pipeline } from "./pipeline";
 import { runInAction, observable, toJS } from "mobx";
@@ -17,7 +17,15 @@ const unsetCurrentInstance = () => {
 };
 
 export const render = (props) => {
-  const { services, context } = getCurrentInstance();
+  const instance = getCurrentInstance();
+
+  if (!instance) {
+    return noop;
+  }
+
+  const { context, field } = props;
+
+  const { services } = instance;
 
   const injector = injectProxy({
     context,
@@ -26,31 +34,26 @@ export const render = (props) => {
   });
 
   const renderField = observable({
-    field: null,
+    value: null,
   });
 
   pipeline(
     ...[
       ...services.beforeRenderHandlers.map((item) => item.handler),
-      () => (fieldScope, next) => {
+      () => (field, next) => {
         runInAction(() => {
-          renderField.field = fieldScope;
-          next(renderField);
+          renderField.value = field;
+          next(renderField.value);
         });
       },
-      // ...services.renderHandlers.map((item) => item.handler),
-      // () => (field, next) => {
-      //   renderField = field;
-      //   next(renderField);
-      // },
-    ].map((provider) => provider({ context, props })),
-  )(toJS(getProxyDefine(props.field)));
+    ].map((provider) => provider({ context, props, injector })),
+  )(toJS(getProxyDefine(field)));
 
-  return services.provider(injector(observable(renderField)));
+  return services.provider(injector(renderField), context);
 };
 
 export const createRender = (props) => {
-  const { fields } = props;
+  const { fields, dataSource, listeners } = props;
 
   const serviceProvider = createServiceProvider();
 
@@ -65,7 +68,6 @@ export const createRender = (props) => {
 
   const instance = {
     services,
-    context,
   };
 
   const rootRender = (elm) => {
@@ -89,11 +91,13 @@ export const createRender = (props) => {
 
           renderRoot.parentElement?.insertBefore(root, renderRoot);
 
-          render({ field })(root);
+          render({ field, context })(root);
         });
         renderRoot.remove();
       } else {
-        render({ field: isArray(fields) && fields.length > 0 ? fields[0] : fields })(renderRoot);
+        render({ field: isArray(fields) && fields.length > 0 ? fields[0] : fields, context })(
+          renderRoot,
+        );
       }
     } finally {
       unsetCurrentInstance();
