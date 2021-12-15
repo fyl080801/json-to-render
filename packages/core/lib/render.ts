@@ -57,20 +57,20 @@ export const createRender = (props) => {
 
   const serviceProvider = createServiceProvider();
 
-  const services = mergeServices(
-    globalServiceProvider.getServices(),
-    serviceProvider.getServices(),
-  );
-
   const context = observable({
     model: {},
   });
 
-  const instance = {
-    services,
-  };
-
   const rootRender = (elm) => {
+    const services = mergeServices(
+      globalServiceProvider.getServices(),
+      serviceProvider.getServices(),
+    );
+
+    const instance = {
+      services,
+    };
+
     if (!isFunction(services.provider)) {
       return;
     }

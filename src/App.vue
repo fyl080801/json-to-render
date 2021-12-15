@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "@vue/composition-api";
 import { useGlobalRender, createRender } from "@json2render/core";
-import { vueProvider } from "@json2render/vue2";
+import { provider } from "@json2render/vue2";
+import * as canvas from "@json2render/html-canvas";
 
 useGlobalRender(({ useProvider, onBeforeRender }) => {
-  useProvider(vueProvider);
+  useProvider(provider);
 
   onBeforeRender(() => (field, next) => {
     field.class = ["j2r"];
@@ -66,13 +67,30 @@ const render = createRender({
   ],
 });
 
+const render2 = createRender({
+  fields: {
+    component: "block",
+    fillStyle: "#FF0000",
+    fillRect: [0, 0, 80, 100],
+  },
+}).use(({ useProvider }) => {
+  useProvider(canvas.provider);
+});
+
 const rootRef = ref();
+
+const canvasRef = ref();
 
 onMounted(() => {
   render.render(rootRef.value);
+
+  render2.render(canvasRef.value);
 });
 </script>
 
 <template>
-  <div ref="rootRef">app</div>
+  <div>
+    <div ref="rootRef"></div>
+    <div ref="canvasRef"></div>
+  </div>
 </template>
