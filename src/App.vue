@@ -62,6 +62,12 @@ const render = createRender({
           domProps: { value: "$:model.text" },
           on: { input: "$:(e)=>model.text=e.target.value" },
         },
+        {
+          component: "el-input",
+          props: { value: "$:model.text" },
+          style: { width: "auto" },
+          on: { input: "$:(e)=>model.text=e" },
+        },
       ],
     },
   ],
@@ -72,6 +78,13 @@ const render2 = createRender({
     component: "block",
     fillStyle: "#FF0000",
     fillRect: [0, 0, 80, 100],
+    children: [
+      {
+        component: "block",
+        fillStyle: "blue",
+        fillRect: [70, 20, 80, 100],
+      },
+    ],
   },
 }).use(({ useProvider }) => {
   useProvider(canvas.provider);

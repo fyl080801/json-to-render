@@ -1,16 +1,14 @@
 import { render } from "@json2render/core";
 
 export const provider = (field, context) => {
-  let root = null;
-  let canvas = null;
-
   return (elm) => {
-    if (!root || !canvas) {
-      root = elm;
+    let canvas;
 
+    if (elm.tagName.toLowerCase() === "canvas") {
+      canvas = elm;
+    } else {
       canvas = document.createElement("canvas");
-
-      root.appendChild(canvas);
+      elm.appendChild(canvas);
     }
 
     // 绘制
@@ -20,7 +18,7 @@ export const provider = (field, context) => {
     ctx.fillRect(...field.value.fillRect);
 
     field.value.children?.forEach((child) => {
-      render({ field: child, context })();
+      render({ field: child, context })(canvas);
     });
   };
 };
