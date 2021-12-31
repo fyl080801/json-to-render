@@ -40,8 +40,8 @@
 定义一个处理 formItem 的方法
 
 ```javascript
-const onSetup = ({ onBeforeRender }) => {
-  onBeforeRender(() => (field, next) => {
+const onSetup = ({ onBeforeBind }) => {
+  onBeforeBind(() => (field, next) => {
     if (!field.formItem) {
       next(field);
       return;

@@ -39,7 +39,7 @@ export const render = (props) => {
 
   pipeline(
     ...[
-      ...services.beforeRenderHandlers.map((item) => item.handler),
+      ...services.beforeBindHandlers.map((item) => item.handler),
       () => (field, next) => {
         runInAction(() => {
           renderField.value = field;
@@ -49,7 +49,7 @@ export const render = (props) => {
     ].map((provider) => provider({ context, props, injector })),
   )(toJS(getProxyDefine(field)));
 
-  return services.provider(injector(renderField), context);
+  return services.provider(injector(renderField), { context, injector });
 };
 
 export const createRender = (props) => {

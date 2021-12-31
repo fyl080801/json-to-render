@@ -4,16 +4,16 @@ import { useGlobalRender, createRender } from "@json2render/core";
 import { provider } from "@json2render/vue2";
 import * as canvas from "@json2render/html-canvas";
 
-useGlobalRender(({ useProvider, onBeforeRender }) => {
+useGlobalRender(({ useProvider, onBeforeBind }) => {
   useProvider(provider);
 
-  onBeforeRender(() => (field, next) => {
+  onBeforeBind(() => (field, next) => {
     field.class = ["j2r"];
 
     next(field);
   });
 
-  onBeforeRender(() => {
+  onBeforeBind(() => {
     let i = null;
     let timer = null;
 
@@ -67,6 +67,9 @@ const render = createRender({
           props: { value: "$:model.text" },
           style: { width: "auto" },
           on: { input: "$:(e)=>model.text=e" },
+          children: [
+            { component: "span", slot: "append", domProps: { innerText: "$:model.text" } },
+          ],
         },
       ],
     },

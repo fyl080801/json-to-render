@@ -1,6 +1,6 @@
 import { assignObject } from "./helper";
 import { isArray, isDom, isFunction, isObject } from "./helper";
-import { observable, runInAction, toJS } from "mobx";
+import { runInAction } from "mobx";
 
 const PROXY = "__j_proxy";
 const RAW = "__j_raw";

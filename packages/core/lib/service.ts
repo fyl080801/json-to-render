@@ -40,8 +40,7 @@ export const createServiceProvider = () => {
     provider: null,
     functional: {},
     components: {},
-    beforeRenderHandlers: [],
-    renderHandlers: [],
+    beforeBindHandlers: [],
     proxy: [],
     store: {},
   };
@@ -58,37 +57,11 @@ export const createServiceProvider = () => {
       }
       return instance;
     },
-    onBeforeRender: (handler) => {
+    onBeforeBind: (handler) => {
       const hook = { name: `BR_${uuid(5)}`, provider: null, dependencies: [], handler };
 
       if (isFunction(handler)) {
-        services.beforeRenderHandlers.push(hook);
-      }
-
-      const instance = {
-        name: (name) => {
-          hook.name = name;
-          return instance;
-        },
-        provider: (name) => {
-          hook.provider = name;
-          return instance;
-        },
-        depend: (name) => {
-          if (hook.dependencies.indexOf(name) < 0) {
-            hook.dependencies.push(name);
-          }
-          return instance;
-        },
-      };
-
-      return instance;
-    },
-    onRender: (handler) => {
-      const hook = { name: `R_${uuid(5)}`, provider: null, dependencies: [], handler };
-
-      if (isFunction(handler)) {
-        services.renderHandlers.push(hook);
+        services.beforeBindHandlers.push(hook);
       }
 
       const instance = {
@@ -147,8 +120,7 @@ export const mergeServices = (...services) => {
   const merged = {
     functional: {},
     proxy: [compute],
-    beforeRenderHandlers: [],
-    renderHandlers: [],
+    beforeBindHandlers: [],
     provider: null,
     store: {
       default: null,
@@ -169,8 +141,7 @@ export const mergeServices = (...services) => {
     });
   });
 
-  merged.beforeRenderHandlers = sortHandlers(merged.beforeRenderHandlers);
-  merged.renderHandlers = sortHandlers(merged.renderHandlers);
+  merged.beforeBindHandlers = sortHandlers(merged.beforeBindHandlers);
 
   return merged;
 };

@@ -27,6 +27,6 @@
     "dist": "vite build"
   },
   "dependencies": {
-    "mobx": "^6.3.8"
+    "mobx": "^6.3.10"
   }
 }

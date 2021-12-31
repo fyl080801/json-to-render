@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@json2render/core": "^1.0.0",
-    "mobx": "^6.3.8"
+    "mobx": "^6.3.10"
   }
 }
