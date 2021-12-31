@@ -2,7 +2,7 @@ import { createServiceProvider, globalServiceProvider, mergeServices } from "./s
 import { isArray, isDom, isFunction, noop } from "./helper";
 import { injectProxy, getProxyDefine } from "./proxy";
 import { pipeline } from "./pipeline";
-import { runInAction, observable, toJS } from "mobx";
+import { runInAction, observable, toJS, set, when } from "mobx";
 
 let currentInstance = null;
 
@@ -15,6 +15,64 @@ const setCurrentInstance = (instance) => {
 const unsetCurrentInstance = () => {
   currentInstance = null;
 };
+
+// const useListener = (props, { injector }) => {
+//   const watchList = [];
+//   when(
+//     [() => props.listeners, () => props.modelValue, () => props.dataSource, () => props.fields],
+//     () => {
+//       watchList.forEach((watcher) => watcher());
+//       watchList.length = 0;
+
+//       if (!props.listeners || !isArray(props.listeners)) {
+//         return;
+//       }
+
+//       nextTick(() => {
+//         props.listeners?.forEach((item) => {
+//           const injected = injector(deepClone(item));
+
+//           const watcher = isFunction(injected.watch)
+//             ? injected.watch
+//             : isArray(injected.watch)
+//             ? injected.watch.map((sw, index) => (isFunction(sw) ? sw : () => injected.watch[index]))
+//             : () => injected.watch;
+
+//           watchList.push(
+//             when(
+//               watcher,
+//               () => {
+//                 injected.actions?.forEach((action) => {
+//                   if (action.condition === undefined || !!action.condition) {
+//                     if (isFunction(action.handler)) {
+//                       if (action.timeout) {
+//                         setTimeout(() => {
+//                           action.handler();
+//                         }, action.timeout);
+//                       } else {
+//                         action.handler();
+//                       }
+//                     }
+//                   }
+//                 });
+//               },
+//               {
+//                 deep: injected.deep,
+//                 immediate: injected.immediate,
+//               },
+//             ),
+//           );
+//         });
+//       });
+//     },
+//     { deep: false, immediate: true },
+//   );
+
+//   // onBeforeUnmount(() => {
+//   //   watchList.forEach((watcher) => watcher());
+//   //   watchList.length = 0;
+//   // });
+// };
 
 export const render = (props) => {
   const instance = getCurrentInstance();
@@ -76,6 +134,26 @@ export const createRender = (props) => {
     }
 
     setCurrentInstance(instance);
+
+    const injector = injectProxy({
+      context,
+      scope: {},
+      proxy: services.proxy.map((p) => p({ functional: services.functional })),
+    });
+
+    // datasource
+    Object.keys(dataSource || {}).forEach((key) => {
+      const info = dataSource[key];
+      const provider = services.store[info.type || "default"];
+
+      if (["model", "scope", "arguments", "refs"].indexOf(key) < 0 && isFunction(provider)) {
+        set(
+          context,
+          key,
+          provider(() => injector(info.props)),
+        );
+      }
+    });
 
     try {
       const renderRoot =

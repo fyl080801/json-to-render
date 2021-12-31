@@ -1,5 +1,5 @@
 import { assignArray, assignObject, isArray, isFunction, isObject, uuid } from "./helper";
-import { compute } from "./inner";
+import { compute, rawData, GET, SET } from "./inner";
 
 const sortHandlers = (handlers) => {
   const maps = handlers.reduce((target, item) => {
@@ -118,12 +118,12 @@ export const createServiceProvider = () => {
 
 export const mergeServices = (...services) => {
   const merged = {
-    functional: {},
+    functional: { SET, GET },
     proxy: [compute],
     beforeBindHandlers: [],
     provider: null,
     store: {
-      default: null,
+      default: rawData,
     },
   };
 
