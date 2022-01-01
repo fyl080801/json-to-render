@@ -7,6 +7,7 @@ import {
   deepClone,
   getCurrentInstance,
   setCurrentInstance,
+  unsetCurrentInstance,
 } from "@json2render/core";
 import { isOriginTag } from "./domTags";
 
@@ -19,9 +20,19 @@ export const provider = (field, props) => {
     return Vue.component("JChild", {
       mounted() {
         // 这里 instance 丢失了，先强制给过去
-        setCurrentInstance(instance);
+        const nonInstance = !getCurrentInstance();
 
-        render(child, Object.assign({}, scope, s)).call(this, this.$el);
+        if (nonInstance) {
+          setCurrentInstance(instance);
+        }
+
+        try {
+          render(child, Object.assign({}, scope, s)).call(this, this.$el);
+        } finally {
+          if (nonInstance) {
+            unsetCurrentInstance();
+          }
+        }
       },
       render(h) {
         return h("div");
