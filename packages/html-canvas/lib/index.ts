@@ -1,6 +1,6 @@
 import { render } from "@json2render/core";
 
-export const provider = (field, context) => {
+export const provider = (field) => {
   return (elm) => {
     let canvas;
 
@@ -18,7 +18,7 @@ export const provider = (field, context) => {
     ctx.fillRect(...field.value.fillRect);
 
     field.value.children?.forEach((child) => {
-      render({ field: child, context })(canvas);
+      render(child)(canvas);
     });
   };
 };

@@ -1,14 +1,27 @@
 import Vue from "vue";
 import { observer } from "mobx-vue";
 import { toJS, computed } from "mobx";
-import { render, getProxyDefine, deepClone } from "@json2render/core";
+import {
+  render,
+  getProxyDefine,
+  deepClone,
+  getCurrentInstance,
+  setCurrentInstance,
+} from "@json2render/core";
 import { isOriginTag } from "./domTags";
 
-export const provider = (field, { context, injector }) => {
-  const createChildNode = (child) => {
+export const provider = (field, props) => {
+  const { injector, scope } = props;
+
+  const instance = getCurrentInstance();
+
+  const createChildNode = (child, s) => {
     return Vue.component("JChild", {
       mounted() {
-        render({ field: child, context })(this.$el);
+        // 这里 instance 丢失了，先强制给过去
+        setCurrentInstance(instance);
+
+        render(child, Object.assign({}, scope, s)).call(this, this.$el);
       },
       render(h) {
         return h("div");
@@ -61,39 +74,41 @@ export const provider = (field, { context, injector }) => {
           return h(
             field.value.component,
             {
-              domProps: toJS(field.value?.domProps),
               props: toJS(field.value?.props),
-              class: toJS(field.value?.class),
-              style: toJS(field.value?.style),
+              domProps: toJS(field.value?.domProps),
               on: injector(deepClone(getProxyDefine(field.value?.on))),
               nativeOn: injector(deepClone(getProxyDefine(field.value?.nativeOn))),
+              class: toJS(field.value?.class),
+              style: toJS(field.value?.style),
             },
             field.value.children?.map((child) => {
-              return h(createChildNode(child));
+              return h(createChildNode(child, {}));
             }),
           );
         } else {
           return h(
             field.value.component,
             {
-              domProps: toJS(field.value?.domProps),
+              attrs: toJS(field.value?.attrs),
               props: toJS(field.value?.props),
-              class: toJS(field.value?.class),
-              style: toJS(field.value?.style),
+              domProps: toJS(field.value?.domProps),
               on: injector(deepClone(getProxyDefine(field.value?.on))),
               nativeOn: injector(deepClone(getProxyDefine(field.value?.nativeOn))),
               scopedSlots: (renderSlots.get().scoped as any).reduce((target, item) => {
                 target[item.name] = (s) => {
                   return (item.children || []).map((field) => {
-                    return h(createChildNode(field));
+                    console.log(s);
+                    return h(createChildNode(field, s));
                   });
                 };
                 return target;
               }, {}),
+              class: toJS(field.value?.class),
+              style: toJS(field.value?.style),
             },
             (renderSlots.get().named as any).reduce((target, item) => {
               item.children.forEach((field) => {
-                target.push(h(createChildNode(field), { slot: item.name }));
+                target.push(h(createChildNode(field, {}), { slot: item.name }));
               });
               return target;
             }, []),
@@ -103,9 +118,12 @@ export const provider = (field, { context, injector }) => {
     }),
   );
 
-  return (elm) => {
+  return function (elm) {
     new Vue({
-      render: (h) => h(JNode),
+      parent: this,
+      render(h) {
+        return h(JNode);
+      },
     }).$mount(elm);
   };
 };

@@ -2,92 +2,34 @@ import { createServiceProvider, globalServiceProvider, mergeServices } from "./s
 import { isArray, isDom, isFunction, noop } from "./helper";
 import { injectProxy, getProxyDefine } from "./proxy";
 import { pipeline } from "./pipeline";
-import { runInAction, observable, toJS, set, when } from "mobx";
+import { runInAction, observable, toJS, set } from "mobx";
 
 let currentInstance = null;
 
-const getCurrentInstance = () => currentInstance;
+export const getCurrentInstance = () => currentInstance;
 
-const setCurrentInstance = (instance) => {
+export const setCurrentInstance = (instance) => {
   currentInstance = instance;
 };
 
-const unsetCurrentInstance = () => {
+export const unsetCurrentInstance = () => {
   currentInstance = null;
 };
 
-// const useListener = (props, { injector }) => {
-//   const watchList = [];
-//   when(
-//     [() => props.listeners, () => props.modelValue, () => props.dataSource, () => props.fields],
-//     () => {
-//       watchList.forEach((watcher) => watcher());
-//       watchList.length = 0;
-
-//       if (!props.listeners || !isArray(props.listeners)) {
-//         return;
-//       }
-
-//       nextTick(() => {
-//         props.listeners?.forEach((item) => {
-//           const injected = injector(deepClone(item));
-
-//           const watcher = isFunction(injected.watch)
-//             ? injected.watch
-//             : isArray(injected.watch)
-//             ? injected.watch.map((sw, index) => (isFunction(sw) ? sw : () => injected.watch[index]))
-//             : () => injected.watch;
-
-//           watchList.push(
-//             when(
-//               watcher,
-//               () => {
-//                 injected.actions?.forEach((action) => {
-//                   if (action.condition === undefined || !!action.condition) {
-//                     if (isFunction(action.handler)) {
-//                       if (action.timeout) {
-//                         setTimeout(() => {
-//                           action.handler();
-//                         }, action.timeout);
-//                       } else {
-//                         action.handler();
-//                       }
-//                     }
-//                   }
-//                 });
-//               },
-//               {
-//                 deep: injected.deep,
-//                 immediate: injected.immediate,
-//               },
-//             ),
-//           );
-//         });
-//       });
-//     },
-//     { deep: false, immediate: true },
-//   );
-
-//   // onBeforeUnmount(() => {
-//   //   watchList.forEach((watcher) => watcher());
-//   //   watchList.length = 0;
-//   // });
-// };
-
-export const render = (props) => {
+export const render = (input, scope?) => {
   const instance = getCurrentInstance();
 
   if (!instance) {
     return noop;
   }
 
-  const { context, field } = props;
+  const origin = toJS(getProxyDefine(input));
 
-  const { services } = instance;
+  const { services, context } = instance;
 
   const injector = injectProxy({
     context,
-    scope: {},
+    scope: scope || {},
     proxy: services.proxy.map((p) => p({ functional: services.functional })),
   });
 
@@ -104,10 +46,10 @@ export const render = (props) => {
           next(renderField.value);
         });
       },
-    ].map((provider) => provider({ context, props, injector })),
-  )(toJS(getProxyDefine(field)));
+    ].map((provider) => provider({ context, field: origin, scope: scope || {}, injector })),
+  )(origin);
 
-  return services.provider(injector(renderField), { context, injector });
+  return services.provider(injector(renderField), { context, scope, injector });
 };
 
 export const createRender = (props) => {
@@ -127,6 +69,7 @@ export const createRender = (props) => {
 
     const instance = {
       services,
+      context,
     };
 
     if (!isFunction(services.provider)) {
@@ -169,13 +112,11 @@ export const createRender = (props) => {
 
           renderRoot.parentElement?.insertBefore(root, renderRoot);
 
-          render({ field, context })(root);
+          render(field)(root);
         });
         renderRoot.remove();
       } else {
-        render({ field: isArray(fields) && fields.length > 0 ? fields[0] : fields, context })(
-          renderRoot,
-        );
+        render(isArray(fields) && fields.length > 0 ? fields[0] : fields)(renderRoot);
       }
     } finally {
       unsetCurrentInstance();
