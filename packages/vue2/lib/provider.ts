@@ -108,7 +108,6 @@ export const provider = (field, props) => {
               scopedSlots: (renderSlots.get().scoped as any).reduce((target, item) => {
                 target[item.name] = (s) => {
                   return (item.children || []).map((field) => {
-                    console.log(s);
                     return h(createChildNode(field, s));
                   });
                 };
