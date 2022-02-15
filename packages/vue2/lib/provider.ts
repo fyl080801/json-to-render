@@ -81,12 +81,12 @@ export const provider = (field, props) => {
           return h(
             field.value.component,
             {
-              props: toJS(field.value?.props),
-              domProps: toJS(field.value?.domProps),
-              on: injector(deepClone(getProxyDefine(field.value?.on))),
-              nativeOn: injector(deepClone(getProxyDefine(field.value?.nativeOn))),
-              class: toJS(field.value?.class),
-              style: toJS(field.value?.style),
+              props: field.value?.props,
+              domProps: deepClone(field.value?.domProps),
+              on: deepClone(field.value?.on),
+              nativeOn: deepClone(field.value?.nativeOn),
+              class: deepClone(field.value?.class),
+              style: deepClone(field.value?.style),
             },
             field.value.children?.map((child) => {
               return h(createChildNode(child, {}))
@@ -96,11 +96,11 @@ export const provider = (field, props) => {
           return h(
             field.value.component,
             {
-              attrs: toJS(field.value?.attrs),
-              props: toJS(field.value?.props),
-              domProps: toJS(field.value?.domProps),
-              on: injector(deepClone(getProxyDefine(field.value?.on))),
-              nativeOn: injector(deepClone(getProxyDefine(field.value?.nativeOn))),
+              attrs: deepClone(field.value?.attrs),
+              props: field.value?.props,
+              domProps: deepClone(field.value?.domProps),
+              on: deepClone(field.value?.on),
+              nativeOn: deepClone(field.value?.nativeOn),
               scopedSlots: (renderSlots.get().scoped as any).reduce((target, item) => {
                 target[item.name] = (s) => {
                   return (item.children || []).map((field) => {
@@ -109,8 +109,8 @@ export const provider = (field, props) => {
                 }
                 return target
               }, {}),
-              class: toJS(field.value?.class),
-              style: toJS(field.value?.style),
+              class: deepClone(field.value?.class),
+              style: deepClone(field.value?.style),
             },
             (renderSlots.get().named as any).reduce((target, item) => {
               item.children.forEach((field) => {

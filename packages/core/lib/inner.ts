@@ -1,26 +1,6 @@
 import { deepGet, hasOwnProperty, isArray, isNumberLike, toPath } from './helper'
 import { observable, set } from 'mobx'
 
-const computeMatch = /^\$:/g
-
-export const compute =
-  ({ functional }) =>
-  (value) => {
-    const handler = (context) => {
-      try {
-        const keys = Object.keys(context)
-        const funcKeys = Object.keys(functional)
-        return new Function(...[...keys, ...funcKeys], `return ${value.replace(computeMatch, '')}`)(
-          ...[...keys.map((key) => context[key]), ...funcKeys.map((key) => functional[key])],
-        )
-      } catch {
-        //
-      }
-    }
-
-    return typeof value === 'string' && computeMatch.test(value) && handler
-  }
-
 export const SET = (target, path: string, value: unknown) => {
   const fields = isArray(path) ? path : toPath(path)
   const prop = fields.shift()
