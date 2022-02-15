@@ -1,7 +1,4 @@
 {
-  "vueCompilerOptions": {
-    "experimentalCompatMode": 2
-  },
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -13,23 +10,20 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "types": ["unplugin-vue2-script-setup/types"],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {
-      "@/*": ["src/*"],
       "@json2render/*": ["packages/*/lib"]
     }
   },
   "include": [
-    "node_modules/unplugin-vue2-script-setup/**/*.d.ts",
     "packages/*/lib/**/*.ts",
     "packages/*/lib/**/*.tsx",
     "packages/*/lib/**/*.vue",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx",
+    "packages/*/src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],

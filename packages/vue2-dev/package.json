@@ -1,0 +1,38 @@
+{
+  "name": "@json2render/vue2-dev",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
+  "homepage": "https://github.com/fyl080801/json-to-render#readme",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyl080801/json-to-render.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fyl080801/json-to-render/issues"
+  },
+  "devDependencies": {
+    "@json2render/core": "^1.0.0",
+    "@json2render/vue2": "^1.0.0",
+    "@vitejs/plugin-legacy": "^1.7.1",
+    "@vue/composition-api": "^1.4.6",
+    "unplugin-vue2-script-setup": "^0.9.3",
+    "vite": "^2.8.2",
+    "vite-plugin-vue2": "^1.9.3",
+    "vue": "2",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eggPlugin": {
+    "name": "@json2render/vue2-dev",
+    "dep": [
+      "@egglib/statics"
+    ]
+  },
+  "dependencies": {
+    "@json2render/core": "^1.0.0"
+  }
+}

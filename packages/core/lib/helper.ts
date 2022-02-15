@@ -1,99 +1,99 @@
 export const noop = () => {
   //
-};
+}
 
 export const isArray = (target) => {
-  return Array.isArray(target);
-};
+  return Array.isArray(target)
+}
 
 export const isObject = (target) => {
   return (
     target !== undefined &&
     target !== null &&
-    typeof target === "object" &&
-    Object.prototype.toString.call(target) === "[object Object]" &&
+    typeof target === 'object' &&
+    Object.prototype.toString.call(target) === '[object Object]' &&
     !isArray(target)
-  );
-};
+  )
+}
 
 export const isFunction = (target) => {
-  return typeof target === "function";
-};
+  return typeof target === 'function'
+}
 
 export const isNumberLike = (value) => {
-  return String(value).match(/^\d+$/);
-};
+  return String(value).match(/^\d+$/)
+}
 
 export const isPromise = (target) => {
   return (
     !!target &&
-    (typeof target === "object" || typeof target === "function") &&
+    (typeof target === 'object' || typeof target === 'function') &&
     (isFunction(target.then) || isFunction(target.catch))
-  );
-};
+  )
+}
 
 export const isDom = (target) => {
   const expr =
-    typeof HTMLElement === "object"
+    typeof HTMLElement === 'object'
       ? function () {
-          return target instanceof HTMLElement;
+          return target instanceof HTMLElement
         }
       : function () {
           return (
             target &&
-            typeof target === "object" &&
+            typeof target === 'object' &&
             target.nodeType === 1 &&
-            typeof target.nodeName === "string"
-          );
-        };
+            typeof target.nodeName === 'string'
+          )
+        }
 
-  return expr();
-};
+  return expr()
+}
 
 export const assignArray = (...targets) => {
   return targets.reduce((pre, cur) => {
-    return pre.concat(cur);
-  }, []);
-};
+    return pre.concat(cur)
+  }, [])
+}
 
 export const assignObject = (...targets) => {
-  return Object.assign({}, ...targets);
-};
+  return Object.assign({}, ...targets)
+}
 
 export const deepClone = (target) => {
   if (!target) {
-    return target;
+    return target
   } // null, undefined values check
 
-  const types = [Number, String, Boolean];
-  let result;
+  const types = [Number, String, Boolean]
+  let result
 
   // normalizing primitives if someone did new String('aaa'), or new Number('444');
   types.forEach((type) => {
     if (target instanceof type) {
-      result = type(target);
+      result = type(target)
     }
-  });
+  })
 
-  if (typeof result == "undefined") {
+  if (typeof result == 'undefined') {
     if (isArray(target)) {
-      result = [];
+      result = []
       target.forEach((child, index) => {
-        result[index] = deepClone(child);
-      });
+        result[index] = deepClone(child)
+      })
     } else if (isObject(target)) {
       // testing that this is DOM
       if (target.nodeType && isFunction(target.cloneNode)) {
-        result = target.cloneNode(true);
+        result = target.cloneNode(true)
       } else if (!target.prototype) {
         // check that this is a literal
         if (target instanceof Date) {
-          result = new Date(target);
+          result = new Date(target)
         } else {
           // it is an object literal
-          result = {};
+          result = {}
           for (const i in target) {
-            result[i] = deepClone(target[i]);
+            result[i] = deepClone(target[i])
           }
         }
       } else {
@@ -101,123 +101,123 @@ export const deepClone = (target) => {
         // just keep the reference, or create new object
         if (target.constructor) {
           // would not advice to do that, reason? Read below
-          result = new target.constructor();
+          result = new target.constructor()
         } else {
-          result = target;
+          result = target
         }
       }
     } else {
-      result = target;
+      result = target
     }
   }
 
-  return result;
-};
+  return result
+}
 
 export const toPath = (pathString) => {
   if (isArray(pathString)) {
-    return pathString;
+    return pathString
   }
-  if (typeof pathString === "number") {
-    return [pathString];
+  if (typeof pathString === 'number') {
+    return [pathString]
   }
-  pathString = String(pathString);
+  pathString = String(pathString)
 
   // lodash 的实现 - https://github.com/lodash/lodash
   const pathRx =
-    /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g;
-  const pathArray = [];
+    /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(\.|\[\])(?:\4|$))/g
+  const pathArray = []
 
   const replacer = (match, num, quote, str) => {
-    pathArray.push(quote ? str : num !== undefined ? Number(num) : match);
-    return pathArray[pathArray.length - 1];
-  };
+    pathArray.push(quote ? str : num !== undefined ? Number(num) : match)
+    return pathArray[pathArray.length - 1]
+  }
 
-  pathString.replace(pathRx, replacer);
+  pathString.replace(pathRx, replacer)
 
-  return pathArray;
-};
+  return pathArray
+}
 
 export const hasOwnProperty = (target, prop) => {
-  return Object.prototype.hasOwnProperty.call(target, prop);
-};
+  return Object.prototype.hasOwnProperty.call(target, prop)
+}
 
 export const deepSet = (target, path, value) => {
-  const fields = isArray(path) ? path : toPath(path);
-  const prop = fields.shift();
+  const fields = isArray(path) ? path : toPath(path)
+  const prop = fields.shift()
 
   if (!fields.length) {
-    return (target[prop] = value);
+    return (target[prop] = value)
   }
 
   if (!hasOwnProperty(target, prop) || target[prop] === null) {
     // 当前下标是数字则认定是数组
-    const objVal = fields.length >= 1 && isNumberLike(fields[0]) ? [] : {};
-    target[prop] = objVal;
+    const objVal = fields.length >= 1 && isNumberLike(fields[0]) ? [] : {}
+    target[prop] = objVal
   }
 
-  deepSet(target[prop], fields, value);
-};
+  deepSet(target[prop], fields, value)
+}
 
 export const deepGet = (target, path) => {
-  const fields = isArray(path) ? path : toPath(path);
+  const fields = isArray(path) ? path : toPath(path)
 
   if (!fields.length) {
-    return target;
+    return target
   }
 
-  let prop = fields.shift();
-  let result = target;
+  let prop = fields.shift()
+  let result = target
 
   while (prop) {
-    result = result[prop];
+    result = result[prop]
 
     if (fields.length > 0 && (result === undefined || result === null)) {
-      result = isNumberLike(prop) ? [] : {};
+      result = isNumberLike(prop) ? [] : {}
     }
 
-    prop = fields.shift();
+    prop = fields.shift()
   }
 
-  return result;
-};
+  return result
+}
 
 export const cleanObject = (input) => {
   return Object.keys(input).reduce((target, key) => {
     if (target[key] === undefined) {
-      delete target[key];
+      delete target[key]
     }
-    return target;
-  }, input);
-};
+    return target
+  }, input)
+}
 
 export const uuid = (len, radix?) => {
-  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
-  const uuid = [];
-  let i;
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
+  const uuid = []
+  let i
 
-  radix = radix || chars.length;
+  radix = radix || chars.length
 
   if (len) {
     // Compact form
-    for (i = 0; i < len; i++) uuid[i] = chars[0 | (Math.random() * radix)];
+    for (i = 0; i < len; i++) uuid[i] = chars[0 | (Math.random() * radix)]
   } else {
     // rfc4122, version 4 form
-    let r;
+    let r
 
     // rfc4122 requires these characters
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
-    uuid[14] = "4";
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-'
+    uuid[14] = '4'
 
     // Fill in random data.  At i==19 set the high bits of clock sequence as
     // per rfc4122, sec. 4.1.5
     for (i = 0; i < 36; i++) {
       if (!uuid[i]) {
-        r = 0 | (Math.random() * 16);
-        uuid[i] = chars[i == 19 ? (r & 0x3) | 0x8 : r];
+        r = 0 | (Math.random() * 16)
+        uuid[i] = chars[i == 19 ? (r & 0x3) | 0x8 : r]
       }
     }
   }
 
-  return uuid.join("");
-};
+  return uuid.join('')
+}

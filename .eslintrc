@@ -1,0 +1,16 @@
+{
+  "root": true,
+  "extends": ["eslint-config-egg", "plugin:prettier/recommended"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-empty": "off",
+    "no-new-func": "off",
+    "no-loop-func": "off"
+  },
+  "overrides": [
+    {
+      "files": ["rollup.config.js", "vite.config.js"],
+      "parserOptions": { "sourceType": "module" }
+    }
+  ]
+}

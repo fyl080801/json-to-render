@@ -1,135 +1,135 @@
-import { createServiceProvider, globalServiceProvider, mergeServices } from "./service";
-import { isArray, isDom, isFunction, noop } from "./helper";
-import { injectProxy, getProxyDefine } from "./proxy";
-import { pipeline } from "./pipeline";
-import { runInAction, observable, toJS, set } from "mobx";
+import { createServiceProvider, globalServiceProvider, mergeServices } from './service'
+import { isArray, isDom, isFunction, noop } from './helper'
+import { injectProxy, getProxyDefine } from './proxy'
+import { pipeline } from './pipeline'
+import { runInAction, observable, toJS, set } from 'mobx'
 
-let currentInstance = null;
+let currentInstance = null
 
-export const getCurrentInstance = () => currentInstance;
+export const getCurrentInstance = () => currentInstance
 
 export const setCurrentInstance = (instance) => {
-  currentInstance = instance;
-};
+  currentInstance = instance
+}
 
 export const unsetCurrentInstance = () => {
-  currentInstance = null;
-};
+  currentInstance = null
+}
 
 export const render = (input, scope?) => {
-  const instance = getCurrentInstance();
+  const instance = getCurrentInstance()
 
   if (!instance) {
-    return noop;
+    return noop
   }
 
-  const origin = toJS(getProxyDefine(input));
+  const origin = toJS(getProxyDefine(input))
 
-  const { services, context } = instance;
+  const { services, context } = instance
 
   const injector = injectProxy({
     context,
     scope: scope || {},
     proxy: services.proxy.map((p) => p({ functional: services.functional })),
-  });
+  })
 
   const renderField = observable({
     value: null,
-  });
+  })
 
   pipeline(
     ...[
       ...services.beforeBindHandlers.map((item) => item.handler),
       () => (field, next) => {
         runInAction(() => {
-          renderField.value = field;
-          next(renderField.value);
-        });
+          renderField.value = field
+          next(renderField.value)
+        })
       },
     ].map((provider) => provider({ context, field: origin, scope: scope || {}, injector })),
-  )(origin);
+  )(origin)
 
-  return services.provider(injector(renderField), { context, scope, injector });
-};
+  return services.provider(injector(renderField), { context, scope, injector })
+}
 
 export const createRender = (props) => {
-  const { fields, dataSource, listeners } = props;
+  const { fields, dataSource, listeners } = props
 
-  const serviceProvider = createServiceProvider();
+  const serviceProvider = createServiceProvider()
 
   const context = observable({
     model: {},
-  });
+  })
 
   const rootRender = (elm) => {
     const services = mergeServices(
       globalServiceProvider.getServices(),
       serviceProvider.getServices(),
-    );
+    )
 
     const instance = {
       services,
       context,
-    };
-
-    if (!isFunction(services.provider)) {
-      return;
     }
 
-    setCurrentInstance(instance);
+    if (!isFunction(services.provider)) {
+      return
+    }
+
+    setCurrentInstance(instance)
 
     const injector = injectProxy({
       context,
       scope: {},
       proxy: services.proxy.map((p) => p({ functional: services.functional })),
-    });
+    })
 
     // datasource
     Object.keys(dataSource || {}).forEach((key) => {
-      const info = dataSource[key];
-      const provider = services.store[info.type || "default"];
+      const info = dataSource[key]
+      const provider = services.store[info.type || 'default']
 
-      if (["model", "scope", "arguments", "refs"].indexOf(key) < 0 && isFunction(provider)) {
+      if (['model', 'scope', 'arguments', 'refs'].indexOf(key) < 0 && isFunction(provider)) {
         set(
           context,
           key,
           provider(() => injector(info.props)),
-        );
+        )
       }
-    });
+    })
 
     try {
       const renderRoot =
-        typeof elm === "string" ? document.querySelector(elm) : isDom(elm) ? elm : null;
+        typeof elm === 'string' ? document.querySelector(elm) : isDom(elm) ? elm : null
 
       if (!renderRoot) {
-        return;
+        return
       }
 
       if (isArray(fields) && fields.length > 1) {
         fields.forEach((field) => {
-          const root = document.createElement("div");
+          const root = document.createElement('div')
 
-          renderRoot.parentElement?.insertBefore(root, renderRoot);
+          renderRoot.parentElement?.insertBefore(root, renderRoot)
 
-          render(field)(root);
-        });
-        renderRoot.remove();
+          render(field)(root)
+        })
+        renderRoot.remove()
       } else {
-        render(isArray(fields) && fields.length > 0 ? fields[0] : fields)(renderRoot);
+        render(isArray(fields) && fields.length > 0 ? fields[0] : fields)(renderRoot)
       }
     } finally {
-      unsetCurrentInstance();
+      unsetCurrentInstance()
     }
-  };
+  }
 
   const root = {
     use(onSetup) {
-      onSetup(serviceProvider.getSetting());
-      return root;
+      onSetup(serviceProvider.getSetting())
+      return root
     },
     render: rootRender,
-  };
+  }
 
-  return root;
-};
+  return root
+}

@@ -9,20 +9,13 @@ module.exports = {
     enable: true,
     package: 'egg-view-nunjucks',
   },
-  RequestCurl: {
-    enable: !!process.env.curl,
-    package: 'egg-request-curl',
-  },
   '@egglib/statics': {
     enable: true,
   },
   '@egglib/statics-vite': {
     enable: true,
   },
-  '@egglib/render': {
-    enable: true,
-  },
-  '@egglib/render-editor': {
+  '@json2render/vue2-dev': {
     enable: true,
   },
 }

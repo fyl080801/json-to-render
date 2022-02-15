@@ -1,39 +1,42 @@
-import { assignArray, assignObject, isArray, isFunction, isObject, uuid } from "./helper";
-import { compute, rawData, GET, SET } from "./inner";
+import { assignArray, assignObject, isArray, isFunction, isObject, uuid } from './helper'
+import { compute, rawData, GET, SET } from './inner'
 
 const sortHandlers = (handlers) => {
   const maps = handlers.reduce((target, item) => {
-    target[item.name] = item;
-    return target;
-  }, {});
+    target[item.name] = item
+    return target
+  }, {})
   const dependencies = handlers.reduce((target, item) => {
-    target[item.name] = item.dependencies;
-    return target;
-  }, {});
-  const used = new Set();
-  const result = [];
+    target[item.name] = item.dependencies
+    return target
+  }, {})
+  const used = new Set()
+  const result = []
 
-  let keys = Object.keys(dependencies);
-  let items;
-  let length;
+  let keys = Object.keys(dependencies)
+  let items
+  let length
 
   do {
-    length = keys.length;
-    items = [];
+    length = keys.length
+    items = []
     keys = keys.filter((k) => {
       if (!dependencies[k].every(Set.prototype.has, used)) {
-        return true;
+        return true
       }
-      items.push(k);
-    });
-    result.push(...items);
-    items.forEach(Set.prototype.add, used);
-  } while (keys.length && keys.length !== length);
 
-  result.push(...keys);
+      items.push(k)
 
-  return result.map((key) => maps[key]);
-};
+      return false
+    })
+    result.push(...items)
+    items.forEach(Set.prototype.add, used)
+  } while (keys.length && keys.length !== length)
+
+  result.push(...keys)
+
+  return result.map((key) => maps[key])
+}
 
 export const createServiceProvider = () => {
   const services = {
@@ -43,78 +46,77 @@ export const createServiceProvider = () => {
     beforeBindHandlers: [],
     proxy: [],
     store: {},
-  };
+  }
 
   const setting = {
     useProvider(provider) {
-      services.provider = provider;
+      services.provider = provider
     },
     addComponent: (name, type?) => {
       if (type !== undefined) {
-        services.components[name] = type;
+        services.components[name] = type
       } else if (name?.name) {
-        services.components[name.name] = name;
+        services.components[name.name] = name
       }
-      return instance;
     },
     onBeforeBind: (handler) => {
-      const hook = { name: `BR_${uuid(5)}`, provider: null, dependencies: [], handler };
+      const hook = { name: `BR_${uuid(5)}`, provider: null, dependencies: [], handler }
 
       if (isFunction(handler)) {
-        services.beforeBindHandlers.push(hook);
+        services.beforeBindHandlers.push(hook)
       }
 
       const instance = {
         name: (name) => {
-          hook.name = name;
-          return instance;
+          hook.name = name
+          return instance
         },
         provider: (name) => {
-          hook.provider = name;
-          return instance;
+          hook.provider = name
+          return instance
         },
         depend: (name) => {
           if (hook.dependencies.indexOf(name) < 0) {
-            hook.dependencies.push(name);
+            hook.dependencies.push(name)
           }
-          return instance;
+          return instance
         },
-      };
+      }
 
-      return instance;
+      return instance
     },
     addFunction: (name, fx) => {
       if (isFunction(fx)) {
-        services.functional[name] = fx;
+        services.functional[name] = fx
       }
     },
     addProxy: (handler) => {
       if (isFunction(handler)) {
-        services.proxy.push(handler);
+        services.proxy.push(handler)
       }
     },
     addStore(type, provider) {
       if (type && isFunction(provider)) {
-        services.store[type] = provider;
+        services.store[type] = provider
       }
     },
-  };
+  }
 
   const instance = {
     setup: (onSetup) => {
-      onSetup(setting);
-      return instance;
+      onSetup(setting)
+      return instance
     },
     getSetting() {
-      return setting;
+      return setting
     },
     getServices() {
-      return services;
+      return services
     },
-  };
+  }
 
-  return instance;
-};
+  return instance
+}
 
 export const mergeServices = (...services) => {
   const merged = {
@@ -125,29 +127,29 @@ export const mergeServices = (...services) => {
     store: {
       default: rawData,
     },
-  };
+  }
 
   services.forEach((service) => {
     Object.keys(service || {}).forEach((key) => {
       if (isObject(service[key])) {
-        merged[key] ||= {};
-        merged[key] = assignObject(merged[key], service[key]);
+        merged[key] ||= {}
+        merged[key] = assignObject(merged[key], service[key])
       } else if (isArray(service[key])) {
-        merged[key] ||= [];
-        merged[key] = assignArray(merged[key], service[key]);
+        merged[key] ||= []
+        merged[key] = assignArray(merged[key], service[key])
       } else {
-        merged[key] = service[key] || merged[key];
+        merged[key] = service[key] || merged[key]
       }
-    });
-  });
+    })
+  })
 
-  merged.beforeBindHandlers = sortHandlers(merged.beforeBindHandlers);
+  merged.beforeBindHandlers = sortHandlers(merged.beforeBindHandlers)
 
-  return merged;
-};
+  return merged
+}
 
-export const globalServiceProvider = createServiceProvider();
+export const globalServiceProvider = createServiceProvider()
 
 export const useGlobalRender = (setting) => {
-  globalServiceProvider.setup(setting);
-};
+  globalServiceProvider.setup(setting)
+}

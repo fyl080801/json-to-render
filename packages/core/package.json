@@ -5,12 +5,12 @@
   "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "main": "dist/index.min.js",
+  "module": "dist/index.esm.js",
   "exports": {
     ".": {
       "require": "./dist/index.umd.js",
-      "import": "./dist/index.es.js"
+      "import": "./lib/index.ts"
     }
   },
   "directories": {
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "dist": "vite build"
+    "dist": "cross-env NODE_ENV=production rollup --config rollup.config.js"
   },
   "dependencies": {
     "mobx": "^6.3.13"

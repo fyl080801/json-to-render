@@ -1,0 +1,28 @@
+{
+  "name": "@json2render/vue3-dev",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "fengyuanliang3 <fengyuanliang2@jd.com>",
+  "homepage": "https://github.com/fyl080801/json-to-render#readme",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyl080801/json-to-render.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fyl080801/json-to-render/issues"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^1.7.1",
+    "vite": "^2.8.2"
+  },
+  "eggPlugin": {
+    "name": "@json2render/vue3-dev",
+    "dep": [
+      "@egglib/statics"
+    ]
+  }
+}
