@@ -1,34 +1,18 @@
 import Vue from 'vue'
 import { observer } from 'mobx-vue'
-import { toJS, computed } from 'mobx'
-import { render, getProxyDefine, deepClone } from '@json2render/core'
+import { computed } from 'mobx'
+import { render, deepClone, getProxyDefine } from '@json2render/core'
 import { isOriginTag } from './domTags'
 
 export const provider = (field, props) => {
-  const { injector, scope } = props
+  const { scope } = props
 
   const createChildNode = (child, s) => {
-    const renderChild = render(child, Object.assign({}, scope, s))
+    const renderChild = render(getProxyDefine(child), Object.assign({}, scope, s))
 
     return Vue.component('JChild', {
       mounted() {
-        renderChild(this.$el)
-
-        // // 这里 instance 丢失了，先强制给过去
-        // const nonInstance = !getCurrentInstance();
-
-        // if (nonInstance) {
-        //   setCurrentInstance(instance);
-        // }
-
-        // try {
-        //   renderChild(this.$el);
-        //   // render(child, Object.assign({}, scope, s)).call(this, this.$el);
-        // } finally {
-        //   if (nonInstance) {
-        //     unsetCurrentInstance();
-        //   }
-        // }
+        renderChild.call(this, this.$el)
       },
       render(h) {
         return h('div')

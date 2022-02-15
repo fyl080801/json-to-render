@@ -16,8 +16,13 @@
     "url": "https://github.com/fyl080801/json-to-render/issues"
   },
   "devDependencies": {
+    "@json2render/vue3": "^1.0.0",
     "@vitejs/plugin-legacy": "^1.7.1",
-    "vite": "^2.8.2"
+    "@vitejs/plugin-vue": "^2.2.0",
+    "@vue/compiler-sfc": "^3.2.31",
+    "vite": "^2.8.2",
+    "vue": "^3.2.31",
+    "vue-demi": "^0.12.1"
   },
   "eggPlugin": {
     "name": "@json2render/vue3-dev",

@@ -31,8 +31,5 @@
     "dep": [
       "@egglib/statics"
     ]
-  },
-  "dependencies": {
-    "@json2render/core": "^1.0.0"
   }
 }

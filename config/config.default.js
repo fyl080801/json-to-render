@@ -21,6 +21,8 @@ module.exports = (appInfo) => {
     ],
   }
 
+  config.cluster = {}
+
   config.view = {
     defaultViewEngine: 'nunjucks',
     mapping: {

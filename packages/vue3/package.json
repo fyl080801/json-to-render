@@ -10,7 +10,7 @@
   "exports": {
     ".": {
       "require": "./dist/index.umd.js",
-      "import": "./dist/index.esm.js"
+      "import": "./lib/index.ts"
     }
   },
   "directories": {
@@ -28,6 +28,9 @@
   },
   "dependencies": {
     "@json2render/core": "^1.0.0",
-    "mobx": "^6.3.13"
+    "mobx": "^6.3.13",
+    "mobx-vue-lite": "^0.2.7",
+    "vue": "^3.2.31",
+    "vue-demi": "^0.12.1"
   }
 }

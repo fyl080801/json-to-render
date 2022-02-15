@@ -53,7 +53,11 @@ export const render = (input, scope?) => {
 }
 
 export const createRender = (props) => {
-  const { fields, dataSource, listeners } = props
+  const {
+    fields,
+    dataSource,
+    //  listeners
+  } = props
 
   const serviceProvider = createServiceProvider()
 
