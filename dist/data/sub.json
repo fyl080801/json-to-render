@@ -1,0 +1,105 @@
+{
+  "fields": [
+    {
+      "component": "v-jrender",
+      "props": {
+        "class": "j-form",
+        "modelValue": { "$type": "computed", "$result": "model.obj" },
+        "fields": [
+          { "component": "p", "text": "嵌套渲染" },
+          {
+            "component": "p",
+            "text": { "$type": "computed", "$result": "model.value" }
+          },
+          {
+            "component": "p",
+            "text": { "$type": "computed", "$result": "model.selected" }
+          }
+        ]
+      }
+    },
+    {
+      "component": "div",
+      "children": [
+        {
+          "component": "el-form",
+          "props": {
+            "labelWidth": "120px"
+          },
+          "children": [
+            {
+              "component": "el-form-item",
+              "props": { "label": "input1" },
+              "children": [
+                {
+                  "component": "el-input",
+                  "props": {
+                    "modelValue": {
+                      "$type": "computed",
+                      "$result": "model.text1"
+                    },
+                    "onUpdate:modelValue": {
+                      "$type": "method",
+                      "$context": "model.text1",
+                      "$result": "arguments[0]"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "input2" },
+              "children": [
+                {
+                  "component": "el-input",
+                  "props": {
+                    "modelValue": {
+                      "$type": "computed",
+                      "$result": "model.obj.value"
+                    },
+                    "onUpdate:modelValue": {
+                      "$type": "method",
+                      "$context": "model.obj.value",
+                      "$result": "arguments[0]"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "select1" },
+              "children": [
+                {
+                  "component": "el-select",
+                  "props": {
+                    "modelValue": {
+                      "$type": "computed",
+                      "$result": "model.obj.selected"
+                    },
+                    "onUpdate:modelValue": {
+                      "$type": "method",
+                      "$context": "model.obj.selected",
+                      "$result": "arguments[0]"
+                    }
+                  },
+                  "children": [
+                    {
+                      "component": "el-option",
+                      "props": { "value": 0, "label": "选项1" }
+                    },
+                    {
+                      "component": "el-option",
+                      "props": { "value": 1, "label": "选项2" }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

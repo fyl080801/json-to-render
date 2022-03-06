@@ -1,0 +1,64 @@
+{
+  "datasource": {
+    "template": {
+      "type": "fetch",
+      "url": "#:/data/components/${model.name}.json",
+      "auto": false,
+      "props": { "method": "GET", "params": {} },
+      "defaultData": false
+    }
+  },
+  "listeners": [
+    {
+      "watch": "$:model.name",
+      "actions": [{ "handler": "@:template.request()" }]
+    }
+  ],
+  "fields": [
+    {
+      "component": "h1",
+      "text": "加载模板组件"
+    },
+    {
+      "component": "el-select",
+      "model": "model.name",
+      "children": [
+        {
+          "component": "el-option",
+          "props": { "label": "组件1", "value": "cmp1" }
+        },
+        {
+          "component": "el-option",
+          "props": { "label": "组件2", "value": "cmp2" }
+        },
+        {
+          "component": "el-option",
+          "props": { "label": "监听触发", "value": "listeners" }
+        }
+      ]
+    },
+    {
+      "component": "div",
+      "props": {
+        "style": {
+          "border": "1px dashed silver",
+          "padding": "1.25rem",
+          "marginTop": "0.75rem"
+        }
+      },
+      "children": [
+        {
+          "component": "p",
+          "condition": "$:!template.data",
+          "text": "加载自定义组件",
+          "props": { "style": { "textAlign": "center" } }
+        },
+        {
+          "component": "v-jrender",
+          "condition": "$:template.data",
+          "props": "$:template.data"
+        }
+      ]
+    }
+  ]
+}

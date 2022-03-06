@@ -1,0 +1,1 @@
+import{o as e,c as r,a as t}from"./app.b15155e8.js";const a='{"title":"在线示例","description":"","frontmatter":{},"relativePath":"guide/examples.md","lastUpdated":1646557776963}',n={},p=t('',5);n.render=function(t,a,n,o,l,s){return e(),r("div",null,[p])};export default n;export{a as __pageData};

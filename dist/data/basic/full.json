@@ -1,0 +1,238 @@
+{
+  "datasource": {
+    "remotedata": {
+      "type": "fetch",
+      "url": "/data/listdata.json",
+      "auto": false,
+      "props": { "method": "GET", "params": {} }
+    },
+    "raws": {
+      "type": "rawdata",
+      "data": {
+        "xxx": "123",
+        "yyy": "$:model.text1"
+      }
+    }
+  },
+  "model": { "selects": [] },
+  "listeners": [
+    {
+      "watch": "$:model.text1",
+      "actions": [
+        { "handler": "@:console.log('xxx')" },
+        {
+          "condition": "$:model.text1.length > 5 && model.text1.length < 7",
+          "handler": "@:remotedata.request()"
+        }
+      ]
+    },
+    {
+      "watch": "$:remotedata.data",
+      "actions": [{ "handler": "@:console.log(remotedata.data)" }]
+    }
+  ],
+  "fields": [
+    {
+      "component": "fieldset",
+      "children": [
+        { "component": "legend", "text": "html 组件" },
+        { "component": "input", "value": "model.text1" },
+        {
+          "component": "input",
+          "props": { "type": "checkbox" },
+          "checked": "model.checked"
+        },
+        { "component": "span", "text": "#:checkedstatus: ${!!model.checked}" }
+      ]
+    },
+    {
+      "component": "fieldset",
+      "children": [
+        { "component": "legend", "text": "element 组件" },
+        {
+          "component": "el-form",
+          "props": {
+            "labelWidth": "120px"
+          },
+          "children": [
+            {
+              "component": "el-form-item",
+              "props": { "label": "input1" },
+              "children": [
+                {
+                  "component": "el-input",
+                  "model": "model.text1"
+                },
+                {
+                  "component": "p",
+                  "text": "$:model.text1"
+                }
+              ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "input2" },
+              "children": [
+                {
+                  "component": "el-input",
+                  "model": "model.obj.value"
+                }
+              ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "select1" },
+              "children": [
+                {
+                  "component": "el-select",
+                  "model": "model.obj.selected",
+                  "children": [
+                    {
+                      "component": "el-option",
+                      "props": { "value": 0, "label": "选项1" }
+                    },
+                    {
+                      "component": "el-option",
+                      "props": { "value": 1, "label": "选项2" }
+                    }
+                  ]
+                },
+                {
+                  "component": "span",
+                  "condition": "$:model.obj.selected",
+                  "text": "$:model.text1"
+                },
+                { "component": "p", "text": "$:GET(model, 'obj.selected')" }
+              ]
+            },
+            {
+              "component": "el-form-item",
+              "props": { "label": "多选" },
+              "children": [
+                {
+                  "component": "el-checkbox-group",
+                  "model": "model.selects",
+                  "children": [
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 1 },
+                      "children": [{ "component": "span", "text": "选项1" }]
+                    },
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 2 },
+                      "children": [{ "component": "span", "text": "选项2" }]
+                    },
+                    {
+                      "component": "el-checkbox",
+                      "props": { "label": 3 },
+                      "children": [{ "component": "span", "text": "选项3" }]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "el-button",
+          "text": "click1",
+          "events": [
+            { "name": "click", "handler": "@:alert(GET(model, 'text1'))" },
+            { "name": "click", "handler": "@:alert('bbb')" }
+          ],
+          "props": {
+            "type": "primary"
+          }
+        },
+        {
+          "component": "el-button",
+          "text": "request",
+          "props": {
+            "type": "primary",
+            "onClick": "@:remotedata.request()"
+          }
+        },
+        {
+          "component": "p",
+          "text": "$:raws.xxx"
+        },
+        {
+          "component": "p",
+          "text": "#:绑定得到的数据： ${raws.yyy}"
+        }
+      ]
+    },
+    {
+      "component": "input",
+      "value": "model.text1",
+      "props": { "ref": "oriinput" }
+    },
+    { "component": "span", "text": "$:JSON.stringify(refs.tb.data)" },
+    {
+      "component": "el-select",
+      "model": "model.select2",
+      "children": "$:[1,2,3].map(item=>({ component: 'el-option', props: { value: item, label: `select ${item}` } }))"
+    },
+    {
+      "component": "el-table",
+      "props": {
+        "ref": "tb",
+        "data": "$:remotedata.data"
+      },
+      "children": [
+        {
+          "component": "el-table-column",
+          "props": { "label": "col1", "prop": "name" }
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "col2" },
+          "children": [
+            {
+              "component": "el-input",
+              "model": "#:remotedata.data[${scope.$index}].name"
+            }
+          ]
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "col3" },
+          "children": [
+            {
+              "component": "el-input",
+              "events": [
+                {
+                  "name": "update:modelValue",
+                  "handler": "@remotedata.data[${scope.$index}].name:arguments[0]"
+                }
+              ],
+              "props": {
+                "modelValue": "$:remotedata.data[scope.$index].name"
+              }
+            }
+          ]
+        },
+        {
+          "component": "el-table-column",
+          "props": { "label": "操作" },
+          "children": [
+            {
+              "component": "el-button",
+              "text": "明细",
+              "events": [
+                {
+                  "name": "click",
+                  "handler": "@:alert(JSON.stringify(remotedata.data[scope.$index]))"
+                }
+              ],
+              "props": {
+                "type": "text"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
