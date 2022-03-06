@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref } from 'vue'
+import { defineComponent, watch, ref,nextTick } from 'vue'
 import {
   assignObject,
   proxyContextToken,
@@ -68,8 +68,10 @@ export default defineComponent({
       const rendered = component.renderNode(renderField, props.scope)
 
       if (rendered?.ref) {
-        const { r, i }: any = rendered.ref
-        context.refs[r] = i.refs[r]
+        nextTick(()=>{
+          const { r, i }: any = rendered.ref
+          context.refs[r] = i.refs[r]
+        })
       }
 
       return rendered
